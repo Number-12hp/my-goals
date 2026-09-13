@@ -11,69 +11,81 @@
 
 <div class="page">
   <header class="masthead">
-    <h1 class="wordmark">My Goals</h1>
-    <button id="themeBtn" class="theme-toggle" type="button" aria-label="切换深色 / 浅色">☾</button>
+    <div class="mast-left">
+      <h1 class="wordmark">My Goals</h1>
+      <span id="cloudHost" class="cloud-host" hidden></span>
+    </div>
+    <div class="mast-tools">
+      <div class="lang" id="langSeg" role="group" aria-label="Language / 语言">
+        <button type="button" data-lang="zh">中</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <button id="themeBtn" class="theme-toggle" type="button"
+              aria-label="切换深色 / 浅色" data-i18n-aria="themeAria">☾</button>
+    </div>
   </header>
 
   <section class="stats" id="stats"></section>
 
   <form class="composer" id="form" autocomplete="off">
     <input id="title" class="composer-input" type="text" maxlength="80"
-           placeholder="想做点什么？" aria-label="目标内容" />
+           placeholder="想做点什么？" aria-label="目标内容"
+           data-i18n-ph="ph" data-i18n-aria="goalAria" />
 
     <div class="composer-controls">
       <div class="ctl">
-        <span class="ctl-label">周期</span>
-        <div class="seg" id="scopeSeg" role="group" aria-label="目标周期">
-          <button type="button" data-scope="year">年</button>
-          <button type="button" data-scope="month">月</button>
-          <button type="button" data-scope="week">周</button>
-          <button type="button" data-scope="day" class="on">天</button>
+        <span class="ctl-label" data-i18n="lblScope">周期</span>
+        <div class="seg" id="scopeSeg" role="group" aria-label="目标周期" data-i18n-aria="gScope">
+          <button type="button" data-scope="year" data-i18n="scYear">年</button>
+          <button type="button" data-scope="month" data-i18n="scMonth">月</button>
+          <button type="button" data-scope="week" data-i18n="scWeek">周</button>
+          <button type="button" data-scope="day" class="on" data-i18n="scDay">天</button>
         </div>
       </div>
 
       <div class="ctl">
-        <span class="ctl-label">日期</span>
-        <input id="date" class="date-input" type="date" aria-label="日期" />
+        <span class="ctl-label" data-i18n="lblDate">日期</span>
+        <input id="date" class="date-input" type="date" aria-label="日期" data-i18n-aria="dateAria" />
       </div>
 
       <div class="ctl">
-        <span class="ctl-label">类型</span>
-        <div class="seg seg-alt" id="typeSeg" role="group" aria-label="主线或支线">
-          <button type="button" data-type="main" class="on">主线</button>
-          <button type="button" data-type="side">支线</button>
+        <span class="ctl-label" data-i18n="lblType">类型</span>
+        <div class="seg seg-alt" id="typeSeg" role="group" aria-label="主线或支线" data-i18n-aria="gType">
+          <button type="button" data-type="main" class="on" data-i18n="typeMain">主线</button>
+          <button type="button" data-type="side" data-i18n="typeSide">支线</button>
         </div>
       </div>
     </div>
 
-    <button class="add-btn" type="submit">添加</button>
+    <button class="add-btn" type="submit"><span data-i18n="add">添加</span></button>
     <p class="composer-hint" id="hint"></p>
   </form>
 
-  <nav class="filters" id="filters" aria-label="筛选">
-    <!-- 高亮状态由 app.js 的 syncChips() 统一设置 -->
-    <button class="chip" type="button" data-filter="undone">全部</button>
-    <button class="chip" type="button" data-filter="main">主线</button>
-    <button class="chip" type="button" data-filter="side">支线</button>
+  <nav class="filters" id="filters" aria-label="筛选" data-i18n-aria="gFilter">
+    <button class="chip" type="button" data-filter="undone" data-i18n="fAll">全部</button>
+    <button class="chip" type="button" data-filter="main" data-i18n="typeMain">主线</button>
+    <button class="chip" type="button" data-filter="side" data-i18n="typeSide">支线</button>
   </nav>
 
   <main id="board" class="board"></main>
 
   <details class="archive" id="archiveBox" open>
     <summary>
-      <span class="archive-title">已完成<span class="pill" id="archiveCount">0</span></span>
+      <span class="archive-title">
+        <span data-i18n="archive">已完成</span><span class="pill" id="archiveCount">0</span>
+      </span>
     </summary>
     <div class="archive-list" id="archiveList"></div>
   </details>
 
   <footer class="foot">
-    <button id="clearDone" class="link-btn" type="button">清空已完成</button>
+    <button id="clearDone" class="link-btn" type="button" data-i18n="clearDone">清空已完成</button>
   </footer>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="undo" id="undo" role="status" aria-live="polite"></div>
 
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>
