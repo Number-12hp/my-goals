@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="theme-color" content="#fbfbfa" />
+<meta name="theme-color" content="#faf9ff" />
 <title>My Goals</title>
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -15,12 +15,25 @@
       <h1 class="wordmark">My Goals</h1>
       <span id="cloudHost" class="cloud-host" hidden></span>
     </div>
+
     <div class="mast-tools">
-      <div class="lang" id="langSeg" role="group" aria-label="Language / 语言">
-        <button type="button" data-lang="zh">中</button>
-        <button type="button" data-lang="en">EN</button>
+      <div class="lang-wrap" id="langWrap">
+        <button id="langBtn" class="icon-btn" type="button"
+                aria-haspopup="true" aria-expanded="false"
+                aria-label="切换语言" data-i18n-aria="langAria">
+          <svg id="langIcon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"
+               fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 5.5h8M7 3.5v2c0 3.6-1.8 6.6-4 8.2" />
+            <path d="M5 10.2c1.6 2.6 3.6 4.3 5.8 5.3" />
+            <path d="M12.6 20.5 17 8.5l4.4 12" />
+            <path d="M14.3 16.6h5.4" />
+          </svg>
+        </button>
+        <div id="langMenu" class="lang-menu" role="menu" hidden></div>
       </div>
-      <button id="themeBtn" class="theme-toggle" type="button"
+
+      <button id="themeBtn" class="icon-btn" type="button"
               aria-label="切换深色 / 浅色" data-i18n-aria="themeAria">☾</button>
     </div>
   </header>
@@ -36,6 +49,7 @@
       <div class="ctl">
         <span class="ctl-label" data-i18n="lblScope">周期</span>
         <div class="seg" id="scopeSeg" role="group" aria-label="目标周期" data-i18n-aria="gScope">
+          <span class="seg-thumb" aria-hidden="true"></span>
           <button type="button" data-scope="year" data-i18n="scYear">年</button>
           <button type="button" data-scope="month" data-i18n="scMonth">月</button>
           <button type="button" data-scope="week" data-i18n="scWeek">周</button>
@@ -50,7 +64,8 @@
 
       <div class="ctl">
         <span class="ctl-label" data-i18n="lblType">类型</span>
-        <div class="seg seg-alt" id="typeSeg" role="group" aria-label="主线或支线" data-i18n-aria="gType">
+        <div class="seg seg-alt seg-warm" id="typeSeg" role="group" aria-label="主线或支线" data-i18n-aria="gType">
+          <span class="seg-thumb" aria-hidden="true"></span>
           <button type="button" data-type="main" class="on" data-i18n="typeMain">主线</button>
           <button type="button" data-type="side" data-i18n="typeSide">支线</button>
         </div>
@@ -72,7 +87,7 @@
   <details class="archive" id="archiveBox" open>
     <summary>
       <span class="archive-title">
-        <span data-i18n="archive">已完成</span><span class="pill" id="archiveCount">0</span>
+        <span id="archiveLabel" data-i18n="archive">已完成</span><span class="pill" id="archiveCount">0</span>
       </span>
     </summary>
     <div class="archive-list" id="archiveList"></div>
@@ -86,6 +101,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="undo" id="undo" role="status" aria-live="polite"></div>
 
-<script src="app.js?v=8"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>
