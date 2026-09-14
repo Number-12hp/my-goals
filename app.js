@@ -17,8 +17,9 @@
   const SCOPES = { year: {}, month: {}, week: {}, day: {} };
   const TYPES  = { main: {}, side: {} };
 
-  /* ---------------- 文案字典 ---------------- */
+  /* ---------------- 文案字典（7 种语言） ---------------- */
 
+  // 注意：每种语言都必须提供完全相同的键，测试会强制校验
   const STRINGS = {
     zh: {
       MN: ['1月', '2月', '3月', '4月', '5月', '6月',
@@ -26,6 +27,9 @@
       WD: ['日', '一', '二', '三', '四', '五', '六'],
 
       langAria: '切换语言', themeAria: '切换深色 / 浅色',
+      title: 'My Goals',
+      subtitle: '把想做的事写下来，完成一项就轻轻打个勾。',
+      progress: '完成进度',
       ph: '想做点什么？', goalAria: '目标内容',
       lblScope: '周期', lblDate: '日期', lblType: '类型',
       gScope: '目标周期', gType: '主线或支线', gFilter: '筛选', dateAria: '日期',
@@ -63,6 +67,9 @@
       WD: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 
       langAria: 'Switch language', themeAria: 'Switch dark / light',
+      title: 'My Goals',
+      subtitle: 'Write down what you want to do, then tick it off.',
+      progress: 'Progress',
       ph: 'What do you want to do?', goalAria: 'Goal text',
       lblScope: 'Period', lblDate: 'Date', lblType: 'Type',
       gScope: 'Goal period', gType: 'Main or side', gFilter: 'Filter', dateAria: 'Date',
@@ -100,6 +107,9 @@
       WD: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
 
       langAria: 'เปลี่ยนภาษา', themeAria: 'สลับโหมดมืด / สว่าง',
+      title: 'My Goals',
+      subtitle: 'จดสิ่งที่อยากทำไว้ แล้วค่อย ๆ ขีดถูกเมื่อทำเสร็จ',
+      progress: 'ความคืบหน้า',
       ph: 'อยากทำอะไรดี?', goalAria: 'ข้อความเป้าหมาย',
       lblScope: 'ช่วงเวลา', lblDate: 'วันที่', lblType: 'ประเภท',
       gScope: 'ช่วงเวลาของเป้าหมาย', gType: 'สายหลักหรือสายรอง',
@@ -130,13 +140,181 @@
       emptyArchive: 'เป้าหมายที่ทำเสร็จจะแสดงที่นี่',
       saveFail: '⚠ บันทึกไม่สำเร็จ: เบราว์เซอร์ปิดกั้นที่เก็บข้อมูลชั่วคราว การเปลี่ยนแปลงจะหายเมื่อปิดหน้า',
       undo: 'ยกเลิก'
+    },
+
+    vi: {
+      MN: ['Th1', 'Th2', 'Th3', 'Th4', 'Th5', 'Th6',
+           'Th7', 'Th8', 'Th9', 'Th10', 'Th11', 'Th12'],
+      WD: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+
+      langAria: 'Đổi ngôn ngữ', themeAria: 'Đổi chế độ tối / sáng',
+      title: 'My Goals',
+      subtitle: 'Ghi lại điều bạn muốn làm, xong một việc thì đánh dấu nhẹ.',
+      progress: 'Tiến độ',
+      ph: 'Bạn muốn làm gì?', goalAria: 'Nội dung mục tiêu',
+      lblScope: 'Chu kỳ', lblDate: 'Ngày', lblType: 'Loại',
+      gScope: 'Chu kỳ mục tiêu', gType: 'Chính hay phụ', gFilter: 'Bộ lọc', dateAria: 'Ngày',
+      scYear: 'Năm', scMonth: 'Tháng', scWeek: 'Tuần', scDay: 'Ngày',
+      typeMain: 'Chính', typeSide: 'Phụ',
+      add: 'Thêm', fAll: 'Tất cả', archive: 'Đã xong', clearDone: 'Xoá mục đã xong',
+      statActive: 'Đang làm', statDone: 'Đã xong', statAll: 'Tổng',
+      uYear: n => `Năm ${n}`,
+      uMonth: (y, m) => `${STRINGS.vi.MN[m - 1]}/${y}`,
+      uWeek: (y, w) => `Tuần ${w}, ${y}`,
+      uDay: (m, d, wd) => `${d}/${m}, ${wd}`,
+      overdue: 'Quá hạn',
+      justNow: 'vừa xong',
+      minAgo: n => `xong ${n} phút trước`,
+      todayAt: (h, m) => `xong hôm nay ${h}:${m}`,
+      doneOn: (m, d) => `xong ${d}/${m}`,
+      markDone: 'Đánh dấu đã xong', undoDone: 'Bỏ đánh dấu',
+      delLabel: 'Xoá mục tiêu này', delText: 'Xoá',
+      warnEmpty: 'Hãy viết gì đó trước',
+      tAdd: 'Đã thêm', tDone: 'Giỏi lắm, xong rồi!', tUndone: 'Đã chuyển lại danh sách',
+      tDeleted: t => `Đã xoá “${t}”`, tCleared: n => `Đã xoá ${n} mục đã xong`,
+      tUndo: 'Đã hoàn tác', tNoDone: 'Chưa có mục nào đã xong',
+      cDelete: t => `Xoá “${t}”?`, cClear: n => `Xoá cả ${n} mục đã xong?`,
+      emptyNoGoals: 'Chưa có mục tiêu nào. Thêm một cái ở trên nhé.',
+      emptyAllDone: 'Xong hết rồi. Xem phần “Đã xong” bên dưới.',
+      emptyFiltered: 'Bộ lọc này chưa có gì. Thử bộ lọc khác xem.',
+      emptyArchive: 'Mục đã hoàn thành sẽ hiện ở đây',
+      saveFail: '⚠ Không lưu được: trình duyệt chặn lưu trữ cục bộ, thay đổi sẽ mất khi đóng trang',
+      undo: 'Hoàn tác'
+    },
+
+    ms: {
+      MN: ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun',
+           'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'],
+      WD: ['Ahd', 'Isn', 'Sel', 'Rab', 'Kha', 'Jum', 'Sab'],
+
+      langAria: 'Tukar bahasa', themeAria: 'Tukar mod gelap / cerah',
+      title: 'My Goals',
+      subtitle: 'Tulis apa yang anda mahu buat, sudah siap satu tanda satu.',
+      progress: 'Kemajuan',
+      ph: 'Apa yang anda mahu buat?', goalAria: 'Teks sasaran',
+      lblScope: 'Tempoh', lblDate: 'Tarikh', lblType: 'Jenis',
+      gScope: 'Tempoh sasaran', gType: 'Utama atau sampingan',
+      gFilter: 'Penapis', dateAria: 'Tarikh',
+      scYear: 'Tahun', scMonth: 'Bulan', scWeek: 'Minggu', scDay: 'Hari',
+      typeMain: 'Utama', typeSide: 'Sampingan',
+      add: 'Tambah', fAll: 'Semua', archive: 'Selesai', clearDone: 'Kosongkan yang selesai',
+      statActive: 'Sedang buat', statDone: 'Selesai', statAll: 'Jumlah',
+      uYear: n => `Tahun ${n}`,
+      uMonth: (y, m) => `${STRINGS.ms.MN[m - 1]} ${y}`,
+      uWeek: (y, w) => `Minggu ${w}, ${y}`,
+      uDay: (m, d, wd) => `${d} ${STRINGS.ms.MN[m - 1]}, ${wd}`,
+      overdue: 'Lewat',
+      justNow: 'baru selesai',
+      minAgo: n => `selesai ${n} minit lalu`,
+      todayAt: (h, m) => `selesai hari ini ${h}:${m}`,
+      doneOn: (m, d) => `selesai ${d} ${STRINGS.ms.MN[m - 1]}`,
+      markDone: 'Tanda selesai', undoDone: 'Batal tanda selesai',
+      delLabel: 'Padam sasaran ini', delText: 'Padam',
+      warnEmpty: 'Tulis sesuatu dahulu',
+      tAdd: 'Ditambah', tDone: 'Bagus, selesai!', tUndone: 'Dikembalikan ke senarai',
+      tDeleted: t => `Dipadam “${t}”`, tCleared: n => `Dipadam ${n} yang selesai`,
+      tUndo: 'Padaman dibatalkan', tNoDone: 'Belum ada yang selesai',
+      cDelete: t => `Padam “${t}”?`, cClear: n => `Padam semua ${n} yang selesai?`,
+      emptyNoGoals: 'Belum ada sasaran. Tambah satu di atas.',
+      emptyAllDone: 'Semua sudah siap. Lihat bahagian “Selesai” di bawah.',
+      emptyFiltered: 'Tiada apa dalam penapis ini. Cuba penapis lain.',
+      emptyArchive: 'Sasaran yang selesai akan muncul di sini',
+      saveFail: '⚠ Gagal simpan: pelayar menyekat storan tempatan, perubahan akan hilang bila ditutup',
+      undo: 'Batal'
+    },
+
+    id: {
+      MN: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+           'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+      WD: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+
+      langAria: 'Ganti bahasa', themeAria: 'Ganti mode gelap / terang',
+      title: 'My Goals',
+      subtitle: 'Tulis yang ingin kamu lakukan, selesai satu centang satu.',
+      progress: 'Kemajuan',
+      ph: 'Mau melakukan apa?', goalAria: 'Teks target',
+      lblScope: 'Periode', lblDate: 'Tanggal', lblType: 'Jenis',
+      gScope: 'Periode target', gType: 'Utama atau sampingan',
+      gFilter: 'Filter', dateAria: 'Tanggal',
+      scYear: 'Tahun', scMonth: 'Bulan', scWeek: 'Minggu', scDay: 'Hari',
+      typeMain: 'Utama', typeSide: 'Sampingan',
+      add: 'Tambah', fAll: 'Semua', archive: 'Selesai', clearDone: 'Hapus yang selesai',
+      statActive: 'Berjalan', statDone: 'Selesai', statAll: 'Total',
+      uYear: n => `Tahun ${n}`,
+      uMonth: (y, m) => `${STRINGS.id.MN[m - 1]} ${y}`,
+      uWeek: (y, w) => `Minggu ${w}, ${y}`,
+      uDay: (m, d, wd) => `${d} ${STRINGS.id.MN[m - 1]}, ${wd}`,
+      overdue: 'Terlambat',
+      justNow: 'baru selesai',
+      minAgo: n => `selesai ${n} menit lalu`,
+      todayAt: (h, m) => `selesai hari ini ${h}:${m}`,
+      doneOn: (m, d) => `selesai ${d} ${STRINGS.id.MN[m - 1]}`,
+      markDone: 'Tandai selesai', undoDone: 'Batalkan selesai',
+      delLabel: 'Hapus target ini', delText: 'Hapus',
+      warnEmpty: 'Tulis dulu sesuatu',
+      tAdd: 'Ditambahkan', tDone: 'Mantap, selesai!', tUndone: 'Dikembalikan ke daftar',
+      tDeleted: t => `“${t}” dihapus`, tCleared: n => `${n} yang selesai dihapus`,
+      tUndo: 'Penghapusan dibatalkan', tNoDone: 'Belum ada yang selesai',
+      cDelete: t => `Hapus “${t}”?`, cClear: n => `Hapus semua ${n} yang selesai?`,
+      emptyNoGoals: 'Belum ada target. Tambahkan satu di atas.',
+      emptyAllDone: 'Semua selesai. Lihat bagian “Selesai” di bawah.',
+      emptyFiltered: 'Tidak ada isi di filter ini. Coba filter lain.',
+      emptyArchive: 'Target yang selesai akan muncul di sini',
+      saveFail: '⚠ Gagal menyimpan: browser memblokir penyimpanan lokal, perubahan hilang saat ditutup',
+      undo: 'Urungkan'
+    },
+
+    hi: {
+      MN: ['जन', 'फ़र', 'मार्च', 'अप्रै', 'मई', 'जून',
+           'जुल', 'अग', 'सित', 'अक्ट', 'नव', 'दिस'],
+      WD: ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि'],
+
+      langAria: 'भाषा बदलें', themeAria: 'डार्क / लाइट बदलें',
+      title: 'My Goals',
+      subtitle: 'जो करना है उसे लिखें, पूरा होने पर हल्का-सा टिक लगाएँ।',
+      progress: 'प्रगति',
+      ph: 'क्या करना है?', goalAria: 'लक्ष्य का विवरण',
+      lblScope: 'अवधि', lblDate: 'तिथि', lblType: 'प्रकार',
+      gScope: 'लक्ष्य की अवधि', gType: 'मुख्य या गौण',
+      gFilter: 'फ़िल्टर', dateAria: 'तिथि',
+      scYear: 'वर्ष', scMonth: 'माह', scWeek: 'सप्ताह', scDay: 'दिन',
+      typeMain: 'मुख्य', typeSide: 'गौण',
+      add: 'जोड़ें', fAll: 'सभी', archive: 'पूरे हुए', clearDone: 'पूरे हुए हटाएँ',
+      statActive: 'चल रहे', statDone: 'पूरे हुए', statAll: 'कुल',
+      uYear: n => `वर्ष ${n}`,
+      uMonth: (y, m) => `${STRINGS.hi.MN[m - 1]} ${y}`,
+      uWeek: (y, w) => `सप्ताह ${w}, ${y}`,
+      uDay: (m, d, wd) => `${d} ${STRINGS.hi.MN[m - 1]}, ${wd}`,
+      overdue: 'समय बीता',
+      justNow: 'अभी पूरा हुआ',
+      minAgo: n => `${n} मिनट पहले पूरा`,
+      todayAt: (h, m) => `आज ${h}:${m} पूरा`,
+      doneOn: (m, d) => `${d} ${STRINGS.hi.MN[m - 1]} को पूरा`,
+      markDone: 'पूरा चिह्नित करें', undoDone: 'चिह्न हटाएँ',
+      delLabel: 'यह लक्ष्य हटाएँ', delText: 'हटाएँ',
+      warnEmpty: 'पहले कुछ लिखें',
+      tAdd: 'जोड़ा गया', tDone: 'बढ़िया, पूरा हुआ!', tUndone: 'सूची में वापस',
+      tDeleted: t => `“${t}” हटाया`, tCleared: n => `${n} पूरे हुए हटाए`,
+      tUndo: 'हटाना वापस लिया', tNoDone: 'अभी कुछ पूरा नहीं',
+      cDelete: t => `“${t}” हटाएँ?`, cClear: n => `सभी ${n} पूरे हुए हटाएँ?`,
+      emptyNoGoals: 'अभी कोई लक्ष्य नहीं। ऊपर एक जोड़ें।',
+      emptyAllDone: 'सब पूरा हो गया। नीचे “पूरे हुए” देखें।',
+      emptyFiltered: 'इस फ़िल्टर में कुछ नहीं। दूसरा फ़िल्टर देखें।',
+      emptyArchive: 'पूरे हुए लक्ष्य यहाँ दिखेंगे',
+      saveFail: '⚠ सहेजा नहीं गया: ब्राउज़र ने लोकल स्टोरेज रोकी है, बंद करने पर बदलाव चले जाएँगे',
+      undo: 'वापस'
     }
   };
 
+  // 语言清单：国旗用内联 SVG（Windows 的 emoji 不显示国旗）
   const LANGS = [
     { code: 'zh', name: '中文' },
     { code: 'en', name: 'English' },
-    { code: 'th', name: 'ไทย' }
+    { code: 'th', name: 'ไทย' },
+    { code: 'vi', name: 'Tiếng Việt' },
+    { code: 'ms', name: 'Bahasa Melayu' },
+    { code: 'id', name: 'Bahasa Indonesia' },
+    { code: 'hi', name: 'हिन्दी' }
   ];
 
   let lang = 'zh';
@@ -166,14 +344,19 @@
   })();
 
   // 尽量按访客的浏览器语言自动选择
+  const LANG_BY_PREFIX = [
+    [/^zh/i, 'zh'], [/^th/i, 'th'], [/^vi/i, 'vi'],
+    [/^ms/i, 'ms'], [/^id|^in$/i, 'id'], [/^hi/i, 'hi'],
+  ];
   const detectLang = () => {
     try {
       const saved = storage.get(LANG_KEY);
       if (STRINGS[saved]) return saved;
     } catch (e) {}
-    const nav = String((W.navigator && (W.navigator.language || W.navigator.userLanguage)) || 'zh');
-    if (/^zh/i.test(nav)) return 'zh';
-    if (/^th/i.test(nav)) return 'th';
+    const nav = String((W.navigator && (W.navigator.language || W.navigator.userLanguage)) || '');
+    for (const [re, code] of LANG_BY_PREFIX) {
+      if (re.test(nav)) return code;
+    }
     return 'en';
   };
 
@@ -323,16 +506,22 @@
     syncChips();
   }
 
+  // 顶部进度卡：一行状态 + 进度条 + 一行小字
   function renderStats() {
     const total = goals.length;
     const done = goals.filter(g => g.done).length;
+    const open = total - done;
     const pct = total ? Math.round((done / total) * 100) : 0;
+    const note = total
+      ? `${esc(t('statActive'))} ${open} · ${esc(t('statDone'))} ${done} · ${esc(t('statAll'))} ${total}`
+      : esc(t('emptyNoGoals'));
     statsEl.innerHTML = `
-      <div class="stat"><b>${total - done}</b><span>${esc(t('statActive'))}</span></div>
-      <div class="stat"><b>${done}</b><span>${esc(t('statDone'))}</span>
-        <div class="stat-bar"><i style="width:${pct}%"></i></div>
+      <div class="stat-row">
+        <span>${esc(t('progress'))}</span>
+        <b>${pct}%</b>
       </div>
-      <div class="stat"><b>${total}</b><span>${esc(t('statAll'))}</span></div>`;
+      <div class="stat-bar"><i style="width:${pct}%"></i></div>
+      <div class="stat-note">${note}</div>`;
   }
 
   // 看板只放未完成的目标
@@ -497,8 +686,14 @@
 
   /* ---------------- 静态文案与语言 ---------------- */
 
+  // 各语言对应的 <html lang> 值
+  const HTML_LANG = {
+    zh: 'zh-CN', en: 'en', th: 'th', vi: 'vi',
+    ms: 'ms', id: 'id', hi: 'hi'
+  };
+
   function applyStatic() {
-    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : (lang === 'th' ? 'th' : 'en');
+    document.documentElement.lang = HTML_LANG[lang] || 'en';
     D.querySelectorAll('[data-i18n]').forEach(el => {
       el.textContent = t(el.dataset.i18n);
     });
@@ -546,6 +741,24 @@
     renderLangMenu();
     clearTimeout(langMenu._hideTimer);
     langMenu.hidden = false;
+
+    // 按可用空间决定高度与展开方向，保证所有语言都能滚到
+    const rect = langBtn.getBoundingClientRect
+      ? langBtn.getBoundingClientRect() : null;
+    if (rect && (rect.height || rect.top)) {
+      const vh = W.innerHeight || 800;
+      const below = Math.max(0, vh - rect.bottom - 22);
+      const above = Math.max(0, rect.top - 22);
+      // 菜单位置参考高度：语言项大约 40px 高，7 种语言约 300px + 内边距
+      const MENU_NEEDS = 340;
+      // 下方装不下整个菜单、而上方的空间明显更宽裕时，改为向上展开
+      const useUp = below < MENU_NEEDS && above > below;
+      langMenu.classList.toggle('up', useUp);
+      const room = Math.max(below, above);
+      langMenu.style.setProperty('--menu-max',
+        Math.round(Math.max(180, Math.min(room, vh - 40))) + 'px');
+    }
+
     // 强制一次重排后再加 open，让过渡稳定触发
     // （不用 requestAnimationFrame：后台标签页里它可能不执行）
     if (langMenu.offsetHeight >= 0) langMenu.classList.add('open');
@@ -830,7 +1043,11 @@
     const label = {
       zh: '数据保存在你自己的浏览器里',
       en: 'Your data stays in your own browser',
-      th: 'ข้อมูลเก็บไว้ในเบราว์เซอร์ของคุณ'
+      th: 'ข้อมูลเก็บไว้ในเบราว์เซอร์ของคุณ',
+      vi: 'Dữ liệu chỉ lưu trong trình duyệt của bạn',
+      ms: 'Data disimpan dalam pelayar anda sendiri',
+      id: 'Data tersimpan di browser Anda sendiri',
+      hi: 'डेटा आपके ब्राउज़र में ही रहता है'
     };
     cloudHost.textContent = label[lang] || label.zh;
     cloudHost.hidden = false;

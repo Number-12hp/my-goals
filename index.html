@@ -10,71 +10,74 @@
 <body>
 
 <div class="page">
-  <header class="masthead">
-    <div class="mast-left">
-      <h1 class="wordmark">My Goals</h1>
-      <span id="cloudHost" class="cloud-host" hidden></span>
-    </div>
+  <!-- 顶部：标题 + 副标题 + 进度 -->
+  <section class="hero">
+    <div class="hero-top">
+      <div class="mast-tools">
+        <div class="lang-wrap" id="langWrap">
+          <button id="langBtn" class="icon-btn" type="button"
+                  aria-haspopup="true" aria-expanded="false"
+                  aria-label="切换语言" data-i18n-aria="langAria">
+            <svg id="langIcon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 5.5h8M7 3.5v2c0 3.6-1.8 6.6-4 8.2" />
+              <path d="M5 10.2c1.6 2.6 3.6 4.3 5.8 5.3" />
+              <path d="M12.6 20.5 17 8.5l4.4 12" />
+              <path d="M14.3 16.6h5.4" />
+            </svg>
+          </button>
+          <div id="langMenu" class="lang-menu" role="menu" hidden></div>
+        </div>
 
-    <div class="mast-tools">
-      <div class="lang-wrap" id="langWrap">
-        <button id="langBtn" class="icon-btn" type="button"
-                aria-haspopup="true" aria-expanded="false"
-                aria-label="切换语言" data-i18n-aria="langAria">
-          <svg id="langIcon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"
-               fill="none" stroke="currentColor" stroke-width="1.7"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 5.5h8M7 3.5v2c0 3.6-1.8 6.6-4 8.2" />
-            <path d="M5 10.2c1.6 2.6 3.6 4.3 5.8 5.3" />
-            <path d="M12.6 20.5 17 8.5l4.4 12" />
-            <path d="M14.3 16.6h5.4" />
-          </svg>
-        </button>
-        <div id="langMenu" class="lang-menu" role="menu" hidden></div>
+        <button id="themeBtn" class="icon-btn" type="button"
+                aria-label="切换深色 / 浅色" data-i18n-aria="themeAria">☾</button>
       </div>
-
-      <button id="themeBtn" class="icon-btn" type="button"
-              aria-label="切换深色 / 浅色" data-i18n-aria="themeAria">☾</button>
     </div>
-  </header>
 
-  <section class="stats" id="stats"></section>
+    <h1 class="wordmark" data-i18n="title">My Goals</h1>
+    <p class="hero-sub" data-i18n="subtitle">把想做的事写下来，主线认真打，支线随意玩。</p>
 
-  <form class="composer" id="form" autocomplete="off">
-    <input id="title" class="composer-input" type="text" maxlength="80"
+    <div class="stat-card" id="stats"></div>
+  </section>
+
+  <!-- 输入 + 添加 -->
+  <form class="compose" id="form" autocomplete="off">
+    <input id="title" class="compose-input" type="text" maxlength="80"
            placeholder="想做点什么？" aria-label="目标内容"
            data-i18n-ph="ph" data-i18n-aria="goalAria" />
+    <button class="add-btn" type="submit"><span data-i18n="add">添加</span></button>
+  </form>
 
-    <div class="composer-controls">
-      <div class="ctl">
-        <span class="ctl-label" data-i18n="lblScope">周期</span>
-        <div class="seg" id="scopeSeg" role="group" aria-label="目标周期" data-i18n-aria="gScope">
-          <span class="seg-thumb" aria-hidden="true"></span>
-          <button type="button" data-scope="year" data-i18n="scYear">年</button>
-          <button type="button" data-scope="month" data-i18n="scMonth">月</button>
-          <button type="button" data-scope="week" data-i18n="scWeek">周</button>
-          <button type="button" data-scope="day" class="on" data-i18n="scDay">天</button>
-        </div>
-      </div>
-
-      <div class="ctl">
-        <span class="ctl-label" data-i18n="lblDate">日期</span>
-        <input id="date" class="date-input" type="date" aria-label="日期" data-i18n-aria="dateAria" />
-      </div>
-
-      <div class="ctl">
-        <span class="ctl-label" data-i18n="lblType">类型</span>
-        <div class="seg seg-alt seg-warm" id="typeSeg" role="group" aria-label="主线或支线" data-i18n-aria="gType">
-          <span class="seg-thumb" aria-hidden="true"></span>
-          <button type="button" data-type="main" class="on" data-i18n="typeMain">主线</button>
-          <button type="button" data-type="side" data-i18n="typeSide">支线</button>
-        </div>
+  <!-- 周期 / 日期 / 类型 -->
+  <div class="controls">
+    <div class="ctl">
+      <span class="ctl-label" data-i18n="lblScope">周期</span>
+      <div class="seg" id="scopeSeg" role="group" aria-label="目标周期" data-i18n-aria="gScope">
+        <span class="seg-thumb" aria-hidden="true"></span>
+        <button type="button" data-scope="year" data-i18n="scYear">年</button>
+        <button type="button" data-scope="month" data-i18n="scMonth">月</button>
+        <button type="button" data-scope="week" data-i18n="scWeek">周</button>
+        <button type="button" data-scope="day" class="on" data-i18n="scDay">天</button>
       </div>
     </div>
 
-    <button class="add-btn" type="submit"><span data-i18n="add">添加</span></button>
+    <div class="ctl">
+      <span class="ctl-label" data-i18n="lblDate">日期</span>
+      <input id="date" class="date-input" type="date" aria-label="日期" data-i18n-aria="dateAria" />
+    </div>
+
+    <div class="ctl">
+      <span class="ctl-label" data-i18n="lblType">类型</span>
+      <div class="seg seg-alt seg-warm" id="typeSeg" role="group" aria-label="主线或支线" data-i18n-aria="gType">
+        <span class="seg-thumb" aria-hidden="true"></span>
+        <button type="button" data-type="main" class="on" data-i18n="typeMain">主线</button>
+        <button type="button" data-type="side" data-i18n="typeSide">支线</button>
+      </div>
+    </div>
+
     <p class="composer-hint" id="hint"></p>
-  </form>
+  </div>
 
   <nav class="filters" id="filters" aria-label="筛选" data-i18n-aria="gFilter">
     <button class="chip" type="button" data-filter="undone" data-i18n="fAll">全部</button>
@@ -96,11 +99,13 @@
   <footer class="foot">
     <button id="clearDone" class="link-btn" type="button" data-i18n="clearDone">清空已完成</button>
   </footer>
+
+  <span id="cloudHost" class="cloud-host" hidden></span>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="undo" id="undo" role="status" aria-live="polite"></div>
 
-<script src="app.js?v=9"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>
