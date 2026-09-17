@@ -167,57 +167,204 @@ html[data-theme="dark"] .hero {
   color: var(--ink-2);
 }
 
-/* 进度卡：柔和玻璃拟态，浮在渐变上 */
-.stat-card {
-  margin-top: 18px;
-  padding: 13px 16px 14px;
-  border: 1px solid rgba(255, 255, 255, .75);
-  border-radius: var(--r-lg);
-  background: rgba(255, 255, 255, .62);
-  box-shadow: 0 8px 22px -16px rgba(35, 32, 58, .4);
-  backdrop-filter: blur(6px);
-}
-html[data-theme="dark"] .stat-card {
-  border-color: rgba(255, 255, 255, .08);
-  background: rgba(255, 255, 255, .06);
-}
-.stat-row {
+/* ============================== 登录 / 账号弹窗 ============================== */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 13px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
-.stat-row span { color: var(--ink-2); }
-.stat-row b {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -.01em;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink);
+.modal[hidden] { display: none; }
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 24, 48, .42);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity .22s var(--ease);
 }
-.stat-bar {
-  height: 6px;
-  margin-top: 11px;
+.modal.open .modal-backdrop { opacity: 1; }
+
+.modal-box {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 22px 22px 20px;
+  border: 1px solid #fff;
+  border-radius: var(--r-xl);
+  background: var(--paper);
+  box-shadow: 0 24px 60px -22px rgba(28, 24, 48, .55), 0 2px 10px rgba(28, 24, 48, .08);
+  opacity: 0;
+  transform: translateY(14px) scale(.97);
+  transition: opacity .22s var(--ease), transform .24s cubic-bezier(.2, .9, .3, 1);
+}
+html[data-theme="dark"] .modal-box { border-color: rgba(255, 255, 255, .08); }
+.modal.open .modal-box { opacity: 1; transform: none; }
+
+/* 窄屏改成底部抽屉：更像 App */
+@media (max-width: 520px) {
+  .modal { align-items: flex-end; padding: 0; }
+  .modal-box {
+    max-width: none;
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    max-height: 88vh;
+    padding-bottom: 26px;
+    transform: translateY(100%);
+  }
+  .modal.open .modal-box { transform: none; }
+  .modal-box::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 4px;
+    margin: -6px auto 14px;
+    border-radius: var(--r-pill);
+    background: var(--rule);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border: none;
   border-radius: var(--r-pill);
-  background: rgba(35, 32, 58, .09);
-  overflow: hidden;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .16s var(--ease), background .16s var(--ease);
 }
-html[data-theme="dark"] .stat-bar { background: rgba(255, 255, 255, .12); }
-.stat-bar i {
+.modal-close:hover { color: var(--ink); background: rgba(139, 111, 224, .1); }
+
+.auth-title { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.015em; }
+.auth-hint { margin: 6px 0 16px; font-size: 12.5px; line-height: 1.6; color: var(--ink-2); }
+
+.auth-field { display: block; margin-bottom: 11px; }
+.auth-field > span {
   display: block;
-  height: 100%;
-  width: 0;
+  margin-bottom: 4px;
+  font-size: 11.5px;
+  letter-spacing: .03em;
+  color: var(--ink-3);
+}
+.auth-field input {
+  width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14.5px;
+  padding: 11px 13px;
+  outline: none;
+  transition: border-color .18s var(--ease), box-shadow .18s var(--ease);
+}
+.auth-field input::placeholder { color: var(--ink-3); }
+.auth-field input:focus { border-color: var(--mark); box-shadow: 0 0 0 3px rgba(139, 111, 224, .14); }
+html[data-theme="dark"] .auth-field input {
+  background: rgba(255, 255, 255, .07);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.auth-msg {
+  min-height: 17px;
+  margin: 6px 0 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.auth-msg.err { color: #d1653f; }
+.auth-msg.ok { color: var(--side-ink); }
+
+.auth-submit {
+  width: 100%;
+  border: none;
   border-radius: var(--r-pill);
   background: var(--grad-main);
-  transition: width .5s var(--ease);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 650;
+  padding: 13px 18px;
+  cursor: pointer;
+  box-shadow: var(--glow);
+  transition: filter .16s var(--ease), transform .12s var(--ease), opacity .16s var(--ease);
 }
-.stat-note {
-  margin-top: 9px;
+.auth-submit:hover { filter: brightness(1.05); }
+.auth-submit:active { transform: scale(.985); }
+.auth-submit:disabled { opacity: .6; cursor: default; }
+
+.auth-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 14px;
+}
+.auth-link {
+  border: none;
+  background: none;
+  color: var(--mark);
+  font-family: var(--sans);
+  font-size: 12.5px;
+  padding: 2px 0;
+  cursor: pointer;
+}
+.auth-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.auth-link[hidden] { display: none; }
+
+/* 已登录：账号信息 */
+.auth-account { text-align: center; }
+.auth-account-label {
+  margin: 4px 0 2px;
   font-size: 11.5px;
+  letter-spacing: .04em;
   color: var(--ink-3);
-  font-variant-numeric: tabular-nums;
 }
+.auth-account-mail {
+  margin: 0 0 18px;
+  font-size: 15px;
+  font-weight: 650;
+  word-break: break-all;
+  color: var(--ink);
+}
+.auth-signout {
+  background: transparent;
+  color: var(--mark);
+  border: 1px solid var(--mark);
+  box-shadow: none;
+}
+.auth-signout:hover { background: rgba(139, 111, 224, .08); filter: none; }
+
+/* 工具栏上的用户按钮 + 登录状态小圆点 */
+#authBtn { position: relative; }
+.auth-dot {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--paper);
+  border-radius: var(--r-pill);
+  background: var(--ink-3);
+  transition: background .2s var(--ease);
+}
+#authBtn[data-state="synced"] .auth-dot { background: var(--mint); }
+#authBtn[data-state="syncing"] .auth-dot { background: var(--mark); }
+#authBtn[data-state="offline"] .auth-dot { background: var(--peach); }
 
 /* ============================== 输入行 ============================== */
 
@@ -795,8 +942,61 @@ html[data-theme="dark"] .archive { border-color: rgba(255, 255, 255, .06); }
 .foot {
   margin-top: 26px;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
 }
+
+/* 同步状态胶囊 */
+.sync-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.sync-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  font-size: 11.5px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.sync-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--r-pill);
+  background: var(--ink-3);
+}
+.sync-pill[data-state="synced"] .sync-dot { background: var(--mint); }
+.sync-pill[data-state="syncing"] .sync-dot {
+  background: var(--mark);
+  animation: pulse 1.1s ease-in-out infinite;
+}
+.sync-pill[data-state="offline"] .sync-dot { background: var(--peach); }
+.sync-progress {
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+/* 状态栏可点击呼出登录弹窗 */
+.sync-pill {
+  cursor: pointer;
+  transition: border-color .16s var(--ease), color .16s var(--ease), background .16s var(--ease);
+}
+.sync-pill:hover { color: var(--ink-2); border-color: var(--ink-3); }
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .45; transform: scale(.75); }
+}
+
 
 .cloud-host {
   display: block;
@@ -905,7 +1105,6 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   .hero { padding: 18px 18px 16px; border-radius: var(--r-lg); }
   .wordmark { font-size: 34px; }
   .hero-sub { font-size: 12.5px; }
-  .stat-card { margin-top: 15px; padding: 12px 14px 13px; border-radius: var(--r-md); }
   .compose { margin-top: 10px; padding: 7px 7px 7px 14px; border-radius: var(--r-lg); }
   .compose-input { font-size: 15px; }
   .add-btn { padding: 10px 18px; font-size: 13.5px; }

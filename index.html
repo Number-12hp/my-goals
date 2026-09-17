@@ -32,13 +32,24 @@
 
         <button id="themeBtn" class="icon-btn" type="button"
                 aria-label="切换深色 / 浅色" data-i18n-aria="themeAria">☾</button>
+
+        <!-- 用户 / 登录入口 -->
+        <button id="authBtn" class="icon-btn" type="button"
+                aria-haspopup="dialog" aria-expanded="false"
+                aria-label="登录 / 账号" data-i18n-aria="authAria">
+          <svg id="userIcon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"
+               fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8.5" r="3.6" />
+            <path d="M4.8 20.2c1.1-3.6 3.9-5.6 7.2-5.6s6.1 2 7.2 5.6" />
+          </svg>
+          <span class="auth-dot" id="authDot" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
 
     <h1 class="wordmark" data-i18n="title">My Goals</h1>
-    <p class="hero-sub" data-i18n="subtitle">把想做的事写下来，主线认真打，支线随意玩。</p>
-
-    <div class="stat-card" id="stats"></div>
+    <p class="hero-sub" data-i18n="subtitle">把想做的事写下来，完成一项就轻轻打个勾。</p>
   </section>
 
   <!-- 输入 + 添加 -->
@@ -97,15 +108,68 @@
   </details>
 
   <footer class="foot">
+    <div class="sync-bar">
+      <!-- 点状态栏即可呼出登录弹窗 -->
+      <button type="button" class="sync-pill" id="syncPill" data-state="local"
+              aria-haspopup="dialog" aria-expanded="false">
+        <span class="sync-dot" aria-hidden="true"></span>
+        <span id="syncText">仅本机保存</span>
+      </button>
+      <span class="sync-progress" id="syncProgress"></span>
+    </div>
     <button id="clearDone" class="link-btn" type="button" data-i18n="clearDone">清空已完成</button>
   </footer>
 
   <span id="cloudHost" class="cloud-host" hidden></span>
 </div>
 
+<!-- ═══ 登录 / 账号弹窗（默认隐藏；点用户图标或底部状态栏呼出）═══ -->
+<div class="modal" id="authModal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <button class="modal-close" id="authClose" type="button" aria-label="关闭" data-close>✕</button>
+
+    <div class="auth-signin" id="authSignin">
+      <h2 class="auth-title" id="authTitle" data-i18n="signInTitle">登录后云端同步</h2>
+      <p class="auth-hint" data-i18n="signInHint">登录后，换浏览器或换设备都能找回你的清单。</p>
+
+      <form id="authForm" autocomplete="on" novalidate>
+        <label class="auth-field">
+          <span data-i18n="email">邮箱</span>
+          <input id="authEmail" type="email" name="email" autocomplete="username"
+                 inputmode="email" spellcheck="false" data-i18n-ph="email" placeholder="you@example.com" />
+        </label>
+        <label class="auth-field">
+          <span data-i18n="password">密码</span>
+          <input id="authPass" type="password" name="password" autocomplete="current-password"
+                 data-i18n-ph="password" placeholder="••••••" />
+        </label>
+
+        <p class="auth-msg" id="authMsg" role="status" aria-live="polite"></p>
+
+        <button class="auth-submit" id="authSubmit" type="submit" data-i18n="signIn">登录</button>
+
+        <div class="auth-links">
+          <button type="button" class="auth-link" id="authToggle" data-i18n="toSignUp">没有账号？注册</button>
+          <button type="button" class="auth-link" id="authForgot" data-i18n="forgot">忘记密码</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 已登录时显示的账号信息 -->
+    <div class="auth-account" id="authAccount" hidden>
+      <p class="auth-account-label" data-i18n="accountLabel">当前账号</p>
+      <p class="auth-account-mail" id="authAccountMail"></p>
+      <button class="auth-submit auth-signout" id="signOutBtn" type="button" data-i18n="signOut">退出登录</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="undo" id="undo" role="status" aria-live="polite"></div>
 
-<script src="app.js?v=10"></script>
+<!-- Supabase 客户端：加载失败也不影响本地功能 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin="anonymous"></script>
+<script src="app.js?v=12"></script>
 </body>
 </html>
