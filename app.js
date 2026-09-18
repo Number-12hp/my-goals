@@ -77,6 +77,9 @@
 
       navSettings: "设置",
 
+      menuLabel: '菜单', langShort: '语言',
+      themeShort: '主题', userShort: '账号',
+
       soon: "这个模块还在开发中",
 
       progress: "今日完成进度",
@@ -146,6 +149,9 @@
 
       navSettings: "Settings",
 
+      menuLabel: 'Menu', langShort: 'Language',
+      themeShort: 'Theme', userShort: 'Account',
+
       soon: "This section is still being built",
 
       progress: "Today's progress",
@@ -214,6 +220,9 @@
       navStats: "สถิติ",
 
       navSettings: "ตั้งค่า",
+
+      menuLabel: 'เมนู', langShort: 'ภาษา',
+      themeShort: 'ธีม', userShort: 'บัญชี',
 
       soon: "ส่วนนี้ยังอยู่ระหว่างพัฒนา",
 
@@ -285,6 +294,9 @@
 
       navSettings: "Cài đặt",
 
+      menuLabel: 'Menu', langShort: 'Ngôn ngữ',
+      themeShort: 'Giao diện', userShort: 'Tài khoản',
+
       soon: "Mục này đang được xây dựng",
 
       progress: "Tiến độ hôm nay",
@@ -353,6 +365,9 @@
       navStats: "Statistik",
 
       navSettings: "Tetapan",
+
+      menuLabel: 'Menu', langShort: 'Bahasa',
+      themeShort: 'Tema', userShort: 'Akaun',
 
       soon: "Bahagian ini masih dibina",
 
@@ -424,6 +439,9 @@
 
       navSettings: "Pengaturan",
 
+      menuLabel: 'Menu', langShort: 'Bahasa',
+      themeShort: 'Tema', userShort: 'Akun',
+
       soon: "Bagian ini masih dikembangkan",
 
       progress: "Kemajuan hari ini",
@@ -493,6 +511,9 @@
       navStats: "आँकड़े",
 
       navSettings: "सेटिंग",
+
+      menuLabel: 'मेनू', langShort: 'भाषा',
+      themeShort: 'थीम', userShort: 'खाता',
 
       soon: "यह भाग अभी बन रहा है",
 
@@ -647,6 +668,10 @@
   const signOutBtn  = $('signOutBtn');
   const navEl       = $('nav');
   const progressCard= $('progressCard');
+  const menuBtn     = $('menuBtn');
+  const menuWrap    = $('menuWrap');
+  const toolPanel   = $('toolPanel');
+  const themeGlyph  = $('themeGlyph');
 
   let goals   = [];
   let filter  = 'undone';
@@ -777,10 +802,11 @@
       local: 'syncLocal', syncing: 'syncOff', synced: 'syncOn', offline: 'syncOffline'
     };
     const label = t(map[syncState] || 'syncLocal');
-    if (syncText) syncText.textContent = label;
+    if (syncText) syncText.textContent = label;   // 这行文字现在就是那个悬浮气泡
     if (syncPill) {
       syncPill.dataset.state = syncState;
-      syncPill.setAttribute('title', label);
+      // 不再设 title：原生 tooltip 会和自绘气泡叠在一起，出现两个提示
+      syncPill.setAttribute('aria-label', label);
     }
     if (authBtn) {
       authBtn.dataset.state = syncState;
@@ -978,6 +1004,7 @@
 
   function openAuthModal() {
     if (!authModal) return;
+    closeToolPanel();          // 弹窗和收纳面板不同时出现，免得两层浮层打架
     authModal.hidden = false;
     authModal.classList.add('open');
     if (authBtn) authBtn.setAttribute('aria-expanded', 'true');
@@ -1442,6 +1469,9 @@
     });
   }
 
+  /* 图标轨的"放大 / 让位"效果完全由 CSS 完成（见 .rail-btn:hover），
+     不需要 JS：原来的鼠标 Y 轴跟随太"黏"，已经撤掉。 */
+
   /* ---------------- 静态文案与语言 ---------------- */
 
   function applyStatic() {
@@ -1463,20 +1493,21 @@
 
   function renderLangMenu() {
     if (!langMenu) return;
-    langMenu.innerHTML = LANGS.map(l => `
+    // 外面套一层是为了做 0fr→1fr 的高度动画（见 .lang-acc-inner）
+    langMenu.innerHTML = `<div class="lang-acc-inner" role="none">${LANGS.map(l => `
       <button type="button" role="menuitemradio" aria-checked="${l.code === lang}"
               class="lang-item${l.code === lang ? ' on' : ''}" data-lang="${l.code}">
         <span class="flag flag-${l.code}" aria-hidden="true"></span>
         <span class="lang-item-name">${esc(l.name)}</span>
         <span class="lang-tick" aria-hidden="true">✓</span>
-      </button>`).join('');
+      </button>`).join('')}</div>`;
   }
 
   function closeLangMenu() {
     if (!langMenu || !langBtn) return;
     if (langMenu.classList.contains('open')) {
       langMenu.classList.remove('open');
-      langMenu._hideTimer = setTimeout(() => { langMenu.hidden = true; }, 180);
+      langMenu._hideTimer = setTimeout(() => { langMenu.hidden = true; }, 220);  // 等 0fr 收完
     } else {
       langMenu.hidden = true;
     }
@@ -1488,24 +1519,36 @@
     renderLangMenu();
     clearTimeout(langMenu._hideTimer);
     langMenu.hidden = false;
-
-    const rect = langBtn.getBoundingClientRect ? langBtn.getBoundingClientRect() : null;
-    if (rect && (rect.height || rect.top)) {
-      const vh = W.innerHeight || 800;
-      const below = Math.max(0, vh - rect.bottom - 22);
-      const above = Math.max(0, rect.top - 22);
-      const MENU_NEEDS = 340;
-      const useUp = below < MENU_NEEDS && above > below;
-      langMenu.classList.toggle('up', useUp);
-      const room = Math.max(below, above);
-      langMenu.style.setProperty('--menu-max',
-        Math.round(Math.max(180, Math.min(room, vh - 40))) + 'px');
-    }
-
     if (langMenu.offsetHeight >= 0) langMenu.classList.add('open');
+    if (toolPanel && toolPanel.hidden) openToolPanel();   // 手风琴只长在面板里
     langBtn.setAttribute('aria-expanded', 'true');
     const first = langMenu.querySelector('.lang-item');
     if (first) first.focus();
+  }
+
+  /* ---------------- 底部收纳面板：语言 / 主题 / 账号 ---------------- */
+
+  function closeToolPanel() {
+    closeLangMenu();
+    if (!toolPanel || toolPanel.hidden) return;
+    toolPanel.classList.remove('open');
+    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+    clearTimeout(toolPanel._hideTimer);
+    toolPanel._hideTimer = setTimeout(() => { toolPanel.hidden = true; }, 200);
+  }
+
+  function openToolPanel() {
+    if (!toolPanel || !menuBtn) return;
+    clearTimeout(toolPanel._hideTimer);
+    toolPanel.hidden = false;
+    if (toolPanel.offsetHeight >= 0) toolPanel.classList.add('open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  function toggleToolPanel() {
+    if (!toolPanel) return;
+    // 用 .open 判断而不是 hidden：收起动画还没跑完时 hidden 仍是 false
+    if (toolPanel.classList.contains('open')) closeToolPanel(); else openToolPanel();
   }
 
   function setLang(next, opts) {
@@ -1541,16 +1584,31 @@
     });
   }
 
+  // 菜单键：开合收纳面板
+  if (menuBtn) {
+    menuBtn.addEventListener('click', e => {
+      e.stopPropagation();        // 否则会立刻被下面那句"点到外面就关"命中
+      toggleToolPanel();
+    });
+  }
+  // 面板内部的点击（选语言、切主题…）不该被当成"点到了外面"
+  if (toolPanel) toolPanel.addEventListener('click', e => e.stopPropagation());
+
   D.addEventListener('click', e => {
-    if (!langMenu || langMenu.hidden) return;
-    if (e.target.closest('#langWrap')) return;
-    closeLangMenu();
+    if (!toolPanel || toolPanel.hidden) return;
+    if (e.target.closest && e.target.closest('#menuWrap')) return;
+    closeToolPanel();
   });
 
   D.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && langMenu && !langMenu.hidden) {
+    if (e.key !== 'Escape' || !toolPanel || !toolPanel.classList.contains('open')) return;
+    // 两级 Esc：先收语言手风琴，再按一次才关整个面板
+    if (langMenu && langMenu.classList.contains('open')) {
       closeLangMenu();
       if (langBtn) langBtn.focus();
+    } else {
+      closeToolPanel();
+      if (menuBtn) menuBtn.focus();
     }
   });
 
@@ -1777,15 +1835,18 @@
 
   function applyTheme(th) {
     document.documentElement.dataset.theme = th;
-    themeBtn.textContent = th === 'dark' ? '☀' : '☾';
+    // 只换字形，不能用 themeBtn.textContent —— 那会把面板里的小标签一起清掉
+    const glyph = themeGlyph || themeBtn;
+    if (glyph) glyph.textContent = th === 'dark' ? '☀' : '☾';
     try { storage.set(THEME_KEY, th); } catch (e) {}
   }
 
   themeBtn.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     applyTheme(next);
-    if (themeBtn.animate && !reduceMotion()) {
-      themeBtn.animate(
+    const glyph = themeGlyph || themeBtn;    // 转的是字形，不是整个格子
+    if (glyph.animate && !reduceMotion()) {
+      glyph.animate(
         [{ transform: 'rotate(0) scale(1)' }, { transform: 'rotate(180deg) scale(1.1)' },
          { transform: 'rotate(360deg) scale(1)' }],
         { duration: 420, easing: 'cubic-bezier(.3,1.2,.4,1)' }
