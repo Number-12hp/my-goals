@@ -9,11 +9,55 @@
 </head>
 <body>
 
-<div class="page">
-  <!-- 顶部：标题 + 副标题 + 进度 -->
-  <section class="hero">
-    <div class="hero-top">
-      <div class="mast-tools">
+<div class="app">
+  <!-- ══════════ 左侧导航（窄屏自动折叠成底部菜单）══════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">◔</span>
+      <span class="brand-name" data-i18n="title">My Goals</span>
+    </div>
+
+    <nav class="nav" id="nav" aria-label="主导航">
+      <button class="nav-item on" type="button" data-view="goals">
+        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none"
+             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6.6h16M4 12h16M4 17.4h10" />
+          <circle cx="2.6" cy="6.6" r="1" fill="currentColor" stroke="none" />
+          <circle cx="2.6" cy="12" r="1" fill="currentColor" stroke="none" />
+          <circle cx="2.6" cy="17.4" r="1" fill="currentColor" stroke="none" />
+        </svg>
+        <span data-i18n="navGoals">目标</span>
+      </button>
+
+      <button class="nav-item" type="button" data-view="calendar">
+        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none"
+             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3.2" y="4.8" width="17.6" height="15.4" rx="3" />
+          <path d="M3.2 9.6h17.6M8 3v3.4M16 3v3.4" />
+        </svg>
+        <span data-i18n="navCalendar">日历</span>
+      </button>
+
+      <button class="nav-item" type="button" data-view="stats">
+        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none"
+             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4.5 19.5V11M9.8 19.5V5M15.2 19.5v-6M20.5 19.5V8" />
+        </svg>
+        <span data-i18n="navStats">统计</span>
+      </button>
+
+      <button class="nav-item" type="button" data-view="settings">
+        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none"
+             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3.1" />
+          <path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.8 1.8M7.2 16.8l-1.8 1.8M18.6 18.6l-1.8-1.8M7.2 7.2 5.4 5.4" />
+        </svg>
+        <span data-i18n="navSettings">设置</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="tool-row">
         <div class="lang-wrap" id="langWrap">
           <button id="langBtn" class="icon-btn" type="button"
                   aria-haspopup="true" aria-expanded="false"
@@ -33,7 +77,6 @@
         <button id="themeBtn" class="icon-btn" type="button"
                 aria-label="切换深色 / 浅色" data-i18n-aria="themeAria">☾</button>
 
-        <!-- 用户 / 登录入口 -->
         <button id="authBtn" class="icon-btn" type="button"
                 aria-haspopup="dialog" aria-expanded="false"
                 aria-label="登录 / 账号" data-i18n-aria="authAria">
@@ -46,81 +89,122 @@
           <span class="auth-dot" id="authDot" aria-hidden="true"></span>
         </button>
       </div>
-    </div>
 
-    <h1 class="wordmark" data-i18n="title">My Goals</h1>
-    <p class="hero-sub" data-i18n="subtitle">把想做的事写下来，完成一项就轻轻打个勾。</p>
-  </section>
-
-  <!-- 输入 + 添加 -->
-  <form class="compose" id="form" autocomplete="off">
-    <input id="title" class="compose-input" type="text" maxlength="80"
-           placeholder="想做点什么？" aria-label="目标内容"
-           data-i18n-ph="ph" data-i18n-aria="goalAria" />
-    <button class="add-btn" type="submit"><span data-i18n="add">添加</span></button>
-  </form>
-
-  <!-- 周期 / 日期 / 类型 -->
-  <div class="controls">
-    <div class="ctl">
-      <span class="ctl-label" data-i18n="lblScope">周期</span>
-      <div class="seg" id="scopeSeg" role="group" aria-label="目标周期" data-i18n-aria="gScope">
-        <span class="seg-thumb" aria-hidden="true"></span>
-        <button type="button" data-scope="year" data-i18n="scYear">年</button>
-        <button type="button" data-scope="month" data-i18n="scMonth">月</button>
-        <button type="button" data-scope="week" data-i18n="scWeek">周</button>
-        <button type="button" data-scope="day" class="on" data-i18n="scDay">天</button>
-      </div>
-    </div>
-
-    <div class="ctl">
-      <span class="ctl-label" data-i18n="lblDate">日期</span>
-      <input id="date" class="date-input" type="date" aria-label="日期" data-i18n-aria="dateAria" />
-    </div>
-
-    <div class="ctl">
-      <span class="ctl-label" data-i18n="lblType">类型</span>
-      <div class="seg seg-alt seg-warm" id="typeSeg" role="group" aria-label="主线或支线" data-i18n-aria="gType">
-        <span class="seg-thumb" aria-hidden="true"></span>
-        <button type="button" data-type="main" class="on" data-i18n="typeMain">主线</button>
-        <button type="button" data-type="side" data-i18n="typeSide">支线</button>
-      </div>
-    </div>
-
-    <p class="composer-hint" id="hint"></p>
-  </div>
-
-  <nav class="filters" id="filters" aria-label="筛选" data-i18n-aria="gFilter">
-    <button class="chip" type="button" data-filter="undone" data-i18n="fAll">全部</button>
-    <button class="chip" type="button" data-filter="main" data-i18n="typeMain">主线</button>
-    <button class="chip" type="button" data-filter="side" data-i18n="typeSide">支线</button>
-  </nav>
-
-  <main id="board" class="board"></main>
-
-  <details class="archive" id="archiveBox" open>
-    <summary>
-      <span class="archive-title">
-        <span id="archiveLabel" data-i18n="archive">已完成</span><span class="pill" id="archiveCount">0</span>
-      </span>
-    </summary>
-    <div class="archive-list" id="archiveList"></div>
-  </details>
-
-  <footer class="foot">
-    <div class="sync-bar">
-      <!-- 点状态栏即可呼出登录弹窗 -->
       <button type="button" class="sync-pill" id="syncPill" data-state="local"
               aria-haspopup="dialog" aria-expanded="false">
         <span class="sync-dot" aria-hidden="true"></span>
         <span id="syncText">仅本机保存</span>
       </button>
-      <span class="sync-progress" id="syncProgress"></span>
     </div>
-    <button id="clearDone" class="link-btn" type="button" data-i18n="clearDone">清空已完成</button>
-  </footer>
+  </aside>
 
-  <span id="cloudHost" class="cloud-host" hidden></span>
+  <!-- ══════════ 右侧主内容区 ══════════ -->
+  <main class="main">
+
+    <!-- ───── 视图一：目标 ───── -->
+    <section class="view" id="view-goals" data-view="goals">
+      <header class="view-head">
+        <h1 class="view-title" data-i18n="navGoals">目标</h1>
+        <p class="view-sub" data-i18n="subtitle">把想做的事写下来，完成一项就轻轻打个勾。</p>
+      </header>
+
+      <!-- 今日完成进度（预留模块，数据由 renderStats() 填） -->
+      <div class="progress-card" id="progressCard"></div>
+
+      <!-- 输入 + 添加 -->
+      <form class="compose" id="form" autocomplete="off">
+        <input id="title" class="compose-input" type="text" maxlength="80"
+               placeholder="想做点什么？" aria-label="目标内容"
+               data-i18n-ph="ph" data-i18n-aria="goalAria" />
+        <button class="add-btn" type="submit"><span data-i18n="add">添加</span></button>
+      </form>
+
+      <!-- 周期 / 日期 / 类型 -->
+      <div class="controls">
+        <div class="ctl">
+          <span class="ctl-label" data-i18n="lblScope">周期</span>
+          <div class="seg" id="scopeSeg" role="group" aria-label="目标周期" data-i18n-aria="gScope">
+            <span class="seg-thumb" aria-hidden="true"></span>
+            <button type="button" data-scope="year" data-i18n="scYear">年</button>
+            <button type="button" data-scope="month" data-i18n="scMonth">月</button>
+            <button type="button" data-scope="week" data-i18n="scWeek">周</button>
+            <button type="button" data-scope="day" class="on" data-i18n="scDay">天</button>
+          </div>
+        </div>
+
+        <div class="ctl">
+          <span class="ctl-label" data-i18n="lblDate">日期</span>
+          <input id="date" class="date-input" type="date" aria-label="日期" data-i18n-aria="dateAria" />
+        </div>
+
+        <div class="ctl">
+          <span class="ctl-label" data-i18n="lblType">类型</span>
+          <div class="seg seg-alt seg-warm" id="typeSeg" role="group" aria-label="主线或支线" data-i18n-aria="gType">
+            <span class="seg-thumb" aria-hidden="true"></span>
+            <button type="button" data-type="main" class="on" data-i18n="typeMain">主线</button>
+            <button type="button" data-type="side" data-i18n="typeSide">支线</button>
+          </div>
+        </div>
+
+        <p class="composer-hint" id="hint"></p>
+      </div>
+
+      <nav class="filters" id="filters" aria-label="筛选" data-i18n-aria="gFilter">
+        <button class="chip" type="button" data-filter="undone" data-i18n="fAll">全部</button>
+        <button class="chip" type="button" data-filter="main" data-i18n="typeMain">主线</button>
+        <button class="chip" type="button" data-filter="side" data-i18n="typeSide">支线</button>
+      </nav>
+
+      <main id="board" class="board"></main>
+
+      <details class="archive" id="archiveBox" open>
+        <summary>
+          <span class="archive-title">
+            <span id="archiveLabel" data-i18n="archive">已完成</span><span class="pill" id="archiveCount">0</span>
+          </span>
+        </summary>
+        <div class="archive-list" id="archiveList"></div>
+      </details>
+
+      <footer class="foot">
+        <span class="sync-progress" id="syncProgress"></span>
+        <button id="clearDone" class="link-btn" type="button" data-i18n="clearDone">清空已完成</button>
+      </footer>
+    </section>
+
+    <!-- ───── 其余视图：占位（后续实现）───── -->
+    <section class="view" id="view-calendar" data-view="calendar" hidden>
+      <header class="view-head">
+        <h1 class="view-title" data-i18n="navCalendar">日历</h1>
+      </header>
+      <div class="soon">
+        <p class="soon-title" data-i18n="soon">这个模块还在开发中</p>
+        <p class="soon-hint" data-i18n="subtitle">把想做的事写下来，完成一项就轻轻打个勾。</p>
+      </div>
+    </section>
+
+    <section class="view" id="view-stats" data-view="stats" hidden>
+      <header class="view-head">
+        <h1 class="view-title" data-i18n="navStats">统计</h1>
+      </header>
+      <div class="soon">
+        <p class="soon-title" data-i18n="soon">这个模块还在开发中</p>
+        <p class="soon-hint" data-i18n="subtitle">把想做的事写下来，完成一项就轻轻打个勾。</p>
+      </div>
+    </section>
+
+    <section class="view" id="view-settings" data-view="settings" hidden>
+      <header class="view-head">
+        <h1 class="view-title" data-i18n="navSettings">设置</h1>
+      </header>
+      <div class="soon">
+        <p class="soon-title" data-i18n="soon">这个模块还在开发中</p>
+        <p class="soon-hint" data-i18n="subtitle">把想做的事写下来，完成一项就轻轻打个勾。</p>
+      </div>
+    </section>
+
+    <span id="cloudHost" class="cloud-host" hidden></span>
+  </main>
 </div>
 
 <!-- ═══ 登录 / 账号弹窗（默认隐藏；点用户图标或底部状态栏呼出）═══ -->
@@ -156,7 +240,6 @@
       </form>
     </div>
 
-    <!-- 已登录时显示的账号信息 -->
     <div class="auth-account" id="authAccount" hidden>
       <p class="auth-account-label" data-i18n="accountLabel">当前账号</p>
       <p class="auth-account-mail" id="authAccountMail"></p>
@@ -170,6 +253,6 @@
 
 <!-- Supabase 客户端：加载失败也不影响本地功能 -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin="anonymous"></script>
-<script src="app.js?v=12"></script>
+<script src="app.js?v=13"></script>
 </body>
 </html>

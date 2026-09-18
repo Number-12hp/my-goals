@@ -18,6 +18,24 @@
   const THEME_KEY = 'xiaomubiao.theme.v1';
   const LANG_KEY  = 'xiaomubiao.lang.v1';
   const OFFLINE_KEY = 'xiaomubiao.offline.v1';   // 记住"我选择离线使用"
+  const TOMB_KEY  = 'xiaomubiao.tombstones.v1';  // 已删除 id 的墓碑（防止删掉的记录复活）
+
+  /* ══════════════════ 初始数据 ══════════════════
+     故意留空：新用户面对干净的列表。
+     （之前这里会塞两条演示目标，注册登录时会被当成真实数据同步到云端，
+       造成无效数据堆积，所以去掉了。） */
+  const defaultGoals = [];
+
+  /* 删除墓碑
+     ───────────────────────────────────────────
+     我们用"真删除"（云端 data 行会被真的删掉），但真删除有个经典问题：
+     另一台设备本地还留着这条记录，它下次同步会把它重新 upsert 回云端 —— 也就是"复活"。
+     解决办法就是墓碑：本地记下"我在什么时间删了哪条"，
+     下次拉取时发现云端又出现了它，就再删一次；
+     本地待推送的也不会再上传它。
+     墓碑保留 30 天后自动清理（足够覆盖设备长期离线的场景）。 */
+  const TOMB_TTL = 30 * 24 * 3600 * 1000;
+  let tombstones = new Map();   // id -> 删除时间（毫秒）
 
   /* ══════════════════ 云端配置 ══════════════════
      这里必须是【不带路径】的项目根地址。
@@ -50,6 +68,18 @@
       MN: ['1月', '2月', '3月', '4月', '5月', '6月',
            '7月', '8月', '9月', '10月', '11月', '12月'],
       WD: ['日', '一', '二', '三', '四', '五', '六'],
+
+      navGoals: "目标",
+
+      navCalendar: "日历",
+
+      navStats: "统计",
+
+      navSettings: "设置",
+
+      soon: "这个模块还在开发中",
+
+      progress: "今日完成进度",
 
       authAria: "登录 / 账号", accountLabel: "当前账号",
 
@@ -108,6 +138,18 @@
            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       WD: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 
+      navGoals: "Goals",
+
+      navCalendar: "Calendar",
+
+      navStats: "Stats",
+
+      navSettings: "Settings",
+
+      soon: "This section is still being built",
+
+      progress: "Today's progress",
+
       authAria: "Sign in / account", accountLabel: "Signed in as",
 
       langAria: 'Switch language', themeAria: 'Switch dark / light',
@@ -164,6 +206,18 @@
       MN: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
            'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
       WD: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
+
+      navGoals: "เป้าหมาย",
+
+      navCalendar: "ปฏิทิน",
+
+      navStats: "สถิติ",
+
+      navSettings: "ตั้งค่า",
+
+      soon: "ส่วนนี้ยังอยู่ระหว่างพัฒนา",
+
+      progress: "ความคืบหน้าวันนี้",
 
       authAria: "เข้าสู่ระบบ / บัญชี", accountLabel: "บัญชีที่ใช้อยู่",
 
@@ -223,6 +277,18 @@
            'Th7', 'Th8', 'Th9', 'Th10', 'Th11', 'Th12'],
       WD: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
 
+      navGoals: "Mục tiêu",
+
+      navCalendar: "Lịch",
+
+      navStats: "Thống kê",
+
+      navSettings: "Cài đặt",
+
+      soon: "Mục này đang được xây dựng",
+
+      progress: "Tiến độ hôm nay",
+
       authAria: "Đăng nhập / tài khoản", accountLabel: "Đang đăng nhập",
 
       langAria: 'Đổi ngôn ngữ', themeAria: 'Đổi chế độ tối / sáng',
@@ -279,6 +345,18 @@
       MN: ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun',
            'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'],
       WD: ['Ahd', 'Isn', 'Sel', 'Rab', 'Kha', 'Jum', 'Sab'],
+
+      navGoals: "Sasaran",
+
+      navCalendar: "Kalendar",
+
+      navStats: "Statistik",
+
+      navSettings: "Tetapan",
+
+      soon: "Bahagian ini masih dibina",
+
+      progress: "Kemajuan hari ini",
 
       authAria: "Log masuk / akaun", accountLabel: "Akaun semasa",
 
@@ -338,6 +416,18 @@
            'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
       WD: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
 
+      navGoals: "Target",
+
+      navCalendar: "Kalender",
+
+      navStats: "Statistik",
+
+      navSettings: "Pengaturan",
+
+      soon: "Bagian ini masih dikembangkan",
+
+      progress: "Kemajuan hari ini",
+
       authAria: "Masuk / akun", accountLabel: "Akun saat ini",
 
       langAria: 'Ganti bahasa', themeAria: 'Ganti mode gelap / terang',
@@ -395,6 +485,18 @@
       MN: ['जन', 'फ़र', 'मार्च', 'अप्रै', 'मई', 'जून',
            'जुल', 'अग', 'सित', 'अक्ट', 'नव', 'दिस'],
       WD: ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि'],
+
+      navGoals: "लक्ष्य",
+
+      navCalendar: "कैलेंडर",
+
+      navStats: "आँकड़े",
+
+      navSettings: "सेटिंग",
+
+      soon: "यह भाग अभी बन रहा है",
+
+      progress: "आज की प्रगति",
 
       authAria: "साइन इन / खाता", accountLabel: "वर्तमान खाता",
 
@@ -543,6 +645,8 @@
   const syncText    = $('syncText');
   const syncProgress= $('syncProgress');
   const signOutBtn  = $('signOutBtn');
+  const navEl       = $('nav');
+  const progressCard= $('progressCard');
 
   let goals   = [];
   let filter  = 'undone';
@@ -691,18 +795,88 @@
     syncTimer = setTimeout(() => { pushChanges(); }, 600);
   }
 
-  // 把本地待推送的改动写到云端
+  /* ---------------- 墓碑读写 ---------------- */
+
+  function loadTombstones() {
+    try {
+      const raw = storage.get(TOMB_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      const cutoff = nowMs() - TOMB_TTL;
+      const fresh = (Array.isArray(arr) ? arr : []).filter(x => x && x.id && (x.at || 0) > cutoff);
+      tombstones = new Map(fresh.map(x => [String(x.id), x.at || 0]));
+    } catch (e) {
+      console.warn('load tombstones failed', e);
+      tombstones = new Map();
+    }
+  }
+
+  function saveTombstones() {
+    try {
+      const arr = [...tombstones.entries()].map(([id, at]) => ({ id, at }));
+      storage.set(TOMB_KEY, JSON.stringify(arr));
+    } catch (e) {
+      console.warn('save tombstones failed', e);
+    }
+  }
+
+  function markDeleted(ids) {
+    const at = nowMs();
+    (Array.isArray(ids) ? ids : [ids]).forEach(id => tombstones.set(String(id), at));
+    saveTombstones();
+  }
+
+  function clearTombstone(ids) {
+    (Array.isArray(ids) ? ids : [ids]).forEach(id => tombstones.delete(String(id)));
+    saveTombstones();
+  }
+
+  // 已经删过、但云端又冒出同 id 的行 → 收集起来再删一次
+  let pendingHardDelete = new Set();
+
+  /* ---------------- 云端写入 ---------------- */
+
+  // 把本地待推送的改动写到云端（新 id 用 insert，已存在的用 upsert 合并）
   async function pushChanges() {
-    if (!cloud || !session || !dirty.size) return;
-    const ids = [...dirty];
-    const rows = goals.filter(g => ids.includes(g.id)).map(g => toRow(g, session.user.id));
-    if (!rows.length) { dirty.clear(); return; }
+    if (!cloud || !session) return;
+
+    // 先处理"待物理删除"的行：提交后干净，不留垃圾记录
+    if (pendingHardDelete.size) {
+      const ids = [...pendingHardDelete];
+      setSyncState('syncing');
+      try {
+        const { error } = await cloud.from(CLOUD.table).delete().in('id', ids);
+        if (error) throw error;
+        ids.forEach(id => pendingHardDelete.delete(id));
+        dirty && ids.forEach(id => dirty.delete(id));
+        console.log('[sync] 已从云端物理删除 ' + ids.length + ' 行');
+      } catch (e) {
+        console.warn('hard delete failed', e);   // 留着下次再试
+        setSyncState('offline');
+        return;
+      }
+    }
+
+    // 再推送正常改动；墓碑里的 id 绝不上传（否则会把删掉的记录又写回去）
+    const ids = [...dirty].filter(id => !tombstones.has(String(id)));
+    dirty.forEach(id => { if (tombstones.has(String(id))) dirty.delete(id); });
+    if (!ids.length) { if (!pendingHardDelete.size) setSyncState('synced'); return; }
+
+    const rows = goals
+      .filter(g => ids.includes(g.id))
+      .map(g => toRow(g, session.user.id));
+    if (!rows.length) { ids.forEach(id => dirty.delete(id)); return; }
+
     setSyncState('syncing');
     try {
-      const { error } = await cloud.from(CLOUD.table).upsert(rows, { onConflict: 'id' });
+      // 用 insert 而不是 upsert：id 冲突应被暴露出来，而不是静默覆盖别人的数据。
+      // 冲突（23505）说明云端已有这条，改用 upsert 合并即可。
+      let { error } = await cloud.from(CLOUD.table).insert(rows);
+      if (error && String(error.code) === '23505') {
+        ({ error } = await cloud.from(CLOUD.table).upsert(rows, { onConflict: 'id' }));
+      }
       if (error) throw error;
       ids.forEach(id => dirty.delete(id));
-      setSyncState(dirty.size ? 'syncing' : 'synced');
+      setSyncState(dirty.size || pendingHardDelete.size ? 'syncing' : 'synced');
     } catch (e) {
       console.warn('push failed', e);
       setSyncState('offline');
@@ -731,10 +905,19 @@
 
       const remoteRows = data || [];
       const byId = new Map(goals.map(g => [g.id, g]));
-      let changed = false, downloaded = 0, keptLocal = 0;
+      let changed = false, downloaded = 0, keptLocal = 0, resurrected = 0;
 
       for (const row of remoteRows) {
         const remote = fromRow(row);
+
+        // 墓碑优先：这条我在本地删过，云端却又出现了 → 不收下来，反过来把它删掉。
+        // 这样"另一台离线设备把删掉的记录重新上传"也不会让它复活。
+        if (tombstones.has(String(remote.id))) {
+          pendingHardDelete.add(String(remote.id));
+          resurrected++;
+          continue;
+        }
+
         const local = byId.get(remote.id);
         if (!local) {
           byId.set(remote.id, remote);           // 云端有、本地没有 → 下载
@@ -754,9 +937,14 @@
         }
       }
 
-      // 本地有、云端没有的（离线新建）→ 待上传
+      // 本地有、云端没有的（离线新建）→ 待上传。
+      // 但墓碑里的不算"离线新建"，那是刚被删掉的，不能再传上去。
       const remoteIds = new Set(remoteRows.map(r => r.id));
-      goals.forEach(g => { if (!remoteIds.has(g.id)) dirty.add(g.id); });
+      goals.forEach(g => {
+        if (remoteIds.has(g.id)) return;
+        if (tombstones.has(String(g.id))) { pendingHardDelete.add(String(g.id)); return; }
+        dirty.add(g.id);
+      });
 
       // 防误清护栏：云端非空 + 本地一条可见目标都没有 + 没有待上传的东西
       // → 只下载，不上传（避免"空浏览器首次登录"把云端理解成空清单）
@@ -775,10 +963,11 @@
         return;
       }
 
-      // 合并完成后再推送；推送是 per-id upsert，不会删除云端任何行
+      // 合并完成后：先处理待物理删除的行，再推送本地改动
       await pushChanges();
-      if (dirty.size === 0) setSyncState('synced');
-      console.log(`[sync] 云端 ${remoteRows.length} 行 → 下载/更新 ${downloaded}，本地更新回推 ${keptLocal}`);
+      if (dirty.size === 0 && pendingHardDelete.size === 0) setSyncState('synced');
+      console.log(`[sync] 云端 ${remoteRows.length} 行 → 下载/更新 ${downloaded}，` +
+        `本地回推 ${keptLocal}，拦截复活 ${resurrected}，待物理删除 ${pendingHardDelete.size}`);
     } catch (e) {
       console.warn('pull failed', e);
       setSyncState('offline');
@@ -1051,12 +1240,26 @@
     renderSyncBar();
   }
 
-  // 进度显示在底部状态栏（统计卡片已移除）
+  // 今日完成进度：渲染进目标视图顶部的 #progressCard，同时同步底部状态栏
   function renderStats() {
     const list = visibleGoals();
     const total = list.length;
     const done = list.filter(g => g.done).length;
+    const open = total - done;
     const pct = total ? Math.round((done / total) * 100) : 0;
+
+    if (progressCard) {
+      const note = total
+        ? `${esc(t('statActive'))} ${open} · ${esc(t('statDone'))} ${done} · ${esc(t('statAll'))} ${total}`
+        : esc(t('emptyNoGoals'));
+      progressCard.innerHTML = `
+        <div class="progress-top">
+          <span class="progress-label">${esc(t('progress'))}</span>
+          <span class="progress-value">${pct}%</span>
+        </div>
+        <div class="progress-bar"><i style="width:${pct}%"></i></div>
+        <div class="progress-note">${note}</div>`;
+    }
     if (syncProgress) {
       syncProgress.textContent = total ? `${pct}% · ${t('statDone')} ${done}/${total}` : '';
     }
@@ -1214,6 +1417,30 @@
     placeThumb(typeSeg);
   }
   function markThumbReady(seg) { if (seg) seg.dataset.ready = '1'; }
+
+  /* ---------------- 导航切换（侧栏 / 手机底部菜单） ---------------- */
+
+  function showView(name) {
+    const id = 'view-' + name;
+    const target = document.getElementById(id);
+    if (!target) return;
+    D.querySelectorAll('.view').forEach(v => { v.hidden = (v.id !== id); });
+    if (navEl) {
+      navEl.querySelectorAll('[data-view]').forEach(b =>
+        b.classList.toggle('on', b.dataset.view === name));
+    }
+    // 切回目标视图时容器尺寸变了，分段选择器的滑块要重新对准
+    if (name === 'goals') relayoutSegments();
+  }
+
+  function wireNav() {
+    if (!navEl) return;
+    navEl.addEventListener('click', e => {
+      const btn = e.target.closest('[data-view]');
+      if (!btn) return;
+      showView(btn.dataset.view);
+    });
+  }
 
   /* ---------------- 静态文案与语言 ---------------- */
 
@@ -1456,7 +1683,7 @@
     undoEl.addEventListener('click', e => {
       if (e.target.closest('[data-undo]')) {
         if (undoStack) {
-          // 撤销删除：把之前标记为删除的记录恢复
+          // 撤销删除：恢复记录、撤掉墓碑，并让它们重新上传到云端
           const before = new Map(goals.map(g => [g.id, g]));
           const stamp = nowMs();
           goals = undoStack.map(g => {
@@ -1464,8 +1691,13 @@
             const keep = cur || g;
             return { ...keep, deletedAt: null, updatedAt: stamp };
           });
-          undoStack.forEach(g => dirty.add(g.id));
-          save(undoStack.map(g => g.id));
+          const ids = undoStack.map(g => g.id);
+          clearTombstone(ids);                        // 不再是"已删除"
+          ids.forEach(id => {
+            pendingHardDelete.delete(String(id));     // 取消待物理删除
+            dirty.add(id);                            // 重新推回云端
+          });
+          save(ids);
           render();
           toast(t('tUndo'));
         }
@@ -1491,10 +1723,13 @@
       if (!safeConfirm(t('cDelete', g.title))) return;
       const snapshot = goals.slice();
       const finish = () => {
-        // 软删除：留在数组里打标记，才能同步给其他设备
-        g.deletedAt = nowMs();
-        g.updatedAt = nowMs();
-        save([g.id]);
+        // 真删除：从本地数组移除 + 记墓碑 + 让云端也把这一行删掉。
+        // 墓碑用于防止"另一台离线设备把它重新上传"导致复活。
+        goals = goals.filter(x => x.id !== g.id);
+        markDeleted([g.id]);
+        dirty.delete(g.id);
+        pendingHardDelete.add(String(g.id));
+        save();                      // 落本地并触发同步（pushChanges 会做 delete）
         render();
         showUndo(t('tDeleted', g.title), snapshot);
       };
@@ -1520,9 +1755,13 @@
     if (!done.length) return toast(t('tNoDone'));
     if (!safeConfirm(t('cClear', done.length))) return;
     const snapshot = goals.slice();
-    const stamp = nowMs();
-    done.forEach(g => { g.deletedAt = stamp; g.updatedAt = stamp; });
-    save(done.map(g => g.id));
+    const ids = done.map(g => g.id);
+    // 与单条删除一致：清空已完成也是真删除 + 记墓碑
+    goals = goals.filter(g => !ids.includes(g.id));
+    markDeleted(ids);
+    ids.forEach(id => dirty.delete(id));
+    ids.forEach(id => pendingHardDelete.add(String(id)));
+    save();
     render();
     showUndo(t('tCleared', done.length), snapshot);
   });
@@ -1573,6 +1812,7 @@
   function boot() {
     lang = detectLang();
     goals = loadLocal();
+    loadTombstones();          // 恢复已删除 id 的墓碑（防止删掉的记录复活）
     bootedFromLocal = goals.length > 0;
 
     let savedTheme = null;
@@ -1591,6 +1831,8 @@
     render();
     showCloudHint();
     wireAuthUI();
+    wireNav();
+    showView('goals');        // 默认落在"目标"视图
     renderAuth();
 
     relayoutSegments();
@@ -1598,26 +1840,16 @@
     markThumbReady(typeSeg);
     if (W.addEventListener) W.addEventListener('resize', () => relayoutSegments());
 
-    // 首次打开给一点示例（仅本地为空时）
-    if (!goals.length) {
-      const demo = {
-        zh: ['看一部一直想看的电影', '读完一本搁置很久的书'],
-        en: ['Watch a movie I keep meaning to see', 'Finish a book I put down long ago'],
-        th: ['ดูหนังที่อยากดูมานาน', 'อ่านหนังสือที่ค้างไว้นานแล้ว'],
-        vi: ['Xem một bộ phim đã muốn xem từ lâu', 'Đọc xong cuốn sách bỏ dở'],
-        ms: ['Tonton filem yang lama teringin', 'Habiskan buku yang tergendala'],
-        id: ['Tonton film yang lama ingin ditonton', 'Selesaikan buku yang tertunda'],
-        hi: ['वह फ़िल्म देखें जो लंबे समय से देखनी थी', 'वह किताब पूरी करें जो अधूरी रह गई']
-      };
-      const [a, b] = demo[lang] || demo.zh;
-      const stamp = nowMs();
-      goals = [
-        { id: uid(), title: a, scope: 'week', type: 'side', date: todayStr(),
-          done: false, doneAt: null, createdAt: stamp, updatedAt: stamp, deletedAt: null },
-        { id: uid(), title: b, scope: 'month', type: 'main', date: todayStr(),
-          done: false, doneAt: null, createdAt: stamp + 1, updatedAt: stamp + 1, deletedAt: null }
-      ];
-      save(goals.map(g => g.id));
+    // 初始数据为空：新用户面对干净的列表（不再塞演示数据，避免污染云端）
+    if (!goals.length && defaultGoals.length) {
+      goals = defaultGoals.map((g, i) => ({
+        ...g,
+        id: g.id || uid(),
+        createdAt: g.createdAt || (nowMs() + i),
+        updatedAt: g.updatedAt || (nowMs() + i),
+        deletedAt: null
+      }));
+      save();
       render();
     }
 
