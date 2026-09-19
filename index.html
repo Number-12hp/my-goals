@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#faf9ff" />
 <title>DonePlan</title>
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="style.css?v=14" />
 </head>
 <body>
 
@@ -105,6 +105,27 @@
             </button>
           </div>
 
+          <!-- 配色皮肤：4 个色块，点一下整套变量跟着换 -->
+          <div class="panel-skins" id="skinRow" role="radiogroup"
+               aria-label="主题" data-i18n-aria="themeShort">
+            <button class="skin" type="button" role="radio" aria-checked="true" data-skin="paper">
+              <span class="skin-chip skin-paper" aria-hidden="true"></span>
+              <span class="panel-label" data-i18n="skinPaper">纸墨</span>
+            </button>
+            <button class="skin" type="button" role="radio" aria-checked="false" data-skin="iris">
+              <span class="skin-chip skin-iris" aria-hidden="true"></span>
+              <span class="panel-label" data-i18n="skinIris">鸢尾</span>
+            </button>
+            <button class="skin" type="button" role="radio" aria-checked="false" data-skin="cobalt">
+              <span class="skin-chip skin-cobalt" aria-hidden="true"></span>
+              <span class="panel-label" data-i18n="skinCobalt">钴蓝</span>
+            </button>
+            <button class="skin" type="button" role="radio" aria-checked="false" data-skin="lime">
+              <span class="skin-chip skin-lime" aria-hidden="true"></span>
+              <span class="panel-label" data-i18n="skinLime">青柠</span>
+            </button>
+          </div>
+
           <!-- 语言手风琴：撑开的是面板自身，不再有浮在外面的下拉层 -->
           <div id="langMenu" class="lang-acc" role="menu" hidden></div>
         </div>
@@ -193,16 +214,38 @@
       </footer>
     </section>
 
-    <!-- ───── 其余视图：占位（后续实现）───── -->
+    <!-- ───── 视图二：日历 ───── -->
     <section class="view" id="view-calendar" data-view="calendar" hidden>
       <header class="view-head">
         <h1 class="view-title" data-i18n="navCalendar">日历</h1>
+        <p class="view-sub" data-i18n="calSub">点任意日期，看那天的计划。</p>
       </header>
-      <div class="soon">
-        <p class="soon-title" data-i18n="soon">这个模块还在开发中</p>
-        <p class="soon-hint" data-i18n="subtitle">把想做的事写下来，完成一项就轻轻打个勾。</p>
+
+      <div class="cal-card">
+        <div class="cal-top">
+          <button class="cal-nav" id="calPrev" type="button" aria-label="上个月" data-i18n-aria="calPrev">‹</button>
+          <span class="cal-title" id="calTitle">2026 年 9 月</span>
+          <button class="cal-nav" id="calNext" type="button" aria-label="下个月" data-i18n-aria="calNext">›</button>
+        </div>
+        <div class="cal-grid" id="calGrid" role="grid" aria-label="月历" data-i18n-aria="navCalendar"></div>
+        <div class="cal-legend">
+          <span class="lg todo"><i aria-hidden="true"></i><span data-i18n="calNone">未完成</span></span>
+          <span class="lg part"><i aria-hidden="true"></i><span data-i18n="calPart">部分完成</span></span>
+          <span class="lg all"><i aria-hidden="true"></i><span data-i18n="calAll">全部完成</span></span>
+        </div>
+      </div>
+
+      <div class="cal-daycard">
+        <div class="cal-dayhead">
+          <span class="cal-daytitle" id="calDayHead"></span>
+          <span class="cal-count" id="calCount"></span>
+        </div>
+        <div class="list" id="calList" hidden></div>
+        <p class="cal-empty" id="calEmpty" data-i18n="calNoTask">这天没有计划</p>
       </div>
     </section>
+
+    <!-- ───── 其余视图：占位（后续实现）───── -->
 
     <section class="view" id="view-stats" data-view="stats" hidden>
       <header class="view-head">

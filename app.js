@@ -80,6 +80,12 @@
       menuLabel: '菜单', langShort: '语言',
       themeShort: '主题', userShort: '账号',
 
+      calSub: '点任意日期，看那天的计划。',
+      calNone: '未完成', calPart: '部分完成', calAll: '全部完成',
+      calDone: '完成', calNoTask: '这天没有计划',
+      calPrev: '上个月', calNext: '下个月',
+      skinPaper: '纸墨', skinIris: '鸢尾', skinCobalt: '钴蓝', skinLime: '青柠',
+
       soon: "这个模块还在开发中",
 
       progress: "今日完成进度",
@@ -152,6 +158,12 @@
       menuLabel: 'Menu', langShort: 'Language',
       themeShort: 'Theme', userShort: 'Account',
 
+      calSub: 'Tap any day to see its plans.',
+      calNone: 'Not done', calPart: 'Partly done', calAll: 'All done',
+      calDone: 'Done', calNoTask: 'Nothing planned for this day',
+      calPrev: 'Previous month', calNext: 'Next month',
+      skinPaper: 'Paper', skinIris: 'Iris', skinCobalt: 'Cobalt', skinLime: 'Lime',
+
       soon: "This section is still being built",
 
       progress: "Today's progress",
@@ -223,6 +235,12 @@
 
       menuLabel: 'เมนู', langShort: 'ภาษา',
       themeShort: 'ธีม', userShort: 'บัญชี',
+
+      calSub: 'แตะวันใดก็ได้เพื่อดูแผนของวันนั้น',
+      calNone: 'ยังไม่เสร็จ', calPart: 'เสร็จบางส่วน', calAll: 'เสร็จทั้งหมด',
+      calDone: 'เสร็จ', calNoTask: 'วันนี้ไม่มีแผน',
+      calPrev: 'เดือนก่อน', calNext: 'เดือนถัดไป',
+      skinPaper: 'กระดาษ', skinIris: 'ไอริส', skinCobalt: 'โคบอลต์', skinLime: 'มะนาว',
 
       soon: "ส่วนนี้ยังอยู่ระหว่างพัฒนา",
 
@@ -297,6 +315,12 @@
       menuLabel: 'Menu', langShort: 'Ngôn ngữ',
       themeShort: 'Giao diện', userShort: 'Tài khoản',
 
+      calSub: 'Chạm vào một ngày để xem kế hoạch.',
+      calNone: 'Chưa xong', calPart: 'Xong một phần', calAll: 'Xong hết',
+      calDone: 'Xong', calNoTask: 'Ngày này không có kế hoạch',
+      calPrev: 'Tháng trước', calNext: 'Tháng sau',
+      skinPaper: 'Giấy mực', skinIris: 'Diên vĩ', skinCobalt: 'Coban', skinLime: 'Chanh',
+
       soon: "Mục này đang được xây dựng",
 
       progress: "Tiến độ hôm nay",
@@ -368,6 +392,12 @@
 
       menuLabel: 'Menu', langShort: 'Bahasa',
       themeShort: 'Tema', userShort: 'Akaun',
+
+      calSub: 'Ketik mana-mana hari untuk lihat rancangan.',
+      calNone: 'Belum selesai', calPart: 'Sebahagian selesai', calAll: 'Semua selesai',
+      calDone: 'Selesai', calNoTask: 'Tiada rancangan untuk hari ini',
+      calPrev: 'Bulan lepas', calNext: 'Bulan depan',
+      skinPaper: 'Kertas', skinIris: 'Iris', skinCobalt: 'Kobalt', skinLime: 'Limau',
 
       soon: "Bahagian ini masih dibina",
 
@@ -442,6 +472,12 @@
       menuLabel: 'Menu', langShort: 'Bahasa',
       themeShort: 'Tema', userShort: 'Akun',
 
+      calSub: 'Ketuk tanggal mana pun untuk melihat rencana.',
+      calNone: 'Belum selesai', calPart: 'Sebagian selesai', calAll: 'Semua selesai',
+      calDone: 'Selesai', calNoTask: 'Tidak ada rencana hari ini',
+      calPrev: 'Bulan sebelumnya', calNext: 'Bulan berikutnya',
+      skinPaper: 'Kertas', skinIris: 'Iris', skinCobalt: 'Kobalt', skinLime: 'Jeruk nipis',
+
       soon: "Bagian ini masih dikembangkan",
 
       progress: "Kemajuan hari ini",
@@ -514,6 +550,12 @@
 
       menuLabel: 'मेनू', langShort: 'भाषा',
       themeShort: 'थीम', userShort: 'खाता',
+
+      calSub: 'किसी भी दिन पर टैप करें और उसका प्लान देखें।',
+      calNone: 'बाकी', calPart: 'कुछ पूरा', calAll: 'सब पूरा',
+      calDone: 'पूरा', calNoTask: 'इस दिन कोई प्लान नहीं',
+      calPrev: 'पिछला महीना', calNext: 'अगला महीना',
+      skinPaper: 'कागज़', skinIris: 'आइरिस', skinCobalt: 'कोबाल्ट', skinLime: 'नींबू',
 
       soon: "यह भाग अभी बन रहा है",
 
@@ -672,6 +714,15 @@
   const menuWrap    = $('menuWrap');
   const toolPanel   = $('toolPanel');
   const themeGlyph  = $('themeGlyph');
+  const skinRow     = $('skinRow');
+  const calTitle    = $('calTitle');
+  const calGrid     = $('calGrid');
+  const calPrev     = $('calPrev');
+  const calNext     = $('calNext');
+  const calDayHead  = $('calDayHead');
+  const calCount    = $('calCount');
+  const calList     = $('calList');
+  const calEmpty    = $('calEmpty');
 
   let goals   = [];
   let filter  = 'undone';
@@ -1263,6 +1314,7 @@
     renderStats();
     renderBoard();
     renderArchive();
+    renderCalendar();      // 日历跟同一份数据走，勾完立刻反映到格子上
     syncChips();
     renderSyncBar();
   }
@@ -1612,6 +1664,91 @@
     }
   });
 
+  /* ══════════════════ 日历视图 ══════════════════ */
+
+  let calYear = 0, calMonth = 0, calSel = '';
+
+  function initCalCursor() {
+    const d = parseDate(todayStr());
+    calYear = d.getFullYear();
+    calMonth = d.getMonth();
+    calSel = todayStr();
+  }
+
+  // 某一天的计划与完成情况：格子上那行小字、以及下方列表都用它
+  function dayStats(dateStr) {
+    const list = visibleGoals().filter(g => g.date === dateStr);
+    const done = list.filter(g => g.done).length;
+    return { list, total: list.length, done };
+  }
+
+  function renderCalendar() {
+    if (!calGrid) return;
+    if (!calSel) initCalCursor();
+
+    const wd = (STRINGS[lang] || STRINGS.zh).WD;
+    const startWd = new Date(calYear, calMonth, 1).getDay();
+    const days = new Date(calYear, calMonth + 1, 0).getDate();
+    const todayS = todayStr();
+
+    if (calTitle) calTitle.textContent = t('uMonth', calYear, calMonth + 1);
+
+    let html = wd.map(w => `<span class="cal-wd">${esc(w)}</span>`).join('');
+    for (let i = 0; i < startWd; i++) html += '<span class="cal-pad"></span>';
+
+    for (let d = 1; d <= days; d++) {
+      const ds = `${calYear}-${pad(calMonth + 1)}-${pad(d)}`;
+      const st = dayStats(ds);
+      // 状态三档：没做 / 做了一部分 / 全做完（图例同色）
+      const state = (!st.total || !st.done) ? 'todo'
+        : (st.done === st.total ? 'all' : 'part');
+      const label = t('uDay', calMonth + 1, d, wd[new Date(calYear, calMonth, d).getDay()])
+        + (st.total ? ` · ${t('calDone')} ${st.done}/${st.total}` : '');
+      html += `
+        <button class="cal-day ${state}${ds === todayS ? ' today' : ''}${ds === calSel ? ' on' : ''}"
+                type="button" data-date="${ds}" aria-label="${esc(label)}"
+                aria-pressed="${ds === calSel}">
+          <span class="n">${d}</span>
+          <span class="cal-meta">${st.total ? st.done + '/' + st.total : ''}</span>
+        </button>`;
+    }
+    calGrid.innerHTML = html;
+    renderCalDay();
+  }
+
+  function renderCalDay() {
+    if (!calDayHead || !calList) return;
+    const d = parseDate(calSel);
+    const wd = (STRINGS[lang] || STRINGS.zh).WD[d.getDay()];
+    const st = dayStats(calSel);
+
+    calDayHead.textContent = t('uDay', d.getMonth() + 1, d.getDate(), wd);
+    if (calCount) calCount.textContent = st.total ? `${t('calDone')} ${st.done}/${st.total}` : '';
+    // 直接复用看板的卡片标记：勾选 / 删除的委托挂在 document 上，这里白拿一套。
+    // 第二个参数传 g.done —— 已完成的要显示成"已完成"（否则和没做的长得一样）。
+    calList.innerHTML = st.list.map(g => cardMarkup(g, !!g.done)).join('');
+    calList.hidden = st.total === 0;
+    if (calEmpty) calEmpty.hidden = st.total > 0;
+  }
+
+  function shiftMonth(n) {
+    const d = new Date(calYear, calMonth + n, 1);
+    calYear = d.getFullYear();
+    calMonth = d.getMonth();
+    renderCalendar();
+  }
+
+  if (calPrev) calPrev.addEventListener('click', () => shiftMonth(-1));
+  if (calNext) calNext.addEventListener('click', () => shiftMonth(1));
+  if (calGrid) {
+    calGrid.addEventListener('click', e => {
+      const btn = e.target.closest('[data-date]');
+      if (!btn) return;
+      calSel = btn.dataset.date;
+      renderCalendar();
+    });
+  }
+
   /* ---------------- 交互 ---------------- */
 
   scopeSeg.addEventListener('click', e => {
@@ -1854,6 +1991,31 @@
     }
   });
 
+  /* ---------------- 配色皮肤 ---------------- */
+
+  const SKIN_KEY = 'xiaomubiao.skin.v1';
+  const SKINS = ['paper', 'iris', 'cobalt', 'lime'];
+  let skin = 'paper';
+
+  function applySkin(name) {
+    skin = SKINS.indexOf(name) >= 0 ? name : 'paper';
+    // 默认的"纸墨"就是 :root 本身，写上去也不会命中任何皮肤规则
+    document.documentElement.dataset.skin = skin;
+    try { storage.set(SKIN_KEY, skin); } catch (e) {}
+    if (skinRow) {
+      skinRow.querySelectorAll('[data-skin]').forEach(b =>
+        b.setAttribute('aria-checked', String(b.dataset.skin === skin)));
+    }
+  }
+
+  if (skinRow) {
+    skinRow.addEventListener('click', e => {
+      const btn = e.target.closest('[data-skin]');
+      if (!btn) return;
+      applySkin(btn.dataset.skin);
+    });
+  }
+
   /* ---------------- 初始化 ---------------- */
 
   function showCloudHint() {
@@ -1883,6 +2045,10 @@
         ? 'dark' : 'light';
     }
     applyTheme(savedTheme);
+
+    let savedSkin = null;
+    try { savedSkin = storage.get(SKIN_KEY); } catch (e) {}
+    applySkin(savedSkin || 'paper');
 
     dateInput.value = todayStr();
     applyStatic();
