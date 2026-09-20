@@ -122,7 +122,9 @@
       uMonth: (y, m) => `${y}年${m}月`,
       uWeek: (y, w) => `${y}年第${w}周`,
       uDay: (m, d, wd) => `${m}月${d}日 周${wd}`,
-      overdue: '已过期',
+      overdue: '已逾期', overdueBy: n => `已逾期 ${n} 天`, reschedule: '改期',
+      doneStamp: (m, d, h, mi) => `${m}月${d}日 ${h}:${mi}`,
+      doneStampY: (y, m, d, h, mi) => `${y}年${m}月${d}日 ${h}:${mi}`,
       justNow: '刚刚完成',
       minAgo: n => `${n} 分钟前完成`,
       todayAt: (h, m) => `今天 ${h}:${m} 完成`,
@@ -211,7 +213,9 @@
       uMonth: (y, m) => `${STRINGS.en.MN[m - 1]} ${y}`,
       uWeek: (y, w) => `Week ${w}, ${y}`,
       uDay: (m, d, wd) => `${STRINGS.en.MN[m - 1]} ${d}, ${wd}`,
-      overdue: 'Overdue',
+      overdue: 'Overdue', overdueBy: n => `Overdue ${n}d`, reschedule: 'Reschedule',
+      doneStamp: (m, d, h, mi) => `${STRINGS.en.MN[m - 1]} ${d}, ${h}:${mi}`,
+      doneStampY: (y, m, d, h, mi) => `${STRINGS.en.MN[m - 1]} ${d}, ${y} · ${h}:${mi}`,
       justNow: 'just completed',
       minAgo: n => `completed ${n} min ago`,
       todayAt: (h, m) => `completed today ${h}:${m}`,
@@ -301,7 +305,9 @@
       uMonth: (y, m) => `${STRINGS.th.MN[m - 1]} ${y + 543}`,
       uWeek: (y, w) => `สัปดาห์ที่ ${w} ปี ${y + 543}`,
       uDay: (m, d, wd) => `${d} ${STRINGS.th.MN[m - 1]} ${wd}`,
-      overdue: 'เลยกำหนด',
+      overdue: 'เลยกำหนด', overdueBy: n => `เลยกำหนด ${n} วัน`, reschedule: 'เปลี่ยนวัน',
+      doneStamp: (m, d, h, mi) => `${d} ${STRINGS.th.MN[m - 1]} ${h}:${mi}`,
+      doneStampY: (y, m, d, h, mi) => `${d} ${STRINGS.th.MN[m - 1]} ${y} ${h}:${mi}`,
       justNow: 'เพิ่งเสร็จ',
       minAgo: n => `เสร็จเมื่อ ${n} นาทีที่แล้ว`,
       todayAt: (h, m) => `เสร็จวันนี้ ${h}:${m}`,
@@ -390,7 +396,9 @@
       uMonth: (y, m) => `${STRINGS.vi.MN[m - 1]}/${y}`,
       uWeek: (y, w) => `Tuần ${w}, ${y}`,
       uDay: (m, d, wd) => `${d}/${m}, ${wd}`,
-      overdue: 'Quá hạn',
+      overdue: 'Quá hạn', overdueBy: n => `Quá hạn ${n} ngày`, reschedule: 'Đổi ngày',
+      doneStamp: (m, d, h, mi) => `${d}/${m} ${h}:${mi}`,
+      doneStampY: (y, m, d, h, mi) => `${d}/${m}/${y} ${h}:${mi}`,
       justNow: 'vừa xong',
       minAgo: n => `xong ${n} phút trước`,
       todayAt: (h, m) => `xong hôm nay ${h}:${m}`,
@@ -480,7 +488,9 @@
       uMonth: (y, m) => `${STRINGS.ms.MN[m - 1]} ${y}`,
       uWeek: (y, w) => `Minggu ${w}, ${y}`,
       uDay: (m, d, wd) => `${d} ${STRINGS.ms.MN[m - 1]}, ${wd}`,
-      overdue: 'Lewat',
+      overdue: 'Lewat', overdueBy: n => `Lewat ${n} hari`, reschedule: 'Tukar tarikh',
+      doneStamp: (m, d, h, mi) => `${d} ${STRINGS.ms.MN[m - 1]} ${h}:${mi}`,
+      doneStampY: (y, m, d, h, mi) => `${d} ${STRINGS.ms.MN[m - 1]} ${y} ${h}:${mi}`,
       justNow: 'baru selesai',
       minAgo: n => `selesai ${n} minit lalu`,
       todayAt: (h, m) => `selesai hari ini ${h}:${m}`,
@@ -570,7 +580,9 @@
       uMonth: (y, m) => `${STRINGS.id.MN[m - 1]} ${y}`,
       uWeek: (y, w) => `Minggu ${w}, ${y}`,
       uDay: (m, d, wd) => `${d} ${STRINGS.id.MN[m - 1]}, ${wd}`,
-      overdue: 'Terlambat',
+      overdue: 'Terlambat', overdueBy: n => `Terlambat ${n} hari`, reschedule: 'Ubah tanggal',
+      doneStamp: (m, d, h, mi) => `${d} ${STRINGS.id.MN[m - 1]} ${h}:${mi}`,
+      doneStampY: (y, m, d, h, mi) => `${d} ${STRINGS.id.MN[m - 1]} ${y} ${h}:${mi}`,
       justNow: 'baru selesai',
       minAgo: n => `selesai ${n} menit lalu`,
       todayAt: (h, m) => `selesai hari ini ${h}:${m}`,
@@ -660,7 +672,9 @@
       uMonth: (y, m) => `${STRINGS.hi.MN[m - 1]} ${y}`,
       uWeek: (y, w) => `सप्ताह ${w}, ${y}`,
       uDay: (m, d, wd) => `${d} ${STRINGS.hi.MN[m - 1]}, ${wd}`,
-      overdue: 'समय बीता',
+      overdue: 'समय बीता', overdueBy: n => `${n} दिन देर`, reschedule: 'तारीख़ बदलें',
+      doneStamp: (m, d, h, mi) => `${d} ${STRINGS.hi.MN[m - 1]}, ${h}:${mi}`,
+      doneStampY: (y, m, d, h, mi) => `${d} ${STRINGS.hi.MN[m - 1]} ${y}, ${h}:${mi}`,
       justNow: 'अभी पूरा हुआ',
       minAgo: n => `${n} मिनट पहले पूरा`,
       todayAt: (h, m) => `आज ${h}:${m} पूरा`,
@@ -710,10 +724,11 @@
   const HTML_LANG = { zh: 'zh-CN', en: 'en', th: 'th', vi: 'vi', ms: 'ms', id: 'id', hi: 'hi' };
 
   let lang = 'zh';
-  const t = (k, a, b, c) => {
+  // 注意是变参：doneStamp 这类文案要 m/d/h/分 四个参数（原来写死 (a,b,c) 会吞掉最后一个）
+  const t = (k, ...args) => {
     const dict = STRINGS[lang] || STRINGS.zh;
     const v = dict[k];
-    if (typeof v === 'function') return v(a, b, c);
+    if (typeof v === 'function') return v(...args);
     return v !== undefined ? v : (STRINGS.zh[k] || k);
   };
 
@@ -837,6 +852,22 @@
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
       });
 
+  /* 时间统一用 ISO 字符串存（精确到毫秒）：ISO 本身可以直接排序，
+     也能原样写进 Supabase 的 timestamptz。毫秒数 / ISO / Date 都能吃进来。 */
+  const nowIso = () => new Date().toISOString();
+  function isoOf(v) {
+    if (v === null || v === undefined || v === '') return null;
+    if (typeof v === 'number') return isFinite(v) ? new Date(v).toISOString() : null;
+    const ms = Date.parse(v);
+    return isFinite(ms) ? new Date(ms).toISOString() : null;
+  }
+  // ISO 字符串不能直接相减，排序和比较一律先换成毫秒数
+  const msOf = v => { const i = isoOf(v); return i ? Date.parse(i) : 0; };
+  const isToday = v => {
+    const ms = msOf(v);
+    return !!ms && new Date(ms).toDateString() === new Date().toDateString();
+  };
+
   /* 任何来源的记录（本地缓存 / 云端行 / 新建）都过这一遍：
      补齐 v2 字段 + 把老记录（只有 scope/type/date/done）翻译成新模型。
      旧记录一律当成"带日期的计划"：done → 成就，其余 → 行动。 */
@@ -863,8 +894,12 @@
       // 灵感箱里的条目还没有"行动日"
       actionDate: status === 'inbox' ? null : legacyDate,
       loop: LOOPS[loopRaw] ? loopRaw : 'none',
-      history: Array.isArray(src.history) ? src.history.filter(h => h && h.date) : [],
-      doneAt: src.doneAt || src.done_at || null,
+      // 循环计划的打卡历史：{ at: ISO 时刻, date: 'YYYY-MM-DD' }
+      history: Array.isArray(src.history)
+        ? src.history.filter(h => h && h.date).map(h => ({ at: isoOf(h.at), date: String(h.date) }))
+        : [],
+      // 精确完成时刻：优先用 completed_at（ISO），再退回本地的 doneAt / 旧的 done_at（毫秒）
+      doneAt: isoOf(src.completedAt || src.completed_at || src.doneAt || src.done_at),
       createdAt: src.createdAt || src.created_at || nowMs(),
       updatedAt: src.updatedAt || src.updated_at || src.createdAt || src.created_at || nowMs(),
       deletedAt: src.deletedAt || src.deleted_at || null
@@ -894,7 +929,10 @@
       type: n.entryType === 'idea' ? 'side' : 'main',
       date: n.actionDate || todayStr(),
       done: n.status === 'done',
-      done_at: n.doneAt || null,
+      // 完成时刻两列都写：completed_at 是精确的 timestamptz（成就里显示到分钟），
+      // done_at 是同一时刻的毫秒数（旧 bigint 列，不能让它变空）。
+      completed_at: n.doneAt,
+      done_at: n.doneAt ? msOf(n.doneAt) : null,
       created_at: n.createdAt,
       updated_at: n.updatedAt,
       deleted_at: n.deletedAt || null
@@ -914,6 +952,7 @@
       history: r.history,
       done: r.done,
       date: r.date,
+      completed_at: r.completed_at,
       done_at: r.done_at,
       created_at: r.created_at,
       updated_at: r.updated_at,
@@ -1041,6 +1080,18 @@
 
   /* ---------------- 云端写入 ---------------- */
 
+  // 拉取时要的列：supabase-js 会原样下发这个列表，漏掉的列在返回行里就是 undefined。
+  // 千万别漏 —— 曾经漏了 v2 的 status/category，换设备登录后灵感箱的条目
+  // 会被当成"有日期的计划"落进行动列表。
+  const COLS_FULL = 'id,user_id,title,scope,type,date,done,' +
+    'entry_type,status,category,action_date,loop_rule,history,' +
+    'done_at,completed_at,created_at,updated_at,deleted_at';
+  // 云端还没跑 v3 迁移时的退路（没有 completed_at 这一列）
+  const COLS_BASE = COLS_FULL.replace('completed_at,', '');
+  // Postgres 的"列不存在"。用它来判断该不该退到旧列集合。
+  const isMissingCol = e => String(e && e.code) === '42703';
+  const stripNewCols = row => { const c = { ...row }; delete c.completed_at; return c; };
+
   // 把本地待推送的改动写到云端（新 id 用 insert，已存在的用 upsert 合并）
   async function pushChanges() {
     if (!cloud || !session) return;
@@ -1076,9 +1127,17 @@
     try {
       // 用 insert 而不是 upsert：id 冲突应被暴露出来，而不是静默覆盖别人的数据。
       // 冲突（23505）说明云端已有这条，改用 upsert 合并即可。
-      let { error } = await cloud.from(CLOUD.table).insert(rows);
+      let payload = rows;
+      let { error } = await cloud.from(CLOUD.table).insert(payload);
+      // 42703 = 云端还没有 completed_at 列（v3 迁移没跑）：
+      // 去掉这一列重试一次，宁可少个字段，也别让整个同步挂掉。
+      if (error && isMissingCol(error)) {
+        console.warn('云端没有 completed_at 列，去掉它再试（建议跑 supabase-migrate-v3.sql）');
+        payload = rows.map(stripNewCols);
+        ({ error } = await cloud.from(CLOUD.table).insert(payload));
+      }
       if (error && String(error.code) === '23505') {
-        ({ error } = await cloud.from(CLOUD.table).upsert(rows, { onConflict: 'id' }));
+        ({ error } = await cloud.from(CLOUD.table).upsert(payload, { onConflict: 'id' }));
       }
       if (error) throw error;
       ids.forEach(id => dirty.delete(id));
@@ -1101,12 +1160,19 @@
     if (!cloud || !session) return;
     setSyncState('syncing');
     try {
-      const { data, error } = await cloud
+      // 先按完整列集合拉；撞上"列不存在"就退回不带头部新列的集合。
+      const grab = cols => cloud
         .from(CLOUD.table)
-        .select('id,title,scope,type,date,done,done_at,created_at,updated_at,deleted_at')
+        .select(cols)
         .eq('user_id', session.user.id)
         .order('updated_at', { ascending: true })
         .limit(5000);
+
+      let { data, error } = await grab(COLS_FULL);
+      if (error && isMissingCol(error)) {
+        console.warn('云端缺少 v3 的新列，退回旧列集合拉取（建议跑 supabase-migrate-v3.sql）');
+        ({ data, error } = await grab(COLS_BASE));
+      }
       if (error) throw error;
 
       const remoteRows = data || [];
@@ -1383,16 +1449,16 @@
     const [y, m, d] = s.split('-').map(Number);
     return new Date(y, m - 1, d);
   }
+  // 完成时刻：精确到分钟（成就陈列室里要一眼看出"什么时候做完的"）
   function fmtDoneAt(ts) {
-    if (!ts) return '';
-    const d = new Date(ts);
-    const diff = Date.now() - ts;
-    if (diff < 60000) return t('justNow');
-    if (diff < 3600000) return t('minAgo', Math.floor(diff / 60000));
-    if (d.toDateString() === new Date().toDateString()) {
-      return t('todayAt', pad(d.getHours()), pad(d.getMinutes()));
+    const ms = msOf(ts);
+    if (!ms) return '';
+    const d = new Date(ms);
+    const h = pad(d.getHours()), mi = pad(d.getMinutes());
+    if (d.getFullYear() === new Date().getFullYear()) {
+      return t('doneStamp', d.getMonth() + 1, d.getDate(), h, mi);
     }
-    return t('doneOn', d.getMonth() + 1, d.getDate());
+    return t('doneStampY', d.getFullYear(), d.getMonth() + 1, d.getDate(), h, mi);
   }
   function esc(s) {
     return String(s).replace(/[&<>"']/g, c =>
@@ -1424,23 +1490,23 @@
   function todayStats() {
     const today = todayStr();
     const list = visibleGoals().filter(g => {
-      if (g.status === 'done') {
-        return g.doneAt ? new Date(g.doneAt).toDateString() === new Date().toDateString() : false;
-      }
+      if (g.status === 'done') return isToday(g.doneAt);
       if (g.status !== 'doing' || !g.actionDate) return false;
       return g.actionDate <= today;
     });
     const done = list.filter(g => isCompleteOn(g, today)).length;
-    return { total: list.length, done, open: list.length - done };
+    const late = list.filter(g => overdueDays(g) > 0).length;
+    return { total: list.length, done, open: list.length - done, late };
   }
 
   function renderStats() {
-    const { total, done, open } = todayStats();
+    const { total, done, open, late } = todayStats();
     const pct = total ? Math.round((done / total) * 100) : 0;
 
     if (progressCard) {
       const note = total
         ? `${esc(t('statActive'))} ${open} · ${esc(t('statDone'))} ${done}`
+          + (late ? ` · <span class="note-late">${esc(t('overdue'))} ${late}</span>` : '')
         : esc(t('actionEmpty'));
       progressCard.innerHTML = `
         <div class="progress-top">
@@ -1457,11 +1523,36 @@
 
   /* ---------------- 卡片与两条泳道 ---------------- */
 
-  // 卡片元信息：分类 · 行动日 · 循环 · （循环计划的历史次数 / 完成时间）
+  // 卡片元信息：分类 · 循环 · （循环计划的历史次数 / 完成时刻）
+  const loopName = l => t('loop' + l.charAt(0).toUpperCase() + l.slice(1));
+
+  /* 逾期天数：0 表示没逾期。卡片上的红色警告和顶部进度里的小字都用它。
+     · 一次性计划：行动日过了几天就算几天
+     · 循环计划：以"最后一次打卡"为起点，超过一个周期才算逾期
+       （每天背单词昨天刚打过卡 → 0；连着三天没打 → 2，即真正漏掉的整天数）
+     单看 action_date 会把"每天都在做的习惯"永远标成逾期，所以循环计划必须另算。 */
+  const LOOP_CYCLE = { daily: 1, weekly: 7, monthly: 30 };
+  function overdueDays(g) {
+    if (!g || g.status !== 'doing') return 0;
+    const today = parseDate(todayStr());
+    if (g.loop === 'none') {
+      if (!g.actionDate) return 0;
+      const d = parseDate(g.actionDate);
+      return d < today ? Math.round((today - d) / 86400000) : 0;
+    }
+    const days = (g.history || []).map(h => h.date).filter(Boolean).sort();
+    const from = days.length ? days[days.length - 1] : g.actionDate;
+    if (!from) return 0;
+    const gap = Math.round((today - parseDate(from)) / 86400000);
+    const miss = gap - (LOOP_CYCLE[g.loop] || 1);
+    return miss > 0 ? miss : 0;
+  }
+
   function cardMeta(g, mode) {
     const parts = [catLabel(g.category)];
-    if (g.actionDate) parts.push(periodShort(g.actionDate));
-    if (g.loop !== 'none') parts.push(t('loop' + g.loop.charAt(0).toUpperCase() + g.loop.slice(1)));
+    // 行动列表里的日期单独做成可点的"改期"按钮，这里不再重复一遍；
+    // 成就里的日期则是"什么时候做完的"，所以只显示完成时刻。
+    if (g.loop !== 'none') parts.push(loopName(g.loop));
     const hist = (g.history || []).length;
     if (g.loop !== 'none' && hist) parts.push(t('loopTimes', hist));
     if (mode === 'done' && g.doneAt) parts.push(fmtDoneAt(g.doneAt));
@@ -1477,15 +1568,17 @@
 
   function cardMarkup(g, mode) {
     const done = mode === 'done';
-    const checkTitle = done ? t('undoDone') : (g.loop !== 'none' ? t('markDone') : t('markDone'));
+    const checkTitle = done ? t('undoDone') : t('markDone');
     const tag = g.entryType === 'idea'
       ? `<span class="tag tag-idea">${esc(t('tagIdea'))}</span>`
       : `<span class="tag tag-plan">${esc(t('tagPlan'))}</span>`;
     const doneToday = g.loop !== 'none' && isCompleteOn(g, todayStr());
-    const overdue = !done && g.actionDate && g.actionDate < todayStr();
+    // 逾期：排期过了还没完成 → 整张卡转红 + 一枚红标签。
+    // 这类条目只会留在行动列表里当"刺"，不会被退回灵感箱。
+    const late = done ? 0 : overdueDays(g);
 
     return `
-      <div class="card${done ? ' done is-done' : ''}${g.id === popId ? ' pop' : ''}"
+      <div class="card${done ? ' done is-done' : ''}${late ? ' is-overdue' : ''}${g.id === popId ? ' pop' : ''}"
            data-id="${g.id}" data-entry="${g.entryType}">
         ${mode === 'inbox' ? '' : `
         <button class="check" type="button" title="${esc(checkTitle)}">
@@ -1495,15 +1588,18 @@
           <span class="txt">${esc(g.title)}</span>
           <div class="meta">
             ${mode === 'action' ? tag : ''}
+            ${mode === 'action' && g.actionDate ? `
+            <button class="date-chip" type="button" data-resched="${g.id}"
+                    title="${esc(t('reschedule'))}">${esc(periodShort(g.actionDate))}</button>` : ''}
             <span class="meta-text">${cardMeta(g, mode)}</span>
-            ${overdue ? `<span class="meta-warn">${esc(t('overdue'))}</span>` : ''}
+            ${late ? `<span class="tag tag-late">${esc(t('overdueBy', late))}</span>` : ''}
             ${doneToday ? `<span class="meta-ok">${esc(t('doneToday'))}</span>` : ''}
           </div>
           ${g.id === movingId ? `
           <div class="card-move">
             <input class="mini-date" type="date" value="${esc(g.actionDate || todayStr())}"
                    aria-label="${esc(t('dateAria'))}" />
-            <button class="mini-btn" type="button" data-move-ok>${esc(t('moveAction'))}</button>
+            <button class="mini-btn" type="button" data-move-ok>${esc(mode === 'action' ? t('reschedule') : t('moveAction'))}</button>
             <button class="mini-btn ghost" type="button" data-move-cancel
                     title="${esc(t('undo'))}" aria-label="${esc(t('undo'))}">✕</button>
           </div>` : ''}
@@ -1535,12 +1631,31 @@
     if (actionList) actionList.innerHTML = laneMarkup(doing, 'action', 'actionEmpty');
   }
 
-  /* ---------------- 成就陈列室：按 category 分架 ---------------- */
+  /* ---------------- 成就陈列室：按 category 分架（可折叠） ---------------- */
+
+  // 折叠状态按"分类名"记，只存被折起来的那些。存放在本地，
+  // 这样重画（勾一条、切语言）之后架子还是收着的，不会被弹开。
+  const FOLD_KEY = 'xiaomubiao.folded.v1';
+  let folded = new Set();
+
+  function loadFolded() {
+    try {
+      const raw = storage.get(FOLD_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      folded = new Set(Array.isArray(arr) ? arr.map(String) : []);
+    } catch (e) {
+      folded = new Set();
+    }
+  }
+
+  function saveFolded() {
+    try { storage.set(FOLD_KEY, JSON.stringify([...folded])); } catch (e) {}
+  }
 
   function renderShelves() {
     if (!shelvesEl) return;
     const done = visibleGoals().filter(g => g.status === 'done')
-      .sort((a, b) => (b.doneAt || 0) - (a.doneAt || 0));
+      .sort((a, b) => msOf(b.doneAt) - msOf(a.doneAt));
 
     if (doneTotalEl) {
       doneTotalEl.textContent = done.length ? `${t('statDone')} ${done.length}` : '';
@@ -1565,29 +1680,56 @@
         if (b[0] === DEFAULT_CAT) return -1;
         return b[1].length - a[1].length;
       })
-      .map(([cat, items]) => `
-        <section class="shelf" data-cat="${esc(cat)}">
-          <header class="shelf-head">
+      .map(([cat, items]) => {
+        const off = folded.has(cat);
+        return `
+        <section class="shelf${off ? ' folded' : ''}" data-cat="${esc(cat)}">
+          <button class="shelf-head" type="button" data-fold="${esc(cat)}" aria-expanded="${!off}">
+            <span class="shelf-chev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </span>
             <span class="shelf-name">${esc(catLabel(cat))}</span>
             <span class="shelf-count">${items.length}</span>
-          </header>
-          <div class="shelf-grid">
-            ${items.map(g => `
-              <div class="shelf-item card done is-done" data-id="${g.id}">
-                <button class="check" type="button" title="${esc(t('undoDone'))}">
-                  <span class="check-mark">✓</span>
-                </button>
-                <div class="card-body">
-                  <span class="txt">${esc(g.title)}</span>
-                  <div class="meta">${cardMeta(g, 'done')}</div>
-                </div>
-                <button class="del always" type="button"
-                        title="${esc(t('delLabel'))}" aria-label="${esc(t('delLabel'))}">${esc(t('delText'))}</button>
-              </div>`).join('')}
+          </button>
+          <div class="shelf-body">
+            <div class="shelf-grid">
+              ${items.map(g => `
+                <div class="shelf-item card done is-done" data-id="${g.id}">
+                  <button class="check" type="button" title="${esc(t('undoDone'))}">
+                    <span class="check-mark">✓</span>
+                  </button>
+                  <div class="card-body">
+                    <span class="txt">${esc(g.title)}</span>
+                    <div class="meta">${cardMeta(g, 'done')}</div>
+                  </div>
+                  <button class="del always" type="button"
+                          title="${esc(t('delLabel'))}" aria-label="${esc(t('delLabel'))}">${esc(t('delText'))}</button>
+                </div>`).join('')}
+            </div>
           </div>
-        </section>`).join('');
+        </section>`;
+      }).join('');
 
     popId = null;
+  }
+
+  // 点分类标题：就地折叠 / 展开。只切 class，不重画，
+  // 这样 0fr → 1fr 的高度动画才有东西可做。
+  if (shelvesEl) {
+    shelvesEl.addEventListener('click', e => {
+      const btn = e.target.closest ? e.target.closest('[data-fold]') : null;
+      if (!btn) return;
+      const cat = btn.dataset.fold;
+      const off = !folded.has(cat);
+      if (off) folded.add(cat); else folded.delete(cat);
+      saveFolded();
+      const shelf = btn.closest('.shelf');
+      if (shelf && shelf.classList) shelf.classList.toggle('folded', off);
+      btn.setAttribute('aria-expanded', String(!off));
+    });
   }
 
   /* ---------------- 过渡动画 ---------------- */
@@ -1886,6 +2028,16 @@
     hintEl.classList.remove('warn');
   }
 
+  /* 「定计划」的日期：默认今天，并且不许选过去。
+     min 让原生日历把过去的日期变灰；这里再兜一道，保证任何路径
+     （手打、粘贴、跨零点）填进来的都不是过去的日期。 */
+  function syncDateBounds() {
+    if (!dateInput) return;
+    const today = todayStr();
+    dateInput.min = today;
+    if (!dateInput.value || dateInput.value < today) dateInput.value = today;
+  }
+
   function setEntryDraft(name) {
     entryDraft = ENTRY[name] ? name : 'idea';
     if (cpTabs) {
@@ -1897,9 +2049,8 @@
     }
     // 只有「定计划」需要日期和循环
     if (planOnly) planOnly.hidden = entryDraft !== 'plan';
-    if (loopLabel) {
-      loopLabel.textContent = t('loop' + loopRule.charAt(0).toUpperCase() + loopRule.slice(1));
-    }
+    if (entryDraft === 'plan') syncDateBounds();      // 默认今天 + 禁止选过去
+    if (loopLabel) loopLabel.textContent = loopName(loopRule);
     if (loopBtn) loopBtn.classList.toggle('on', loopRule !== 'none');
     updateHint();
   }
@@ -1909,7 +2060,6 @@
       const btn = e.target.closest('[data-entry]');
       if (!btn) return;
       setEntryDraft(btn.dataset.entry);
-      if (entryDraft === 'plan' && dateInput && !dateInput.value) dateInput.value = todayStr();
       if (entryDraft === 'plan' && dateInput) dateInput.focus();
       else if (titleInput) titleInput.focus();
     });
@@ -2061,12 +2211,17 @@
       return;
     }
     const isPlan = entryDraft === 'plan';
-    const day = isPlan ? (dateInput.value || '') : null;
+    let day = isPlan ? (dateInput.value || '') : null;
     if (isPlan && !/^\d{4}-\d{2}-\d{2}$/.test(day || '')) {
       hintEl.textContent = t('needDate');
       hintEl.classList.add('warn');
       dateInput.focus();
       return;
+    }
+    // 过去的日期不收：日期框已经设了 min，这里再兜一道（手打也拦得住）
+    if (isPlan && day < todayStr()) {
+      day = todayStr();
+      dateInput.value = day;
     }
 
     // 模板 A：灵感 → 进灵感箱（inbox），没有日期
@@ -2112,7 +2267,8 @@
     if (g.loop && g.loop !== 'none') {
       const day = todayStr();
       if (!Array.isArray(g.history)) g.history = [];
-      if (!g.history.some(h => h.date === day)) g.history.push({ at: nowMs(), date: day });
+      // 打卡时刻精确到毫秒，落库进 history[].at
+      if (!g.history.some(h => h.date === day)) g.history.push({ at: nowIso(), date: day });
       g.updatedAt = nowMs();
       save([g.id]);
       render();
@@ -2120,8 +2276,9 @@
       return;
     }
     // 单次任务：打勾即完成，移出行动列表 → 进成就陈列室
+    // 完成时刻直接抓系统时间（ISO，精确到毫秒），成就里显示到分钟
     g.status = 'done';
-    g.doneAt = nowMs();
+    g.doneAt = nowIso();
     g.updatedAt = nowMs();
     save([g.id]);
     if (cardEl && cardEl.classList) {
@@ -2143,6 +2300,7 @@
     toast(t('tUndone'));
   }
 
+  // 推进行动列表：灵感一键"推入行动"走的就是这里，日期由调用方给
   function moveToAction(g, day) {
     g.actionDate = day;
     g.status = 'doing';
@@ -2213,10 +2371,19 @@
   }
 
   document.addEventListener('click', e => {
-    // 「推入行动」：就地展开日期行（不弹窗）
+    // 「推入行动」：一键，零摩擦 —— 不问日期、不弹窗，
+    // 直接在后台抓当前系统日期当行动日，再平滑移到下面的行动列表。
     const moveBtn = e.target.closest('[data-move]');
     if (moveBtn) {
-      movingId = moveBtn.dataset.move;
+      const g = goals.find(x => x.id === moveBtn.dataset.move);
+      if (g) moveToAction(g, todayStr());
+      return;
+    }
+    // 行动卡片上的日期：点它才就地展开改期行（唯一需要手动填日期的入口）
+    const reBtn = e.target.closest('[data-resched]');
+    if (reBtn) {
+      const id = reBtn.dataset.resched;
+      movingId = movingId === id ? null : id;
       render();
       return;
     }
@@ -2374,6 +2541,9 @@
     applySkin(savedSkin || 'paper');
 
     dateInput.value = todayStr();
+    dateInput.min = todayStr();       // 定计划：默认今天，不许选过去
+    syncDateBounds();
+    loadFolded();                     // 成就陈列室里哪些分类是收着的
     applyStatic();
     renderLangMenu();
     closeLangMenu();

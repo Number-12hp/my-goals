@@ -16,13 +16,19 @@
   --ink:      #1b1a17;   /* 墨：近黑，比纯黑耐看 */
   --mark:     #35604f;   /* 主强调：松绿（主线 / 聚焦 / 当前图标 / 已同步） */
   --slate:    #5c6672;   /* 支线：石墨蓝灰 */
-  --peach:    #a9633a;   /* 赭石：过期 / 警示 */
+  --peach:    #a9633a;   /* 赭石：部分完成 / 提示 */
+  --danger:   #b03a2a;   /* 逾期：砖红，只给"该做而没做"用 */
   --mark-soft:#93c4ac;   /* 墨底上的强调文字（撤销按钮） */
 
   /* 半透明用这三个三元组拼，换配色只要改这里 */
   --ink-rgb:   27 26 23;
   --paper-rgb: 251 250 247;
   --mark-rgb:  53 96 79;
+  --danger-rgb:176 58 42;
+
+  /* 内容列的宽度上限：录入区 / 两条泳道 / 日历 / 成就架子共用同一个值，
+     宽屏上不再让输入框和列表横跨整个屏幕。 */
+  --content-w: 768px;
 
   /* 渐变与柔光：彩色渐变全部撤掉，只留下"墨"和纸的层次 */
   --grad-main: linear-gradient(135deg, #2b2a26 0%, #1b1a17 100%);
@@ -66,11 +72,13 @@ html[data-theme="dark"] {
   --mark:     #7fb79c;
   --slate:    #93a0ae;
   --peach:    #d08a5c;
+  --danger:   #ef8f7a;
   --mark-soft:#8fc0a8;
 
   --ink-rgb:   242 240 234;
   --paper-rgb: 26 25 23;
   --mark-rgb:  127 183 156;
+  --danger-rgb:239 143 122;
 
   --grad-main: linear-gradient(135deg, #3a3833 0%, #26241f 100%);
   --grad-soft: linear-gradient(160deg, #201f1c 0%, #171614 100%);
@@ -349,14 +357,16 @@ html[data-theme="dark"] .panel-row .icon-btn:hover { background: rgba(255, 255, 
 .lang-acc.open { grid-template-rows: 1fr; opacity: 1; }
 .lang-acc-inner { min-height: 0; overflow: hidden; }
 
-/* ---------- 主内容区：只为图标轨让出 64px，然后在剩余空间里把内容列居中 ---------- */
+/* ---------- 主内容区：只为图标轨让出 128px，然后在剩余空间里把内容列居中 ---------- */
 .main {
   min-width: 0;
   padding: 24px 34px 44px 128px;
 }
 .view {
   width: 100%;
-  max-width: 860px;
+  /* 宽屏收紧：768px（≈ max-w-3xl）。输入框、两条泳道、日历、成就架子
+     全都活在这一列里，所以只改这一个值就够了。 */
+  max-width: var(--content-w);
   margin-inline: auto;   /* 关键：不再靠左，右侧那一大片空白消失 */
 }
 
@@ -439,6 +449,10 @@ html[data-theme="dark"] .soon { background: rgba(255, 255, 255, .04); }
   outline-offset: 3px;
   border-radius: var(--r-xs);
 }
+/* .list 和 .shelf-grid 都带 overflow:hidden（前者是圆角裁切，后者要裁折叠动画），
+   外扩的对焦环会被切掉。这两处改成画在卡片内侧的环。 */
+.list :focus-visible,
+.shelf-grid :focus-visible { outline-offset: -3px; }
 
 /* ============================== 登录 / 账号弹窗 ============================== */
 
@@ -856,25 +870,9 @@ html[data-theme="dark"] .icon-btn:hover { background: rgba(255, 255, 255, .1); }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16'%3E%3Crect width='24' height='16' fill='%23fff'/%3E%3Crect y='0' width='24' height='5.33' fill='%23FF9933'/%3E%3Crect y='10.67' width='24' height='5.33' fill='%23138808'/%3E%3Ccircle cx='12' cy='8' r='2.3' fill='none' stroke='%23000080' stroke-width='0.7'/%3E%3Ccircle cx='12' cy='8' r='0.5' fill='%23000080'/%3E%3C/svg%3E");
 }
 
-/* ============================== 分段选择器 ============================== */
+/* ============================== 卡片列表（两条泳道 / 日历当天 / 成就架子共用） ============================== */
 
-/* 分段选择：选中色块会在选项之间「滑过去」 */
-
-/* 主线 / 支线用强调色滑块，和上面那个墨色滑块一眼能区分 */
-
-html[data-theme="dark"] .date-input {
-  background: rgba(255, 255, 255, .08);
-  border-color: rgba(255, 255, 255, .1);
-}
-
-/* ============================== 筛选 ============================== */
-
-
-/* ============================== 目标列表 ============================== */
-
-
-
-/* 一组目标：一个柔和大圆角色块 */
+/* 一组条目：一个柔和大圆角色块 */
 .list {
   display: flex;
   flex-direction: column;
@@ -886,7 +884,7 @@ html[data-theme="dark"] .date-input {
 }
 html[data-theme="dark"] .list { border-color: rgba(255, 255, 255, .06); }
 
-/* 一行目标：左侧圆头色条区分主线（紫）/ 支线（薄荷） */
+/* 一行条目：左侧色条区分来源（计划 / 灵感） */
 .card {
   position: relative;
   display: flex;
@@ -900,9 +898,18 @@ html[data-theme="dark"] .list { border-color: rgba(255, 255, 255, .06); }
               padding .34s var(--ease);
 }
 .list .card:last-child { border-bottom: none; }
-.card[data-type="main"] { border-left-color: var(--mark); background: var(--row-main); }
-.card[data-type="side"] { border-left-color: var(--slate); background: var(--row-side); }
+/* 左侧色条区分"直接创建的计划"和"从灵感箱推上来的"（对应卡片上的 Tag） */
+.card[data-entry="plan"] { border-left-color: var(--mark); background: var(--row-main); }
+.card[data-entry="idea"] { border-left-color: var(--slate); background: var(--row-side); }
 .card.is-done { background: var(--panel-arch); }
+
+/* 逾期：整张卡转红（底色 + 左条），是"该做而没做"唯一的强信号。
+   它只会留在行动列表里，不会被退回灵感箱。标题文字保持不变 ——
+   红色留给底色和标签，不必三处一起喊。 */
+.card.is-overdue {
+  border-left-color: var(--danger);
+  background: rgb(var(--danger-rgb) / .07);
+}
 
 /* 撤销删除后弹回的那一行 */
 .card.pop { animation: rowIn .3s var(--ease); }
@@ -964,14 +971,46 @@ html[data-theme="dark"] .check { background: rgba(255, 255, 255, .1); }
 }
 @keyframes strike { from { width: 0; } to { width: 100%; } }
 
-/* 卡片上的一行小字：周期 · 主线/支线 */
+/* 卡片上的一行小字：分类 · 日期 · 循环 */
 .meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 7px;
   margin-top: 3px;
   font-size: 11.5px;
   letter-spacing: .02em;
   color: var(--ink-2);
   font-variant-numeric: tabular-nums;
 }
+.meta-text { min-width: 0; }
+
+/* 行动列表里的日期做成一枚可点的按钮：点它才就地改期。
+   平时和普通小字没两样，悬停才浮出描边 —— 不抢"打勾"的注意力。 */
+.date-chip {
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  background: none;
+  color: inherit;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: .02em;
+  padding: 1px 7px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  transition: color .16s var(--ease), border-color .16s var(--ease), background .16s var(--ease);
+}
+.date-chip:hover {
+  color: var(--ink);
+  border-color: var(--rule);
+  background: rgb(var(--ink-rgb) / .05);
+}
+
+/* 顶部进度里那行"已逾期 N" */
+.note-late { color: var(--danger); font-weight: 600; }
+
+/* 循环计划今天打过卡 */
+.meta-ok { color: var(--mark); }
 
 /* 删除：悬停/聚焦该行时出现 */
 .del {
@@ -1023,18 +1062,11 @@ html[data-theme="dark"] .del { background: rgba(255, 255, 255, .1); border-color
 }
 html[data-theme="dark"] .empty { background: rgba(255, 255, 255, .04); }
 
-/* ============================== 已完成 ============================== */
+/* ============================== 页脚 ============================== */
 
-html[data-theme="dark"] .archive { border-color: rgba(255, 255, 255, .06); }
-
-/* 已完成条目：中性底 + 蜜桃左条，与看板上的紫/绿区分 */
-.archive-list .card,
-.archive-list .card[data-type="main"],
-.archive-list .card[data-type="side"],
-@keyframes settle {
-  from { opacity: 0; transform: translateY(-6px) scale(.99); }
-  to   { opacity: 1; transform: none; }
-}
+/* 这里原本还挂着一块「已完成」的样式：旧的 .archive / .archive-list 规则
+   在被 @keyframes settle 打断的调用群里（选择器列表里混进了 at-rule），
+   整块都是无效 CSS。随着"已完成"搬进成就陈列室，这一段整体删掉了。 */
 
 .foot {
   margin-top: 16px;
@@ -1067,7 +1099,7 @@ html[data-theme="dark"] .archive { border-color: rgba(255, 255, 255, .06); }
 
 .cloud-host {
   display: block;
-  max-width: 860px;
+  max-width: var(--content-w);
   margin-top: 14px;
   margin-inline: auto;     /* 和居中的内容列对齐，别孤零零贴在右边 */
   text-align: right;
@@ -1331,6 +1363,8 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
 }
 .tag-idea { background: rgb(var(--mark-rgb) / .13); color: var(--mark); }
 .tag-plan { background: rgb(var(--ink-rgb) / .07); color: var(--ink-2); }
+/* 逾期标签：红底红字，和卡片底色一起构成那根"刺" */
+.tag-late { background: rgb(var(--danger-rgb) / .14); color: var(--danger); font-weight: 700; }
 
 /* 灵感箱里的「推入行动」 */
 .move-btn {
@@ -1376,25 +1410,64 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
 
 /* ============================== 成就陈列室 ============================== */
 
-.shelves { display: flex; flex-direction: column; gap: 13px; }
+.shelves { display: flex; flex-direction: column; gap: 12px; }
 .shelf {
-  padding: 12px 14px 14px;
+  padding: 11px 14px 13px;
   border: 1px solid var(--rule);
   border-radius: var(--r-xl);
   background: var(--paper);
   box-shadow: var(--shadow-1);
 }
+
+/* 分类标题整行就是折叠开关：倒三角 + 名字 + 数量 */
 .shelf-head {
   display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin-bottom: 9px;
-  padding-bottom: 8px;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  margin: 0 0 9px;
+  padding: 2px 2px 8px;
+  border: none;
   border-bottom: 1px solid var(--rule);
+  border-radius: var(--r-xs);
+  background: none;
+  color: var(--ink);
+  font-family: var(--sans);
+  text-align: left;
+  cursor: pointer;
+  transition: background .16s var(--ease);
 }
-.shelf-name { font-size: 13.5px; font-weight: 700; letter-spacing: -.01em; }
+.shelf-head:hover { background: rgb(var(--ink-rgb) / .04); }
+/* 收起来之后底下的分隔线多余 */
+.shelf.folded .shelf-head { margin-bottom: 0; border-bottom-color: transparent; }
+
+/* 倒三角：展开时朝下，折起来转到 -90° */
+.shelf-chev {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  color: var(--ink-3);
+  transition: transform .26s var(--ease), color .16s var(--ease);
+}
+.shelf-head:hover .shelf-chev { color: var(--ink); }
+.shelf.folded .shelf-chev { transform: rotate(-90deg); }
+
+.shelf-name { flex: 1; min-width: 0; font-size: 13.5px; font-weight: 700; letter-spacing: -.01em; }
 .shelf-count { font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+/* 折叠靠 grid-template-rows 0fr ⇄ 1fr：真正的高度动画，
+   内层 overflow:hidden 负责裁切（和语言手风琴同一套写法）。 */
+.shelf-body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows .3s var(--ease), opacity .2s var(--ease);
+}
+.shelf.folded .shelf-body { grid-template-rows: 0fr; opacity: 0; }
 .shelf-grid {
+  min-height: 0;
+  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
   gap: 8px;
@@ -1612,14 +1685,13 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   .view-sub { font-size: 12.5px; }
   .progress-card { padding: 15px 16px 17px; border-radius: var(--r-lg); }
   .progress-value { font-size: 26px; }
-  .compose { margin-top: 10px; padding: 7px 7px 7px 14px; border-radius: var(--r-lg); }
-  .compose-input { font-size: 15px; }
+  .composer { padding: 10px 12px 8px; border-radius: var(--r-lg); }
+  .cp-input { font-size: 15px; }
   .add-btn { padding: 10px 18px; font-size: 13.5px; }
-  .controls { margin-top: 10px; padding: 14px 14px 2px; border-radius: var(--r-lg); }
-  .seg button { padding: 6px 12px; }
-  .filters { margin: 18px 0 20px; }
-  .board { gap: 24px; }
-  .archive { margin-top: 22px; padding: 18px 18px 20px; border-radius: var(--r-lg); }
+  /* 录入行在手机上一律竖排：标题占满一行，其余控件排在下一行 */
+  .combo { flex: 1 1 120px; }
+  .shelf { padding: 10px 12px 12px; border-radius: var(--r-lg); }
+  .shelf-grid { grid-template-columns: 1fr; }
   .txt { font-size: 15.5px; }
   .card { padding: 12px 14px 13px 15px; gap: 11px; }
   .del { opacity: .85; }
@@ -1639,11 +1711,7 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   .rail-nav { gap: 5px; }
   /* 底部留白必须跟着悬浮坞走，否则最后一张卡片会被压在坞下面 */
   .main { padding: 12px 10px 96px; }
-  .filters { gap: 6px; }
-  .chip { padding: 6px 12px; font-size: 12.5px; }
-  .ctl-label { width: 28px; font-size: 11px; }
-  .seg button { padding: 6px 10px; font-size: 12.5px; }
-  .date-input { font-size: 12.5px; padding: 7px 12px; }
+  .cp-tab { padding: 5px 9px; font-size: 12px; }
   .lang-item { font-size: 13px; padding: 7px 8px; }
 }
 
