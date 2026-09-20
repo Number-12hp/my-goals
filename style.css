@@ -704,7 +704,7 @@ html[data-theme="dark"] .icon-btn:hover { background: rgba(255, 255, 255, .1); }
 #themeBtn { font-size: 17px; }
 
 /* ============================== 配色皮肤 ==============================
-   三套渐变皮肤：只覆盖这一组变量 + body::before 的渐变。
+   四套渐变皮肤：只覆盖这一组变量 + body::before 的渐变。
    暗色模式用 :not() 让皮肤整体让位给中性深色 —— 深底上再叠彩色渐变会脏。 */
 
 :root[data-skin="iris"]:not([data-theme="dark"]) {
@@ -775,11 +775,38 @@ html[data-theme="dark"] .icon-btn:hover { background: rgba(255, 255, 255, .1); }
     radial-gradient(84% 62% at 62% 112%, rgba(178, 176, 160, .55), transparent 66%);
 }
 
+/* 极光：斜向的彩色光带（蓝 → 白 → 粉 → 橘 → 绿 → 洋红）。
+   刻意和上面三套的"角落光晕"不同 —— 这一套的渐变是整片流动的。 */
+:root[data-skin="aurora"]:not([data-theme="dark"]) {
+  --canvas:   #f6f4f8;
+  --paper:    #fdfcfe;
+  --rule:     #e8e3ec;
+  --ink:      #1a1620;
+  --ink-2:    #605a68;
+  --ink-3:    #9a939f;
+  --mark:     #c2185b;   /* 深洋红：直接取光带里最艳的那一条，压深到能当文字用 */
+  --slate:    #5b6b8c;
+  --peach:    #cc6a1f;
+  --mark-soft:#f0a6cd;
+  --ink-rgb:   26 22 32;
+  --paper-rgb: 253 252 254;
+  --mark-rgb:  194 24 91;
+}
+:root[data-skin="aurora"]:not([data-theme="dark"]) body::before {
+  background:
+    linear-gradient(118deg,
+      rgba(126, 176, 226, .46) 0%,  rgba(236, 232, 246, .22) 16%,
+      rgba(248, 176, 196, .48) 34%, rgba(250, 168, 96, .42) 50%,
+      rgba(150, 200, 130, .38) 66%, rgba(232, 60, 140, .36) 84%,
+      rgba(126, 176, 226, .40) 100%),
+    radial-gradient(90% 70% at 50% -18%, rgba(255, 255, 255, .85), transparent 72%);
+}
+
 /* 面板里的皮肤选择器 */
 .panel-skins {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
   padding-top: 6px;
   margin-top: 2px;
   border-top: 1px solid var(--rule);
@@ -788,7 +815,7 @@ html[data-theme="dark"] .icon-btn:hover { background: rgba(255, 255, 255, .1); }
   display: grid;
   justify-items: center;
   gap: 5px;
-  padding: 7px 2px 6px;
+  padding: 7px 1px 6px;
   border: none;
   border-radius: 12px;
   background: none;
@@ -810,6 +837,10 @@ html[data-theme="dark"] .icon-btn:hover { background: rgba(255, 255, 255, .1); }
 .skin-iris   { background: linear-gradient(135deg, #beacf0 0%, #b2e2b4 55%, #bad6f6 100%); }
 .skin-cobalt { background: linear-gradient(135deg, #3a60d6 0%, #7896eb 45%, #ee603a 100%); }
 .skin-lime   { background: linear-gradient(135deg, #d6e860 0%, #e4ee96 55%, #b2b0a0 100%); }
+.skin-aurora { background: linear-gradient(128deg, #7eb0e2 0%, #eef0f6 20%, #f8b0c4 40%,
+                                                      #faa860 58%, #96c882 74%, #e83c8c 100%); }
+/* 5 个色块挤在 216px 的面板里：标签字略小一点，避免折行 */
+.panel-skins .panel-label { font-size: 10px; }
 
 /* 语言列表已经长在收纳面板里（外层见 .lang-acc），这里只管每一行 */
 .lang-acc-inner { display: flex; flex-direction: column; gap: 1px; }
@@ -956,20 +987,10 @@ html[data-theme="dark"] .check { background: rgba(255, 255, 255, .1); }
   line-height: 1.5;
   word-break: break-word;
 }
-/* 勾掉的一笔 */
-.card.done .txt { color: var(--ink-3); }
-.card.done .txt::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 55%;
-  height: 1.5px;
-  width: 100%;
-  border-radius: var(--r-pill);
-  background: currentColor;
-  animation: strike .36s var(--ease) forwards;
-}
-@keyframes strike { from { width: 0; } to { width: 100%; } }
+/* 完成态：不再划掉标题、也不再置灰。
+   "已完成"这件事交给徽章图标表达 —— 成就陈列室里它是勋章，不是废纸。
+   （原来的 .card.done .txt::after 中划线和 @keyframes strike 已一并删掉） */
+.card.done .txt { color: var(--ink); }
 
 /* 卡片上的一行小字：分类 · 日期 · 循环 */
 .meta {
@@ -1331,6 +1352,39 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
 .combo-opt.create { color: var(--mark); }
 .combo-count { margin-left: auto; font-size: 11px; color: var(--ink-3); }
 
+/* ---------- 改分类的浮层（fixed：不会被 .list 的 overflow:hidden 裁掉） ---------- */
+.cat-pop {
+  position: fixed;
+  z-index: 55;
+  width: 216px;
+  max-width: calc(100vw - 24px);
+  padding: 7px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  box-shadow: var(--shadow-2);
+}
+.cat-pop[hidden] { display: none; }
+.cat-pop-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  padding: 5px 4px 7px;
+}
+.cat-pop-input::placeholder { color: var(--ink-3); }
+.cat-pop-input:focus-visible { outline: none; border-bottom-color: var(--mark); }
+.cat-pop-list {
+  max-height: 216px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-top: 5px;
+}
+
 /* ============================== 两条泳道：灵感箱 / 行动列表 ============================== */
 
 .lane { margin-top: 14px; }
@@ -1362,13 +1416,56 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   padding: 1px 7px;
 }
 .tag-idea { background: rgb(var(--mark-rgb) / .13); color: var(--mark); }
-.tag-plan { background: rgb(var(--ink-rgb) / .07); color: var(--ink-2); }
+/* 计划 = 墨块实心小牌：和低调的「灵感」标签一眼分开。
+   用 --ink / --paper 这对变量，所以四套皮肤和暗色都自动跟着换。 */
+.tag-plan {
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 700;
+}
 /* 逾期标签：红底红字，和卡片底色一起构成那根"刺" */
 .tag-late { background: rgb(var(--danger-rgb) / .14); color: var(--danger); font-weight: 700; }
+
+/* 分类标签：卡片上唯一"点得动"的元信息，点它就地改分类。
+   平时像普通小字，悬停才浮出描边 + 下划线提示。 */
+.cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  background: none;
+  color: inherit;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: .02em;
+  padding: 1px 7px;
+  cursor: pointer;
+  transition: color .16s var(--ease), border-color .16s var(--ease), background .16s var(--ease);
+}
+.cat-chip::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-1px) rotate(45deg);
+  opacity: 0;
+  transition: opacity .16s var(--ease);
+}
+.cat-chip:hover {
+  color: var(--ink);
+  border-color: var(--rule);
+  background: rgb(var(--ink-rgb) / .05);
+}
+.cat-chip:hover::after { opacity: .55; }
 
 /* 灵感箱里的「推入行动」 */
 .move-btn {
   flex: none;
+  /* 卡片是 align-items:flex-start（标题要从顶部开始排），
+     所以按钮得自己声明垂直居中，否则会贴着上沿"往上飘"。 */
+  align-self: center;
   border: 1px solid var(--rule);
   border-radius: var(--r-pill);
   background: var(--paper);
@@ -1472,19 +1569,49 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
   gap: 8px;
 }
+/* 成就卡：一张被收集起来的"卡牌"。
+   用 1px 高光描边 + 极轻的纵向渐变 + 一点投影，而不是列表行那种左侧色条。 */
 .shelf-item {
   display: flex;
   align-items: flex-start;
-  gap: 9px;
-  padding: 9px 11px 10px;
-  border: 1px solid var(--card-line);
-  border-left: 3px solid var(--mark);
+  gap: 10px;
+  padding: 11px 12px 12px;
+  border: 1px solid rgb(var(--mark-rgb) / .22);
   border-radius: var(--r-md);
-  background: rgb(var(--mark-rgb) / .04);
+  background:
+    linear-gradient(180deg, rgb(var(--paper-rgb) / .96) 0%, rgb(var(--mark-rgb) / .06) 100%),
+    var(--paper);
+  box-shadow: var(--shadow-1);
+  transition: border-color .18s var(--ease), box-shadow .18s var(--ease);
 }
-.shelf-item .txt { font-size: 13.5px; }
+.shelf-item:hover {
+  border-color: rgb(var(--mark-rgb) / .44);
+  box-shadow: 0 12px 28px -18px rgb(var(--ink-rgb) / .55), 0 1px 3px rgb(var(--ink-rgb) / .06);
+}
+.shelf-item .txt { font-size: 13.5px; font-weight: 600; }
 .shelf-item .meta { font-size: 11px; }
 .shelf-item .del { opacity: 1; }   /* 陈列室里没有 hover 也要看得见删除 */
+
+/* 徽章：金色圆牌，取代"待办复选框"的样子。
+   写满四层类名是为了压过 .card.is-done .check（三个类）。 */
+.shelf .shelf-item.is-done .check {
+  width: 22px;
+  height: 22px;
+  margin: 1px 0 0;
+  border: none;
+  border-radius: var(--r-pill);
+  background: radial-gradient(circle at 34% 28%, #f8dc94 0%, #e0a93c 52%, #b07d1c 100%);
+  color: #fff;
+  font-size: 11.5px;
+  text-shadow: 0 1px 1px rgba(100, 66, 0, .5);
+  box-shadow: 0 2px 7px -2px rgba(150, 105, 20, .6),
+              inset 0 1px 0 rgba(255, 255, 255, .75),
+              inset 0 -1px 2px rgba(120, 80, 0, .3);
+}
+.shelf .shelf-item.is-done .check:hover {
+  transform: scale(1.08);
+  border-color: transparent;
+}
 
 /* ============================== 日历视图 ============================== */
 

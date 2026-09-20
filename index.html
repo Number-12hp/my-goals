@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#faf9ff" />
 <title>DonePlan</title>
-<link rel="stylesheet" href="style.css?v=15" />
+<link rel="stylesheet" href="style.css?v=16" />
 </head>
 <body>
 
@@ -133,6 +133,10 @@
             <button class="skin" type="button" role="radio" aria-checked="false" data-skin="lime">
               <span class="skin-chip skin-lime" aria-hidden="true"></span>
               <span class="panel-label" data-i18n="skinLime">青柠</span>
+            </button>
+            <button class="skin" type="button" role="radio" aria-checked="false" data-skin="aurora">
+              <span class="skin-chip skin-aurora" aria-hidden="true"></span>
+              <span class="panel-label" data-i18n="skinAurora">极光</span>
             </button>
           </div>
 
@@ -339,8 +343,20 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="undo" id="undo" role="status" aria-live="polite"></div>
 
+<!-- ═══ 改分类的极简浮层：列表里的分类标签都指向它。
+     放在 body 末尾（不在 .list 里），所以不会被列表的 overflow:hidden 裁掉。 ═══ -->
+<div class="cat-pop" id="catPop" role="dialog"
+     aria-label="修改分类" data-i18n-aria="catEditAria" hidden>
+  <input id="catPopInput" class="cat-pop-input" type="text" autocomplete="off" spellcheck="false"
+         role="combobox" aria-expanded="false" aria-controls="catPopMenu" aria-autocomplete="list"
+         aria-label="修改分类" data-i18n-aria="catEditAria"
+         placeholder="分类" data-i18n-ph="catPh" />
+  <div class="cat-pop-list" id="catPopMenu" role="listbox"
+       aria-label="分类" data-i18n-aria="catPh"></div>
+</div>
+
 <!-- Supabase 客户端：加载失败也不影响本地功能 -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin="anonymous"></script>
-<script src="app.js?v=14"></script>
+<script src="app.js?v=15"></script>
 </body>
 </html>

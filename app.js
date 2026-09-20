@@ -88,10 +88,11 @@
       calNone: '未完成', calPart: '部分完成', calAll: '全部完成',
       calDone: '完成', calNoTask: '这天没有计划',
       calPrev: '上个月', calNext: '下个月',
-      skinPaper: '纸墨', skinIris: '鸢尾', skinCobalt: '钴蓝', skinLime: '青柠',
+      skinPaper: '纸墨', skinIris: '鸢尾', skinCobalt: '钴蓝', skinLime: '青柠', skinAurora: '极光',
 
       tabIdea: '记想法', tabPlan: '定计划',
       catPh: '分类', catNone: '未分类', catCreate: n => `创建新分类「${n}」`,
+      catEditAria: '修改分类', tCatSet: c => `已归到「${c}」`,
       loopNone: '不循环', loopDaily: '每天', loopWeekly: '每周', loopMonthly: '每月',
       inboxTitle: '灵感箱', inboxEmpty: '灵感箱是空的，先随便记点什么',
       actionTitle: '行动列表', actionEmpty: '还没有排好的行动',
@@ -179,10 +180,11 @@
       calNone: 'Not done', calPart: 'Partly done', calAll: 'All done',
       calDone: 'Done', calNoTask: 'Nothing planned for this day',
       calPrev: 'Previous month', calNext: 'Next month',
-      skinPaper: 'Paper', skinIris: 'Iris', skinCobalt: 'Cobalt', skinLime: 'Lime',
+      skinPaper: 'Paper', skinIris: 'Iris', skinCobalt: 'Cobalt', skinLime: 'Lime', skinAurora: 'Aurora',
 
       tabIdea: 'Capture', tabPlan: 'Schedule',
       catPh: 'Category', catNone: 'Uncategorised', catCreate: n => `Create category “${n}”`,
+      catEditAria: 'Change category', tCatSet: c => `Filed under “${c}”`,
       loopNone: 'No repeat', loopDaily: 'Daily', loopWeekly: 'Weekly', loopMonthly: 'Monthly',
       inboxTitle: 'Idea inbox', inboxEmpty: 'Inbox is empty — jot something down',
       actionTitle: 'Actions', actionEmpty: 'Nothing scheduled yet',
@@ -270,10 +272,11 @@
       calNone: 'ยังไม่เสร็จ', calPart: 'เสร็จบางส่วน', calAll: 'เสร็จทั้งหมด',
       calDone: 'เสร็จ', calNoTask: 'วันนี้ไม่มีแผน',
       calPrev: 'เดือนก่อน', calNext: 'เดือนถัดไป',
-      skinPaper: 'กระดาษ', skinIris: 'ไอริส', skinCobalt: 'โคบอลต์', skinLime: 'มะนาว',
+      skinPaper: 'กระดาษ', skinIris: 'ไอริส', skinCobalt: 'โคบอลต์', skinLime: 'มะนาว', skinAurora: 'ออโรรา',
 
       tabIdea: 'บันทึกไอเดีย', tabPlan: 'วางแผน',
       catPh: 'หมวดหมู่', catNone: 'ไม่จัดหมวด', catCreate: n => `สร้างหมวดใหม่ “${n}”`,
+      catEditAria: 'เปลี่ยนหมวดหมู่', tCatSet: c => `ย้ายไปที่ “${c}”`,
       loopNone: 'ไม่วนซ้ำ', loopDaily: 'ทุกวัน', loopWeekly: 'ทุกสัปดาห์', loopMonthly: 'ทุกเดือน',
       inboxTitle: 'กล่องไอเดีย', inboxEmpty: 'กล่องไอเดียยังว่างอยู่',
       actionTitle: 'รายการลงมือทำ', actionEmpty: 'ยังไม่มีแผนที่จัดไว้',
@@ -362,10 +365,11 @@
       calNone: 'Chưa xong', calPart: 'Xong một phần', calAll: 'Xong hết',
       calDone: 'Xong', calNoTask: 'Ngày này không có kế hoạch',
       calPrev: 'Tháng trước', calNext: 'Tháng sau',
-      skinPaper: 'Giấy mực', skinIris: 'Diên vĩ', skinCobalt: 'Coban', skinLime: 'Chanh',
+      skinPaper: 'Giấy mực', skinIris: 'Diên vĩ', skinCobalt: 'Coban', skinLime: 'Chanh', skinAurora: 'Cực quang',
 
       tabIdea: 'Ghi ý tưởng', tabPlan: 'Lên kế hoạch',
       catPh: 'Danh mục', catNone: 'Chưa phân loại', catCreate: n => `Tạo danh mục “${n}”`,
+      catEditAria: 'Đổi danh mục', tCatSet: c => `Đã chuyển vào “${c}”`,
       loopNone: 'Không lặp', loopDaily: 'Hằng ngày', loopWeekly: 'Hằng tuần', loopMonthly: 'Hằng tháng',
       inboxTitle: 'Hộp ý tưởng', inboxEmpty: 'Hộp ý tưởng đang trống',
       actionTitle: 'Danh sách hành động', actionEmpty: 'Chưa có hành động nào',
@@ -453,10 +457,11 @@
       calNone: 'Belum selesai', calPart: 'Sebahagian selesai', calAll: 'Semua selesai',
       calDone: 'Selesai', calNoTask: 'Tiada rancangan untuk hari ini',
       calPrev: 'Bulan lepas', calNext: 'Bulan depan',
-      skinPaper: 'Kertas', skinIris: 'Iris', skinCobalt: 'Kobalt', skinLime: 'Limau',
+      skinPaper: 'Kertas', skinIris: 'Iris', skinCobalt: 'Kobalt', skinLime: 'Limau', skinAurora: 'Aurora',
 
       tabIdea: 'Catat idea', tabPlan: 'Rancang',
       catPh: 'Kategori', catNone: 'Tanpa kategori', catCreate: n => `Cipta kategori “${n}”`,
+      catEditAria: 'Tukar kategori', tCatSet: c => `Dipindah ke “${c}”`,
       loopNone: 'Tiada ulangan', loopDaily: 'Harian', loopWeekly: 'Mingguan', loopMonthly: 'Bulanan',
       inboxTitle: 'Kotak idea', inboxEmpty: 'Kotak idea masih kosong',
       actionTitle: 'Senarai tindakan', actionEmpty: 'Belum ada tindakan',
@@ -545,10 +550,11 @@
       calNone: 'Belum selesai', calPart: 'Sebagian selesai', calAll: 'Semua selesai',
       calDone: 'Selesai', calNoTask: 'Tidak ada rencana hari ini',
       calPrev: 'Bulan sebelumnya', calNext: 'Bulan berikutnya',
-      skinPaper: 'Kertas', skinIris: 'Iris', skinCobalt: 'Kobalt', skinLime: 'Jeruk nipis',
+      skinPaper: 'Kertas', skinIris: 'Iris', skinCobalt: 'Kobalt', skinLime: 'Jeruk nipis', skinAurora: 'Aurora',
 
       tabIdea: 'Catat ide', tabPlan: 'Rencanakan',
       catPh: 'Kategori', catNone: 'Tanpa kategori', catCreate: n => `Buat kategori “${n}”`,
+      catEditAria: 'Ubah kategori', tCatSet: c => `Dipindah ke “${c}”`,
       loopNone: 'Tanpa ulangan', loopDaily: 'Harian', loopWeekly: 'Mingguan', loopMonthly: 'Bulanan',
       inboxTitle: 'Kotak ide', inboxEmpty: 'Kotak ide masih kosong',
       actionTitle: 'Daftar tindakan', actionEmpty: 'Belum ada tindakan',
@@ -637,10 +643,11 @@
       calNone: 'बाकी', calPart: 'कुछ पूरा', calAll: 'सब पूरा',
       calDone: 'पूरा', calNoTask: 'इस दिन कोई प्लान नहीं',
       calPrev: 'पिछला महीना', calNext: 'अगला महीना',
-      skinPaper: 'कागज़', skinIris: 'आइरिस', skinCobalt: 'कोबाल्ट', skinLime: 'नींबू',
+      skinPaper: 'कागज़', skinIris: 'आइरिस', skinCobalt: 'कोबाल्ट', skinLime: 'नींबू', skinAurora: 'ध्रुवीय ज्योति',
 
       tabIdea: 'विचार लिखें', tabPlan: 'योजना बनाएँ',
       catPh: 'श्रेणी', catNone: 'बिना श्रेणी', catCreate: n => `नई श्रेणी “${n}” बनाएँ`,
+      catEditAria: 'श्रेणी बदलें', tCatSet: c => `“${c}” में डाल दिया`,
       loopNone: 'दोहराव नहीं', loopDaily: 'रोज़', loopWeekly: 'हर हफ़्ते', loopMonthly: 'हर महीने',
       inboxTitle: 'विचार इनबॉक्स', inboxEmpty: 'इनबॉक्स खाली है',
       actionTitle: 'कार्य सूची', actionEmpty: 'अभी कोई कार्य नहीं',
@@ -780,6 +787,9 @@
   const catComboEl  = $('catCombo');
   const catInput    = $('catInput');
   const catMenuEl   = $('catMenu');
+  const catPop      = $('catPop');          // 改分类的小浮层
+  const catPopInput = $('catPopInput');
+  const catPopMenu  = $('catPopMenu');
   const form        = $('form');
   const titleInput  = $('title');
   const dateInput   = $('date');
@@ -832,6 +842,8 @@
   let movingId   = null;       // 正在"就地补日期"的那条灵感
   let comboOpen  = false;      // 分类下拉是否展开
   let comboCursor = 0;         // 键盘高亮到第几项
+  let catEditId  = null;       // 正在改分类的那条记录（null = 浮层没开）
+  let catEditCursor = 0;       // 浮层里的键盘高亮
   let toastTimer = null;
 
   /* ══════════════════ 数据层 ══════════════════
@@ -1549,8 +1561,9 @@
   }
 
   function cardMeta(g, mode) {
-    const parts = [catLabel(g.category)];
-    // 行动列表里的日期单独做成可点的"改期"按钮，这里不再重复一遍；
+    // 分类不在这里：它单独做成可点的 .cat-chip（见 catChip）
+    const parts = [];
+    // 行动列表里的日期也单独做成可点的"改期"按钮，这里不重复；
     // 成就里的日期则是"什么时候做完的"，所以只显示完成时刻。
     if (g.loop !== 'none') parts.push(loopName(g.loop));
     const hist = (g.history || []).length;
@@ -1566,6 +1579,13 @@
     return t('uDay', d.getMonth() + 1, d.getDate(), wd);
   }
 
+  // 分类标签 = 卡片上唯一"点得动"的元信息：点它就地改分类。
+  // 灵感箱、行动列表、成就架子三处共用同一个按钮，行为一致。
+  const catChip = g => `
+            <button class="cat-chip" type="button" data-cat-edit="${g.id}"
+                    title="${esc(t('catEditAria'))}" aria-label="${esc(t('catEditAria'))}"
+                    >${esc(catLabel(g.category))}</button>`;
+
   function cardMarkup(g, mode) {
     const done = mode === 'done';
     const checkTitle = done ? t('undoDone') : t('markDone');
@@ -1576,6 +1596,7 @@
     // 逾期：排期过了还没完成 → 整张卡转红 + 一枚红标签。
     // 这类条目只会留在行动列表里当"刺"，不会被退回灵感箱。
     const late = done ? 0 : overdueDays(g);
+    const metaTxt = cardMeta(g, mode);
 
     return `
       <div class="card${done ? ' done is-done' : ''}${late ? ' is-overdue' : ''}${g.id === popId ? ' pop' : ''}"
@@ -1591,13 +1612,15 @@
             ${mode === 'action' && g.actionDate ? `
             <button class="date-chip" type="button" data-resched="${g.id}"
                     title="${esc(t('reschedule'))}">${esc(periodShort(g.actionDate))}</button>` : ''}
-            <span class="meta-text">${cardMeta(g, mode)}</span>
+            ${catChip(g)}
+            ${metaTxt ? `<span class="meta-text">${metaTxt}</span>` : ''}
             ${late ? `<span class="tag tag-late">${esc(t('overdueBy', late))}</span>` : ''}
             ${doneToday ? `<span class="meta-ok">${esc(t('doneToday'))}</span>` : ''}
           </div>
           ${g.id === movingId ? `
           <div class="card-move">
             <input class="mini-date" type="date" value="${esc(g.actionDate || todayStr())}"
+                   min="${esc(todayStr())}"
                    aria-label="${esc(t('dateAria'))}" />
             <button class="mini-btn" type="button" data-move-ok>${esc(mode === 'action' ? t('reschedule') : t('moveAction'))}</button>
             <button class="mini-btn ghost" type="button" data-move-cancel
@@ -1703,7 +1726,7 @@
                   </button>
                   <div class="card-body">
                     <span class="txt">${esc(g.title)}</span>
-                    <div class="meta">${cardMeta(g, 'done')}</div>
+                    <div class="meta">${catChip(g)}<span class="meta-text">${cardMeta(g, 'done')}</span></div>
                   </div>
                   <button class="del always" type="button"
                           title="${esc(t('delLabel'))}" aria-label="${esc(t('delLabel'))}">${esc(t('delText'))}</button>
@@ -2097,34 +2120,39 @@
   }
 
   // 输入框里的词是不是"还不存在的新分类"
-  function comboCreateName() {
-    const v = (catInput && catInput.value || '').trim().slice(0, CAT_MAX);
+  function comboCreateName(query) {
+    const v = String(query || '').trim().slice(0, CAT_MAX);
     if (!v) return '';
     const counts = categoryCounts();
     return counts.has(v) ? '' : v;
   }
 
-  function renderCombo() {
-    if (!catMenuEl || !catInput) return;
-    const opts = comboOptions(catInput.value);
-    const create = comboCreateName();
-    const cur = catInput.value.trim();
+  /* 分类选项列表：录入区的下拉和"改分类"浮层共用同一份渲染逻辑，
+     这样两处的排序、计数、"➕ 创建新分类"行为永远一致。 */
+  function comboListHtml(query, cursor, current) {
+    const opts = comboOptions(query);
+    const create = comboCreateName(query);
     let html = opts.map(([c, n], i) => `
-      <button class="combo-opt${c === cur ? ' on' : ''}${i === comboCursor ? ' active' : ''}"
-              type="button" role="option" aria-selected="${c === cur}" data-cat="${esc(c)}">
+      <button class="combo-opt${c === current ? ' on' : ''}${i === cursor ? ' active' : ''}"
+              type="button" role="option" aria-selected="${c === current}" data-cat="${esc(c)}">
         <span>${esc(catLabel(c))}</span>
         ${n ? `<span class="combo-count">${n}</span>` : ''}
       </button>`).join('');
     if (create) {
       html += `
-        <button class="combo-opt create${comboCursor === opts.length ? ' active' : ''}"
+        <button class="combo-opt create${cursor === opts.length ? ' active' : ''}"
                 type="button" role="option" aria-selected="false"
                 data-cat="${esc(create)}" data-create="1">
           <span aria-hidden="true">➕</span>
           <span>${esc(t('catCreate', create))}</span>
         </button>`;
     }
-    catMenuEl.innerHTML = html;
+    return html;
+  }
+
+  function renderCombo() {
+    if (!catMenuEl || !catInput) return;
+    catMenuEl.innerHTML = comboListHtml(catInput.value, comboCursor, catInput.value.trim());
   }
 
   function openCombo() {
@@ -2157,7 +2185,7 @@
     catInput.addEventListener('input', () => { comboCursor = 0; openCombo(); });
     catInput.addEventListener('keydown', e => {
       const items = comboOptions(catInput.value);
-      const canCreate = !!comboCreateName();
+      const canCreate = !!comboCreateName(catInput.value);
       const max = items.length - 1 + (canCreate ? 1 : 0);
       if (e.key === 'ArrowDown') {
         e.preventDefault();
@@ -2172,7 +2200,7 @@
         if (!comboOpen) return;
         e.preventDefault();
         if (comboCursor <= items.length - 1) pickCategory(items[comboCursor][0]);
-        else if (canCreate) pickCategory(comboCreateName());
+        else if (canCreate) pickCategory(comboCreateName(catInput.value));
       } else if (e.key === 'Escape') {
         if (comboOpen) { e.stopPropagation(); closeCombo(); }
       }
@@ -2194,6 +2222,126 @@
     if (e.target.closest && e.target.closest('#catCombo')) return;
     closeCombo();
   });
+
+  /* ---------- 卡片上就地改分类 ----------
+     列表里的分类标签是个按钮，点它弹出一个极简输入框 + 现成分类列表。
+     浮层是 position:fixed 且挂在 body 末尾 —— 列表有 overflow:hidden，
+     放在卡片里会被裁掉。改完立刻写本地 + 排云端推送 + 重画。 */
+
+  function catEditTarget() {
+    return catEditId ? goals.find(g => g.id === catEditId) : null;
+  }
+
+  function renderCatEdit() {
+    if (!catPopMenu) return;
+    const g = catEditTarget();
+    catPopMenu.innerHTML = comboListHtml(
+      catPopInput ? catPopInput.value : '', catEditCursor, g ? g.category : '');
+  }
+
+  // 贴着被点的标签放；下面放不下就翻到上面，右边出界就往左收。
+  function placeCatPop(anchor) {
+    if (!catPop || !anchor || !anchor.getBoundingClientRect) return;
+    const r = anchor.getBoundingClientRect();
+    const vw = W.innerWidth || 1024;
+    const vh = W.innerHeight || 768;
+    const w = catPop.offsetWidth || 216;
+    const h = catPop.offsetHeight || 210;
+    let left = Math.min(r.left, vw - w - 12);
+    if (!(left >= 12)) left = 12;
+    let top = r.bottom + 6;
+    if (top + h > vh - 12) top = Math.max(12, r.top - h - 6);
+    catPop.style.left = left + 'px';
+    catPop.style.top = top + 'px';
+  }
+
+  function openCatEdit(id, anchor) {
+    if (!catPop) return;
+    const g = goals.find(x => x.id === id);
+    if (!g) return;
+    catEditId = id;
+    catEditCursor = 0;
+    if (catPopInput) catPopInput.value = '';
+    renderCatEdit();
+    catPop.hidden = false;              // 先显形才能量到高度
+    placeCatPop(anchor);
+    if (catPopInput) {
+      catPopInput.setAttribute('aria-expanded', 'true');
+      catPopInput.focus();
+      if (catPopInput.select) catPopInput.select();
+    }
+  }
+
+  function closeCatEdit() {
+    if (!catPop) return;
+    catEditId = null;
+    catPop.hidden = true;
+    if (catPopInput) catPopInput.setAttribute('aria-expanded', 'false');
+  }
+
+  // 定下新分类（也可以是刚打出来的新词）
+  function setGoalCategory(g, name) {
+    if (!g) { closeCatEdit(); return; }
+    const cat = String(name || '').trim().slice(0, CAT_MAX) || DEFAULT_CAT;
+    closeCatEdit();
+    if (g.category === cat) return;
+    g.category = cat;
+    g.updatedAt = nowMs();
+    save([g.id]);            // 落本地 + 排队推送到 Supabase
+    render();                // 卡片会跑到新分类下（成就架子也跟着重排）
+    toast(t('tCatSet', catLabel(cat)));
+  }
+
+  if (catPop) {
+    catPop.addEventListener('click', e => {
+      const opt = e.target.closest && e.target.closest('[data-cat]');
+      if (!opt) return;
+      setGoalCategory(catEditTarget(), opt.dataset.cat);
+    });
+  }
+
+  if (catPopInput) {
+    catPopInput.addEventListener('input', () => { catEditCursor = 0; renderCatEdit(); });
+    catPopInput.addEventListener('keydown', e => {
+      const items = comboOptions(catPopInput.value);
+      const typed = (catPopInput.value || '').trim().slice(0, CAT_MAX);
+      const canCreate = !!comboCreateName(typed);
+      const max = items.length - 1 + (canCreate ? 1 : 0);
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        catEditCursor = Math.min(max, catEditCursor + 1);
+        renderCatEdit();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        catEditCursor = Math.max(0, catEditCursor - 1);
+        renderCatEdit();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        // 直接回车 = 用输入框里的词（没有就选当前高亮项）
+        const g = catEditTarget();
+        if (typed && comboCreateName(typed)) return setGoalCategory(g, typed);
+        if (catEditCursor <= items.length - 1) setGoalCategory(g, items[catEditCursor][0]);
+        else if (typed) setGoalCategory(g, typed);
+      } else if (e.key === 'Escape') {
+        e.stopPropagation();
+        closeCatEdit();
+      }
+    });
+  }
+
+  // 点浮层外面就收起
+  document.addEventListener('click', e => {
+    if (!catEditId) return;
+    const t2 = e.target;
+    if (t2.closest && (t2.closest('#catPop') || t2.closest('[data-cat-edit]'))) return;
+    closeCatEdit();
+  });
+
+  // 滚动或改窗口大小也收起：它是 fixed 定位，锚点一挪就对不上了
+  if (W.addEventListener) {
+    W.addEventListener('scroll', () => { if (catEditId) closeCatEdit(); }, { passive: true });
+    W.addEventListener('resize', () => { if (catEditId) closeCatEdit(); });
+  }
 
   // 提交时如果用户什么都没选/什么都没填 → 默认「未分类」
   function readCategory() {
@@ -2371,6 +2519,14 @@
   }
 
   document.addEventListener('click', e => {
+    // 分类标签：点它弹出改分类的小浮层（再点一次收起）
+    const catBtn = e.target.closest('[data-cat-edit]');
+    if (catBtn) {
+      const id = catBtn.dataset.catEdit;
+      if (catEditId === id) closeCatEdit();
+      else openCatEdit(id, catBtn);
+      return;
+    }
     // 「推入行动」：一键，零摩擦 —— 不问日期、不弹窗，
     // 直接在后台抓当前系统日期当行动日，再平滑移到下面的行动列表。
     const moveBtn = e.target.closest('[data-move]');
@@ -2484,7 +2640,7 @@
   /* ---------------- 配色皮肤 ---------------- */
 
   const SKIN_KEY = 'xiaomubiao.skin.v1';
-  const SKINS = ['paper', 'iris', 'cobalt', 'lime'];
+  const SKINS = ['paper', 'iris', 'cobalt', 'lime', 'aurora'];
   let skin = 'paper';
 
   function applySkin(name) {
