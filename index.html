@@ -39,6 +39,16 @@
         <span class="tip" data-i18n="navCalendar">日历</span>
       </button>
 
+      <button class="rail-btn nav-item" type="button" data-view="achieve">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none"
+             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3.6h8v4.6a4 4 0 0 1-8 0V3.6Z" />
+          <path d="M8 4.8H5.4a2.4 2.4 0 0 0 2.6 3M16 4.8h2.6a2.4 2.4 0 0 1-2.6 3" />
+          <path d="M12 12.2v3.2M8.6 19.4h6.8l-.6-4H9.2l-.6 4Z" />
+        </svg>
+        <span class="tip" data-i18n="achieve">成就</span>
+      </button>
+
       <button class="rail-btn nav-item" type="button" data-view="stats">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none"
              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -150,67 +160,66 @@
         <p class="view-sub" data-i18n="subtitle">把想做的事写下来，完成一项就轻轻打个勾。</p>
       </header>
 
-      <!-- 今日完成进度（预留模块，数据由 renderStats() 填） -->
+      <!-- 今日完成进度（数据由 renderStats() 填） -->
       <div class="progress-card" id="progressCard"></div>
 
-      <!-- 输入 + 添加 -->
-      <form class="compose" id="form" autocomplete="off">
-        <input id="title" class="compose-input" type="text" maxlength="80"
-               placeholder="想做点什么？" aria-label="目标内容"
-               data-i18n-ph="ph" data-i18n-aria="goalAria" />
-        <button class="add-btn" type="submit"><span data-i18n="add">添加</span></button>
-      </form>
+      <!-- ══ 内联双模板录入：Tab 就地切换，全程不弹窗 ══ -->
+      <section class="composer" id="composer">
+        <div class="cp-tabs" id="cpTabs" role="tablist">
+          <button class="cp-tab on" type="button" role="tab" aria-selected="true" data-entry="idea">
+            <span aria-hidden="true">💡</span> <span data-i18n="tabIdea">记想法</span>
+          </button>
+          <button class="cp-tab" type="button" role="tab" aria-selected="false" data-entry="plan">
+            <span aria-hidden="true">📅</span> <span data-i18n="tabPlan">定计划</span>
+          </button>
+        </div>
 
-      <!-- 周期 / 日期 / 类型 -->
-      <div class="controls">
-        <div class="ctl">
-          <span class="ctl-label" data-i18n="lblScope">周期</span>
-          <div class="seg" id="scopeSeg" role="group" aria-label="目标周期" data-i18n-aria="gScope">
-            <span class="seg-thumb" aria-hidden="true"></span>
-            <button type="button" data-scope="year" data-i18n="scYear">年</button>
-            <button type="button" data-scope="month" data-i18n="scMonth">月</button>
-            <button type="button" data-scope="week" data-i18n="scWeek">周</button>
-            <button type="button" data-scope="day" class="on" data-i18n="scDay">天</button>
+        <form class="cp-row" id="form" autocomplete="off" novalidate>
+          <input id="title" class="cp-input" type="text" maxlength="80"
+                 placeholder="想做点什么？" aria-label="目标内容"
+                 data-i18n-ph="ph" data-i18n-aria="goalAria" />
+
+          <!-- 可创建式分类器：不是 <select>，可以直接打字新建 -->
+          <div class="combo" id="catCombo">
+            <input id="catInput" class="combo-input" type="text" autocomplete="off" spellcheck="false"
+                   role="combobox" aria-expanded="false" aria-controls="catMenu" aria-autocomplete="list"
+                   placeholder="分类" data-i18n-ph="catPh" data-i18n-aria="catPh" />
+            <div class="combo-menu" id="catMenu" role="listbox" hidden></div>
           </div>
-        </div>
 
-        <div class="ctl">
-          <span class="ctl-label" data-i18n="lblDate">日期</span>
-          <input id="date" class="date-input" type="date" aria-label="日期" data-i18n-aria="dateAria" />
-        </div>
-
-        <div class="ctl">
-          <span class="ctl-label" data-i18n="lblType">类型</span>
-          <div class="seg seg-warm" id="typeSeg" role="group" aria-label="主线或支线" data-i18n-aria="gType">
-            <span class="seg-thumb" aria-hidden="true"></span>
-            <button type="button" data-type="main" class="on" data-i18n="typeMain">主线</button>
-            <button type="button" data-type="side" data-i18n="typeSide">支线</button>
-          </div>
-        </div>
-
-        <p class="composer-hint" id="hint"></p>
-      </div>
-
-      <nav class="filters" id="filters" aria-label="筛选" data-i18n-aria="gFilter">
-        <button class="chip" type="button" data-filter="undone" data-i18n="fAll">全部</button>
-        <button class="chip" type="button" data-filter="main" data-i18n="typeMain">主线</button>
-        <button class="chip" type="button" data-filter="side" data-i18n="typeSide">支线</button>
-      </nav>
-
-      <main id="board" class="board"></main>
-
-      <details class="archive" id="archiveBox" open>
-        <summary>
-          <span class="archive-title">
-            <span id="archiveLabel" data-i18n="archive">已完成</span><span class="pill" id="archiveCount">0</span>
+          <!-- 只有「定计划」模板才出现：日期（必填）+ 循环规则 -->
+          <span class="cp-plan-only" id="planOnly">
+            <input id="date" class="cp-date" type="date" aria-label="日期" data-i18n-aria="dateAria" />
+            <button id="loopBtn" class="cp-loop" type="button">
+              <span aria-hidden="true">↻</span> <span id="loopLabel" data-i18n="loopNone">不循环</span>
+            </button>
           </span>
-        </summary>
-        <div class="archive-list" id="archiveList"></div>
-      </details>
+
+          <button class="add-btn" type="submit"><span data-i18n="add">添加</span></button>
+        </form>
+        <p class="cp-hint" id="hint"></p>
+      </section>
+
+      <!-- ══ 灵感箱：还没排期的想法 ══ -->
+      <section class="lane">
+        <header class="lane-head">
+          <h2 class="lane-title"><span aria-hidden="true">💡</span> <span data-i18n="inboxTitle">灵感箱</span></h2>
+          <span class="lane-count" id="inboxCount">0</span>
+        </header>
+        <div id="inboxList"></div>
+      </section>
+
+      <!-- ══ 行动列表：排好期的想法 + 直接创建的计划 ══ -->
+      <section class="lane">
+        <header class="lane-head">
+          <h2 class="lane-title"><span aria-hidden="true">🔥</span> <span data-i18n="actionTitle">行动列表</span></h2>
+          <span class="lane-count" id="actionCount">0</span>
+        </header>
+        <div id="actionList"></div>
+      </section>
 
       <footer class="foot">
         <span class="sync-progress" id="syncProgress"></span>
-        <button id="clearDone" class="link-btn" type="button" data-i18n="clearDone">清空已完成</button>
       </footer>
     </section>
 
@@ -243,6 +252,21 @@
         <div class="list" id="calList" hidden></div>
         <p class="cal-empty" id="calEmpty" data-i18n="calNoTask">这天没有计划</p>
       </div>
+    </section>
+
+    <!-- ───── 视图三：成就陈列室（按 category 分组）───── -->
+    <section class="view" id="view-achieve" data-view="achieve" hidden>
+      <header class="view-head">
+        <h1 class="view-title" data-i18n="achieve">成就</h1>
+        <p class="view-sub" data-i18n="achieveSub">按分类陈列已经完成的事。</p>
+      </header>
+
+      <div class="shelves" id="shelves"></div>
+
+      <footer class="foot">
+        <span class="sync-progress" id="doneTotal"></span>
+        <button id="clearDone" class="link-btn" type="button" data-i18n="clearDone">清空已完成</button>
+      </footer>
     </section>
 
     <!-- ───── 其余视图：占位（后续实现）───── -->

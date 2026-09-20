@@ -57,8 +57,12 @@
     table: 'goals'
   };
 
-  const SCOPES = { year: {}, month: {}, week: {}, day: {} };
-  const TYPES  = { main: {}, side: {} };
+  const ENTRY  = { idea: {}, plan: {} };
+  const STATUS = { inbox: {}, doing: {}, done: {} };
+  const LOOPS  = { none: {}, daily: {}, weekly: {}, monthly: {} };
+  const LOOP_ORDER = ['none', 'daily', 'weekly', 'monthly'];
+  const DEFAULT_CAT = '未分类';   // 与建表默认值保持一致
+  const CAT_MAX = 40;
 
   /* ---------------- 文案字典（7 种语言） ---------------- */
 
@@ -85,6 +89,17 @@
       calDone: '完成', calNoTask: '这天没有计划',
       calPrev: '上个月', calNext: '下个月',
       skinPaper: '纸墨', skinIris: '鸢尾', skinCobalt: '钴蓝', skinLime: '青柠',
+
+      tabIdea: '记想法', tabPlan: '定计划',
+      catPh: '分类', catNone: '未分类', catCreate: n => `创建新分类「${n}」`,
+      loopNone: '不循环', loopDaily: '每天', loopWeekly: '每周', loopMonthly: '每月',
+      inboxTitle: '灵感箱', inboxEmpty: '灵感箱是空的，先随便记点什么',
+      actionTitle: '行动列表', actionEmpty: '还没有排好的行动',
+      moveAction: '推入行动', tagIdea: '灵感', tagPlan: '计划',
+      achieve: '成就', achieveSub: '按分类陈列已经完成的事。',
+      achieveEmpty: '还没有完成的成就',
+      needDate: '先选个日期', tMoved: '已推入行动',
+      doneToday: '今天已完成', loopTimes: n => `已完成 ${n} 次`,
 
       soon: "这个模块还在开发中",
 
@@ -164,6 +179,17 @@
       calPrev: 'Previous month', calNext: 'Next month',
       skinPaper: 'Paper', skinIris: 'Iris', skinCobalt: 'Cobalt', skinLime: 'Lime',
 
+      tabIdea: 'Capture', tabPlan: 'Schedule',
+      catPh: 'Category', catNone: 'Uncategorised', catCreate: n => `Create category “${n}”`,
+      loopNone: 'No repeat', loopDaily: 'Daily', loopWeekly: 'Weekly', loopMonthly: 'Monthly',
+      inboxTitle: 'Idea inbox', inboxEmpty: 'Inbox is empty — jot something down',
+      actionTitle: 'Actions', actionEmpty: 'Nothing scheduled yet',
+      moveAction: 'Move to action', tagIdea: 'Idea', tagPlan: 'Plan',
+      achieve: 'Achievements', achieveSub: 'Everything you finished, shelved by category.',
+      achieveEmpty: 'No achievements yet',
+      needDate: 'Pick a date first', tMoved: 'Moved to actions',
+      doneToday: 'Done today', loopTimes: n => `Completed ${n} times`,
+
       soon: "This section is still being built",
 
       progress: "Today's progress",
@@ -241,6 +267,17 @@
       calDone: 'เสร็จ', calNoTask: 'วันนี้ไม่มีแผน',
       calPrev: 'เดือนก่อน', calNext: 'เดือนถัดไป',
       skinPaper: 'กระดาษ', skinIris: 'ไอริส', skinCobalt: 'โคบอลต์', skinLime: 'มะนาว',
+
+      tabIdea: 'บันทึกไอเดีย', tabPlan: 'วางแผน',
+      catPh: 'หมวดหมู่', catNone: 'ไม่จัดหมวด', catCreate: n => `สร้างหมวดใหม่ “${n}”`,
+      loopNone: 'ไม่วนซ้ำ', loopDaily: 'ทุกวัน', loopWeekly: 'ทุกสัปดาห์', loopMonthly: 'ทุกเดือน',
+      inboxTitle: 'กล่องไอเดีย', inboxEmpty: 'กล่องไอเดียยังว่างอยู่',
+      actionTitle: 'รายการลงมือทำ', actionEmpty: 'ยังไม่มีแผนที่จัดไว้',
+      moveAction: 'ย้ายไปลงมือทำ', tagIdea: 'ไอเดีย', tagPlan: 'แผน',
+      achieve: 'ความสำเร็จ', achieveSub: 'สิ่งที่ทำเสร็จแล้ว จัดเรียงตามหมวดหมู่',
+      achieveEmpty: 'ยังไม่มีความสำเร็จ',
+      needDate: 'เลือกวันที่ก่อน', tMoved: 'ย้ายไปแล้ว',
+      doneToday: 'วันนี้เสร็จแล้ว', loopTimes: n => `เสร็จแล้ว ${n} ครั้ง`,
 
       soon: "ส่วนนี้ยังอยู่ระหว่างพัฒนา",
 
@@ -321,6 +358,17 @@
       calPrev: 'Tháng trước', calNext: 'Tháng sau',
       skinPaper: 'Giấy mực', skinIris: 'Diên vĩ', skinCobalt: 'Coban', skinLime: 'Chanh',
 
+      tabIdea: 'Ghi ý tưởng', tabPlan: 'Lên kế hoạch',
+      catPh: 'Danh mục', catNone: 'Chưa phân loại', catCreate: n => `Tạo danh mục “${n}”`,
+      loopNone: 'Không lặp', loopDaily: 'Hằng ngày', loopWeekly: 'Hằng tuần', loopMonthly: 'Hằng tháng',
+      inboxTitle: 'Hộp ý tưởng', inboxEmpty: 'Hộp ý tưởng đang trống',
+      actionTitle: 'Danh sách hành động', actionEmpty: 'Chưa có hành động nào',
+      moveAction: 'Đưa vào hành động', tagIdea: 'Ý tưởng', tagPlan: 'Kế hoạch',
+      achieve: 'Thành tích', achieveSub: 'Những việc đã xong, xếp theo danh mục.',
+      achieveEmpty: 'Chưa có thành tích',
+      needDate: 'Chọn ngày trước', tMoved: 'Đã đưa vào hành động',
+      doneToday: 'Hôm nay đã xong', loopTimes: n => `Đã xong ${n} lần`,
+
       soon: "Mục này đang được xây dựng",
 
       progress: "Tiến độ hôm nay",
@@ -398,6 +446,17 @@
       calDone: 'Selesai', calNoTask: 'Tiada rancangan untuk hari ini',
       calPrev: 'Bulan lepas', calNext: 'Bulan depan',
       skinPaper: 'Kertas', skinIris: 'Iris', skinCobalt: 'Kobalt', skinLime: 'Limau',
+
+      tabIdea: 'Catat idea', tabPlan: 'Rancang',
+      catPh: 'Kategori', catNone: 'Tanpa kategori', catCreate: n => `Cipta kategori “${n}”`,
+      loopNone: 'Tiada ulangan', loopDaily: 'Harian', loopWeekly: 'Mingguan', loopMonthly: 'Bulanan',
+      inboxTitle: 'Kotak idea', inboxEmpty: 'Kotak idea masih kosong',
+      actionTitle: 'Senarai tindakan', actionEmpty: 'Belum ada tindakan',
+      moveAction: 'Pindah ke tindakan', tagIdea: 'Idea', tagPlan: 'Rancangan',
+      achieve: 'Pencapaian', achieveSub: 'Semua yang selesai, disusun mengikut kategori.',
+      achieveEmpty: 'Belum ada pencapaian',
+      needDate: 'Pilih tarikh dahulu', tMoved: 'Dipindah ke tindakan',
+      doneToday: 'Selesai hari ini', loopTimes: n => `Selesai ${n} kali`,
 
       soon: "Bahagian ini masih dibina",
 
@@ -478,6 +537,17 @@
       calPrev: 'Bulan sebelumnya', calNext: 'Bulan berikutnya',
       skinPaper: 'Kertas', skinIris: 'Iris', skinCobalt: 'Kobalt', skinLime: 'Jeruk nipis',
 
+      tabIdea: 'Catat ide', tabPlan: 'Rencanakan',
+      catPh: 'Kategori', catNone: 'Tanpa kategori', catCreate: n => `Buat kategori “${n}”`,
+      loopNone: 'Tanpa ulangan', loopDaily: 'Harian', loopWeekly: 'Mingguan', loopMonthly: 'Bulanan',
+      inboxTitle: 'Kotak ide', inboxEmpty: 'Kotak ide masih kosong',
+      actionTitle: 'Daftar tindakan', actionEmpty: 'Belum ada tindakan',
+      moveAction: 'Pindahkan ke tindakan', tagIdea: 'Ide', tagPlan: 'Rencana',
+      achieve: 'Pencapaian', achieveSub: 'Semua yang sudah selesai, ditata per kategori.',
+      achieveEmpty: 'Belum ada pencapaian',
+      needDate: 'Pilih tanggal dulu', tMoved: 'Dipindahkan ke tindakan',
+      doneToday: 'Selesai hari ini', loopTimes: n => `Selesai ${n} kali`,
+
       soon: "Bagian ini masih dikembangkan",
 
       progress: "Kemajuan hari ini",
@@ -556,6 +626,17 @@
       calDone: 'पूरा', calNoTask: 'इस दिन कोई प्लान नहीं',
       calPrev: 'पिछला महीना', calNext: 'अगला महीना',
       skinPaper: 'कागज़', skinIris: 'आइरिस', skinCobalt: 'कोबाल्ट', skinLime: 'नींबू',
+
+      tabIdea: 'विचार लिखें', tabPlan: 'योजना बनाएँ',
+      catPh: 'श्रेणी', catNone: 'बिना श्रेणी', catCreate: n => `नई श्रेणी “${n}” बनाएँ`,
+      loopNone: 'दोहराव नहीं', loopDaily: 'रोज़', loopWeekly: 'हर हफ़्ते', loopMonthly: 'हर महीने',
+      inboxTitle: 'विचार इनबॉक्स', inboxEmpty: 'इनबॉक्स खाली है',
+      actionTitle: 'कार्य सूची', actionEmpty: 'अभी कोई कार्य नहीं',
+      moveAction: 'कार्य में डालें', tagIdea: 'विचार', tagPlan: 'योजना',
+      achieve: 'उपलब्धियाँ', achieveSub: 'पूरी की गई हर चीज़, श्रेणी के हिसाब से।',
+      achieveEmpty: 'अभी कोई उपलब्धि नहीं',
+      needDate: 'पहले तारीख़ चुनें', tMoved: 'कार्य में डाल दिया',
+      doneToday: 'आज पूरा हुआ', loopTimes: n => `${n} बार पूरा`,
 
       soon: "यह भाग अभी बन रहा है",
 
@@ -671,20 +752,26 @@
   /* ---------------- DOM ---------------- */
 
   const $ = id => document.getElementById(id);
-  const board       = $('board');
-  const archiveList = $('archiveList');
-  const archiveBox  = $('archiveBox');
-  const archiveCount= $('archiveCount');
+  const inboxList   = $('inboxList');
+  const inboxCount  = $('inboxCount');
+  const actionList  = $('actionList');
+  const actionCount = $('actionCount');
+  const shelvesEl   = $('shelves');
+  const doneTotalEl = $('doneTotal');
+  const cpTabs      = $('cpTabs');
+  const planOnly    = $('planOnly');
+  const loopBtn     = $('loopBtn');
+  const loopLabel   = $('loopLabel');
+  const catComboEl  = $('catCombo');
+  const catInput    = $('catInput');
+  const catMenuEl   = $('catMenu');
   const form        = $('form');
   const titleInput  = $('title');
   const dateInput   = $('date');
   const hintEl      = $('hint');
-  const scopeSeg    = $('scopeSeg');
-  const typeSeg     = $('typeSeg');
   const langBtn     = $('langBtn');
   const langMenu    = $('langMenu');
   const langIcon    = $('langIcon');
-  const filtersEl   = $('filters');
   const themeBtn    = $('themeBtn');
   const clearDoneBtn= $('clearDone');
   const toastEl     = $('toast');
@@ -725,9 +812,11 @@
   const calEmpty    = $('calEmpty');
 
   let goals   = [];
-  let filter  = 'undone';
-  let scope   = 'day';
-  let type    = 'main';
+  let entryDraft = 'idea';     // 当前录入模板：idea（记想法）/ plan（定计划）
+  let loopRule   = 'none';     // 定计划模板里的循环规则
+  let movingId   = null;       // 正在"就地补日期"的那条灵感
+  let comboOpen  = false;      // 分类下拉是否展开
+  let comboCursor = 0;         // 键盘高亮到第几项
   let toastTimer = null;
 
   /* ══════════════════ 数据层 ══════════════════
@@ -748,37 +837,88 @@
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
       });
 
+  /* 任何来源的记录（本地缓存 / 云端行 / 新建）都过这一遍：
+     补齐 v2 字段 + 把老记录（只有 scope/type/date/done）翻译成新模型。
+     旧记录一律当成"带日期的计划"：done → 成就，其余 → 行动。 */
+  function normalizeGoal(g) {
+    const src = g || {};
+    const legacyDate = /^\d{4}-\d{2}-\d{2}$/.test(src.actionDate || src.action_date || src.date || '')
+      ? (src.actionDate || src.action_date || src.date)
+      : null;
+
+    let status = STATUS[src.status] ? src.status : null;
+    if (!status) status = src.done ? 'done' : (legacyDate ? 'doing' : 'inbox');
+    const entryType = ENTRY[src.entryType] ? src.entryType
+      : ENTRY[src.entry_type] ? src.entry_type
+      : 'plan';
+    const loopRaw = src.loop || src.loopRule || src.loop_rule;
+    const cat = (typeof src.category === 'string' ? src.category.trim() : '').slice(0, CAT_MAX);
+
+    return {
+      id: src.id ? String(src.id) : uid(),
+      title: typeof src.title === 'string' ? src.title : '',
+      entryType,
+      status,
+      category: cat || DEFAULT_CAT,
+      // 灵感箱里的条目还没有"行动日"
+      actionDate: status === 'inbox' ? null : legacyDate,
+      loop: LOOPS[loopRaw] ? loopRaw : 'none',
+      history: Array.isArray(src.history) ? src.history.filter(h => h && h.date) : [],
+      doneAt: src.doneAt || src.done_at || null,
+      createdAt: src.createdAt || src.created_at || nowMs(),
+      updatedAt: src.updatedAt || src.updated_at || src.createdAt || src.created_at || nowMs(),
+      deletedAt: src.deletedAt || src.deleted_at || null
+    };
+  }
+
+  // 分类显示名：入库的空值/默认值在界面上统一显示成当前语言的"未分类"
+  const catLabel = c => (!c || c === DEFAULT_CAT) ? t('catNone') : c;
+
   // 本地记录 → 云端行（云端表用 snake_case，时间统一毫秒）
   function toRow(g, userId) {
+    const n = normalizeGoal(g);
     return {
-      id: g.id,
+      id: n.id,
       user_id: userId,
-      title: g.title,
-      scope: g.scope,
-      type: g.type,
-      date: g.date,
-      done: !!g.done,
-      done_at: g.doneAt || null,
-      created_at: g.createdAt || nowMs(),
-      updated_at: g.updatedAt || g.createdAt || nowMs(),
-      deleted_at: g.deletedAt || null
+      title: n.title,
+      // ── v2 字段 ──
+      entry_type: n.entryType,
+      status: n.status,
+      category: n.category,
+      action_date: n.actionDate,
+      loop_rule: n.loop,
+      history: n.history,
+      // ── 旧的 not null 列继续写派生值 ──
+      // 这样老版本客户端、以及缓存了旧页面的浏览器不会因为缺列而报错。
+      scope: 'day',
+      type: n.entryType === 'idea' ? 'side' : 'main',
+      date: n.actionDate || todayStr(),
+      done: n.status === 'done',
+      done_at: n.doneAt || null,
+      created_at: n.createdAt,
+      updated_at: n.updatedAt,
+      deleted_at: n.deletedAt || null
     };
   }
 
   // 云端行 → 本地记录
   function fromRow(r) {
-    return {
+    return normalizeGoal({
       id: String(r.id),
-      title: typeof r.title === 'string' ? r.title : '',
-      scope: SCOPES[r.scope] ? r.scope : 'day',
-      type: TYPES[r.type] ? r.type : 'side',
-      date: /^\d{4}-\d{2}-\d{2}$/.test(r.date) ? r.date : todayStr(),
-      done: !!r.done,
-      doneAt: r.done_at || null,
-      createdAt: r.created_at || nowMs(),
-      updatedAt: r.updated_at || r.created_at || nowMs(),
-      deletedAt: r.deleted_at || null
-    };
+      title: r.title,
+      entry_type: r.entry_type,
+      status: r.status,
+      category: r.category,
+      action_date: r.action_date,
+      loop_rule: r.loop_rule,
+      history: r.history,
+      done: r.done,
+      date: r.date,
+      done_at: r.done_at,
+      created_at: r.created_at,
+      updated_at: r.updated_at,
+      deleted_at: r.deleted_at
+    });
   }
 
   function loadLocal() {
@@ -786,18 +926,7 @@
       const raw = storage.get(STORE_KEY);
       const arr = raw ? JSON.parse(raw) : [];
       if (!Array.isArray(arr)) return [];
-      return arr.filter(g => g && typeof g.title === 'string').map(g => ({
-        id: g.id || uid(),
-        title: g.title,
-        scope: SCOPES[g.scope] ? g.scope : 'day',
-        type: TYPES[g.type] ? g.type : 'side',
-        date: /^\d{4}-\d{2}-\d{2}$/.test(g.date) ? g.date : todayStr(),
-        done: !!g.done,
-        doneAt: g.doneAt || null,
-        createdAt: g.createdAt || nowMs(),
-        updatedAt: g.updatedAt || g.createdAt || nowMs(),
-        deletedAt: g.deletedAt || null
-      }));
+      return arr.filter(g => g && typeof g.title === 'string').map(normalizeGoal);
     } catch (e) {
       console.warn('load local failed', e);
       return [];
@@ -1254,39 +1383,6 @@
     const [y, m, d] = s.split('-').map(Number);
     return new Date(y, m - 1, d);
   }
-  function periodLabel(scopeName, dateStr) {
-    const d = parseDate(dateStr);
-    if (scopeName === 'year')  return t('uYear', d.getFullYear());
-    if (scopeName === 'month') return t('uMonth', d.getFullYear(), d.getMonth() + 1);
-    if (scopeName === 'week') {
-      const w = isoWeek(d);
-      return t('uWeek', w.year, w.week);
-    }
-    const wd = (STRINGS[lang] || STRINGS.zh).WD[d.getDay()];
-    return t('uDay', d.getMonth() + 1, d.getDate(), wd);
-  }
-  function isoWeek(date) {
-    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
-    const y = d.getFullYear();
-    const firstThu = new Date(y, 0, 4);
-    firstThu.setDate(firstThu.getDate() + 3 - ((firstThu.getDay() + 6) % 7));
-    return { year: y, week: 1 + Math.round((d - firstThu) / 604800000) };
-  }
-  function periodKey(scopeName, dateStr) {
-    const d = parseDate(dateStr);
-    if (scopeName === 'year')  return d.getFullYear();
-    if (scopeName === 'month') return d.getFullYear() * 100 + d.getMonth();
-    if (scopeName === 'week') {
-      const w = isoWeek(d);
-      return w.year * 100 + w.week;
-    }
-    return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
-  }
-  function isOverdue(g) {
-    if (g.done) return false;
-    return g.date < todayStr();
-  }
   function fmtDoneAt(ts) {
     if (!ts) return '';
     const d = new Date(ts);
@@ -1312,25 +1408,40 @@
 
   function render() {
     renderStats();
-    renderBoard();
-    renderArchive();
+    renderLanes();
+    renderShelves();
     renderCalendar();      // 日历跟同一份数据走，勾完立刻反映到格子上
-    syncChips();
     renderSyncBar();
   }
 
-  // 今日完成进度：渲染进目标视图顶部的 #progressCard，同时同步底部状态栏
+  // 记录是否算"这一天完成了"：单次看 status，循环看历史里有没有这一天
+  function isCompleteOn(g, day) {
+    if (g.status === 'done') return true;
+    return g.loop !== 'none' && (g.history || []).some(h => h.date === day);
+  }
+
+  // 顶部进度 = 今日行动：今天该做的（含逾期未做）里完成了多少
+  function todayStats() {
+    const today = todayStr();
+    const list = visibleGoals().filter(g => {
+      if (g.status === 'done') {
+        return g.doneAt ? new Date(g.doneAt).toDateString() === new Date().toDateString() : false;
+      }
+      if (g.status !== 'doing' || !g.actionDate) return false;
+      return g.actionDate <= today;
+    });
+    const done = list.filter(g => isCompleteOn(g, today)).length;
+    return { total: list.length, done, open: list.length - done };
+  }
+
   function renderStats() {
-    const list = visibleGoals();
-    const total = list.length;
-    const done = list.filter(g => g.done).length;
-    const open = total - done;
+    const { total, done, open } = todayStats();
     const pct = total ? Math.round((done / total) * 100) : 0;
 
     if (progressCard) {
       const note = total
-        ? `${esc(t('statActive'))} ${open} · ${esc(t('statDone'))} ${done} · ${esc(t('statAll'))} ${total}`
-        : esc(t('emptyNoGoals'));
+        ? `${esc(t('statActive'))} ${open} · ${esc(t('statDone'))} ${done}`
+        : esc(t('actionEmpty'));
       progressCard.innerHTML = `
         <div class="progress-top">
           <span class="progress-label">${esc(t('progress'))}</span>
@@ -1344,103 +1455,146 @@
     }
   }
 
-  function matchFilter(g) {
-    if (g.done) return false;
-    if (filter === 'main') return g.type === 'main';
-    if (filter === 'side') return g.type === 'side';
-    return true;
+  /* ---------------- 卡片与两条泳道 ---------------- */
+
+  // 卡片元信息：分类 · 行动日 · 循环 · （循环计划的历史次数 / 完成时间）
+  function cardMeta(g, mode) {
+    const parts = [catLabel(g.category)];
+    if (g.actionDate) parts.push(periodShort(g.actionDate));
+    if (g.loop !== 'none') parts.push(t('loop' + g.loop.charAt(0).toUpperCase() + g.loop.slice(1)));
+    const hist = (g.history || []).length;
+    if (g.loop !== 'none' && hist) parts.push(t('loopTimes', hist));
+    if (mode === 'done' && g.doneAt) parts.push(fmtDoneAt(g.doneAt));
+    return parts.filter(Boolean).map(esc).join(' · ');
   }
 
-  function cardMarkup(g, inArchive) {
-    const meta = [t('sc' + g.scope.charAt(0).toUpperCase() + g.scope.slice(1)),
-                  t(g.type === 'main' ? 'typeMain' : 'typeSide')]
-      .concat(isOverdue(g) ? [t('overdue')] : [])
-      .concat(inArchive ? [fmtDoneAt(g.doneAt)] : [])
-      .filter(Boolean).map(esc).join(' · ');
-    const checkTitle = inArchive ? t('undoDone') : t('markDone');
+  // 日期短标签：用当前语言的日期格式（9月19日 周六 / 19 Sep, Sat）
+  function periodShort(dateStr) {
+    const d = parseDate(dateStr);
+    const wd = (STRINGS[lang] || STRINGS.zh).WD[d.getDay()];
+    return t('uDay', d.getMonth() + 1, d.getDate(), wd);
+  }
+
+  function cardMarkup(g, mode) {
+    const done = mode === 'done';
+    const checkTitle = done ? t('undoDone') : (g.loop !== 'none' ? t('markDone') : t('markDone'));
+    const tag = g.entryType === 'idea'
+      ? `<span class="tag tag-idea">${esc(t('tagIdea'))}</span>`
+      : `<span class="tag tag-plan">${esc(t('tagPlan'))}</span>`;
+    const doneToday = g.loop !== 'none' && isCompleteOn(g, todayStr());
+    const overdue = !done && g.actionDate && g.actionDate < todayStr();
+
     return `
-      <div class="card${inArchive ? ' done is-done' : ''}${g.id === popId ? ' pop' : ''}"
-           data-id="${g.id}" data-type="${g.type}">
+      <div class="card${done ? ' done is-done' : ''}${g.id === popId ? ' pop' : ''}"
+           data-id="${g.id}" data-entry="${g.entryType}">
+        ${mode === 'inbox' ? '' : `
         <button class="check" type="button" title="${esc(checkTitle)}">
           <span class="check-mark">✓</span>
-        </button>
+        </button>`}
         <div class="card-body">
           <span class="txt">${esc(g.title)}</span>
-          <div class="meta">${meta}</div>
+          <div class="meta">
+            ${mode === 'action' ? tag : ''}
+            <span class="meta-text">${cardMeta(g, mode)}</span>
+            ${overdue ? `<span class="meta-warn">${esc(t('overdue'))}</span>` : ''}
+            ${doneToday ? `<span class="meta-ok">${esc(t('doneToday'))}</span>` : ''}
+          </div>
+          ${g.id === movingId ? `
+          <div class="card-move">
+            <input class="mini-date" type="date" value="${esc(g.actionDate || todayStr())}"
+                   aria-label="${esc(t('dateAria'))}" />
+            <button class="mini-btn" type="button" data-move-ok>${esc(t('moveAction'))}</button>
+            <button class="mini-btn ghost" type="button" data-move-cancel
+                    title="${esc(t('undo'))}" aria-label="${esc(t('undo'))}">✕</button>
+          </div>` : ''}
         </div>
-        <button class="del ${inArchive ? ' always' : ''}" type="button"
+        ${mode === 'inbox' && g.id !== movingId
+          ? `<button class="move-btn" type="button" data-move="${g.id}">${esc(t('moveAction'))}</button>`
+          : ''}
+        <button class="del ${done ? ' always' : ''}" type="button"
                 title="${esc(t('delLabel'))}" aria-label="${esc(t('delLabel'))}">${esc(t('delText'))}</button>
       </div>`;
   }
 
-  function renderBoard() {
-    const list = visibleGoals().filter(matchFilter);
-    const byScope = { year: [], month: [], week: [], day: [] };
-    list.forEach(g => { if (byScope[g.scope]) byScope[g.scope].push(g); });
-
-    let html = '';
-    for (const key of Object.keys(SCOPES)) {
-      const items = byScope[key];
-      if (!items.length) continue;
-
-      const periods = new Map();
-      items.forEach(g => {
-        const label = periodLabel(g.scope, g.date);
-        if (!periods.has(label)) periods.set(label, { key: periodKey(g.scope, g.date), items: [] });
-        periods.get(label).items.push(g);
-      });
-
-      const groups = [...periods.entries()].sort((a, b) => a[1].key - b[1].key);
-      html += `<section class="group">`;
-      for (const [label, info] of groups) {
-        const doneN = info.items.filter(g => g.done).length;
-        const pct = Math.round((doneN / info.items.length) * 100);
-        const sorted = info.items.slice().sort((a, b) =>
-          (a.done - b.done) || (a.createdAt || 0) - (b.createdAt || 0)
-        );
-        html += `
-          <div class="group-head">
-            <span class="g-name">${esc(label)}</span>
-            <span class="g-count">${doneN}/${info.items.length}</span>
-            <span class="g-track"><i style="width:${pct}%"></i></span>
-          </div>
-          <div class="list" data-scope="${key}">
-            ${sorted.map(g => cardMarkup(g, false)).join('')}
-          </div>`;
-      }
-      html += `</section>`;
-    }
-
-    if (!html) {
-      const all = visibleGoals();
-      const unDone = all.filter(g => !g.done);
-      const msg = !all.length ? t('emptyNoGoals')
-        : (unDone.length === 0) ? t('emptyAllDone') : t('emptyFiltered');
-      html = `<div class="empty">${esc(msg)}</div>`;
-    }
-    board.innerHTML = html;
-    popId = null;
-
-    if (!entranceDone) {
-      entranceDone = true;
-      playEntrance(board);
-    }
+  function laneMarkup(list, mode, emptyKey) {
+    if (!list.length) return `<div class="empty">${esc(t(emptyKey))}</div>`;
+    return `<div class="list">${list.map(g => cardMarkup(g, mode)).join('')}</div>`;
   }
 
-  function renderArchive() {
-    const done = visibleGoals().filter(g => g.done)
+  function renderLanes() {
+    const all = visibleGoals();
+    const inbox = all.filter(g => g.status === 'inbox')
+      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    const doing = all.filter(g => g.status === 'doing')
+      .sort((a, b) => String(a.actionDate || '').localeCompare(String(b.actionDate || ''))
+        || (a.createdAt || 0) - (b.createdAt || 0));
+
+    if (inboxCount) inboxCount.textContent = inbox.length;
+    if (actionCount) actionCount.textContent = doing.length;
+    if (inboxList) inboxList.innerHTML = laneMarkup(inbox, 'inbox', 'inboxEmpty');
+    if (actionList) actionList.innerHTML = laneMarkup(doing, 'action', 'actionEmpty');
+  }
+
+  /* ---------------- 成就陈列室：按 category 分架 ---------------- */
+
+  function renderShelves() {
+    if (!shelvesEl) return;
+    const done = visibleGoals().filter(g => g.status === 'done')
       .sort((a, b) => (b.doneAt || 0) - (a.doneAt || 0));
-    archiveCount.textContent = done.length;
-    archiveList.innerHTML = done.length
-      ? done.map(g => cardMarkup(g, true)).join('')
-      : `<div class="empty">${esc(t('emptyArchive'))}</div>`;
+
+    if (doneTotalEl) {
+      doneTotalEl.textContent = done.length ? `${t('statDone')} ${done.length}` : '';
+    }
+
+    if (!done.length) {
+      shelvesEl.innerHTML = `<div class="empty">${esc(t('achieveEmpty'))}</div>`;
+      return;
+    }
+
+    // 同一分类归到一个架子上；"未分类"永远排最后
+    const byCat = new Map();
+    done.forEach(g => {
+      const key = g.category || DEFAULT_CAT;
+      if (!byCat.has(key)) byCat.set(key, []);
+      byCat.get(key).push(g);
+    });
+
+    shelvesEl.innerHTML = [...byCat.entries()]
+      .sort((a, b) => {
+        if (a[0] === DEFAULT_CAT) return 1;
+        if (b[0] === DEFAULT_CAT) return -1;
+        return b[1].length - a[1].length;
+      })
+      .map(([cat, items]) => `
+        <section class="shelf" data-cat="${esc(cat)}">
+          <header class="shelf-head">
+            <span class="shelf-name">${esc(catLabel(cat))}</span>
+            <span class="shelf-count">${items.length}</span>
+          </header>
+          <div class="shelf-grid">
+            ${items.map(g => `
+              <div class="shelf-item card done is-done" data-id="${g.id}">
+                <button class="check" type="button" title="${esc(t('undoDone'))}">
+                  <span class="check-mark">✓</span>
+                </button>
+                <div class="card-body">
+                  <span class="txt">${esc(g.title)}</span>
+                  <div class="meta">${cardMeta(g, 'done')}</div>
+                </div>
+                <button class="del always" type="button"
+                        title="${esc(t('delLabel'))}" aria-label="${esc(t('delLabel'))}">${esc(t('delText'))}</button>
+              </div>`).join('')}
+          </div>
+        </section>`).join('');
+
+    popId = null;
   }
 
   /* ---------------- 过渡动画 ---------------- */
 
   function playEntrance(root) {
     if (reduceMotion()) return;
-    const groups = root.querySelectorAll('.group');
+    const groups = root.querySelectorAll('.lane, .shelf');
     groups.forEach((el, i) => {
       if (!el.animate) return;
       el.animate(
@@ -1470,33 +1624,6 @@
     setTimeout(finish, 420);
   }
 
-  /* ---------------- 分段选择器滑块 ---------------- */
-
-  function placeThumb(seg) {
-    if (!seg || !seg.querySelectorAll) return;
-    const thumb = seg.querySelector('.seg-thumb');
-    const btns = seg.querySelectorAll('button');
-    if (!thumb || !thumb.style || !btns || !btns.length) return;
-    let target = null;
-    btns.forEach(b => { if (b.classList.contains('on')) target = b; });
-    if (!target) target = btns[0];
-    const pad = seg.clientLeft || 0;
-    const left = Math.max(0, (target.offsetLeft || 0) - pad);
-    const w = target.offsetWidth || 0;
-    if (typeof thumb.style.setProperty === 'function') {
-      thumb.style.setProperty('--seg-left', left + 'px');
-      thumb.style.setProperty('--seg-w', w + 'px');
-    } else {
-      thumb.style.left = left + 'px';
-      thumb.style.width = w + 'px';
-    }
-  }
-  function relayoutSegments() {
-    placeThumb(scopeSeg);
-    placeThumb(typeSeg);
-  }
-  function markThumbReady(seg) { if (seg) seg.dataset.ready = '1'; }
-
   /* ---------------- 导航切换（侧栏 / 手机底部菜单） ---------------- */
 
   function showView(name) {
@@ -1508,8 +1635,10 @@
       navEl.querySelectorAll('[data-view]').forEach(b =>
         b.classList.toggle('on', b.dataset.view === name));
     }
-    // 切回目标视图时容器尺寸变了，分段选择器的滑块要重新对准
-    if (name === 'goals') relayoutSegments();
+    // 切回来时重画一次：日历/陈列室的内容可能已经变了
+    if (name === 'calendar') renderCalendar();
+    if (name === 'achieve') renderShelves();
+    if (name === 'goals') renderLanes();
   }
 
   function wireNav() {
@@ -1608,8 +1737,7 @@
     try { storage.set(LANG_KEY, lang); } catch (e) {}
     applyStatic();
     if (!opts || !opts.soft) render();
-    else { renderStats(); renderArchive(); }
-    relayoutSegments();
+    else { renderStats(); renderLanes(); renderShelves(); }
   }
 
   if (langBtn) {
@@ -1675,10 +1803,10 @@
     calSel = todayStr();
   }
 
-  // 某一天的计划与完成情况：格子上那行小字、以及下方列表都用它
+  // 某一天的行动：按 action_date 归档；循环计划看历史里有没有这一天
   function dayStats(dateStr) {
-    const list = visibleGoals().filter(g => g.date === dateStr);
-    const done = list.filter(g => g.done).length;
+    const list = visibleGoals().filter(g => g.actionDate === dateStr && g.status !== 'inbox');
+    const done = list.filter(g => isCompleteOn(g, dateStr)).length;
     return { list, total: list.length, done };
   }
 
@@ -1725,8 +1853,9 @@
     calDayHead.textContent = t('uDay', d.getMonth() + 1, d.getDate(), wd);
     if (calCount) calCount.textContent = st.total ? `${t('calDone')} ${st.done}/${st.total}` : '';
     // 直接复用看板的卡片标记：勾选 / 删除的委托挂在 document 上，这里白拿一套。
-    // 第二个参数传 g.done —— 已完成的要显示成"已完成"（否则和没做的长得一样）。
-    calList.innerHTML = st.list.map(g => cardMarkup(g, !!g.done)).join('');
+    // 已完成的那天也显示成"已完成"（否则和没做的长得一样）。
+    calList.innerHTML = st.list.map(g =>
+      cardMarkup(g, g.status === 'done' ? 'done' : 'action')).join('');
     calList.hidden = st.total === 0;
     if (calEmpty) calEmpty.hidden = st.total > 0;
   }
@@ -1749,28 +1878,177 @@
     });
   }
 
-  /* ---------------- 交互 ---------------- */
-
-  scopeSeg.addEventListener('click', e => {
-    const btn = e.target.closest('[data-scope]');
-    if (!btn) return;
-    scope = btn.dataset.scope;
-    scopeSeg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === btn));
-    placeThumb(scopeSeg);
-    updateHint();
-  });
-
-  typeSeg.addEventListener('click', e => {
-    const btn = e.target.closest('[data-type]');
-    if (!btn) return;
-    type = btn.dataset.type;
-    typeSeg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === btn));
-    placeThumb(typeSeg);
-  });
+  /* ══════════════════ 内联录入：两个模板 + 可创建分类器 ══════════════════ */
 
   function updateHint() {
+    if (!hintEl) return;
     hintEl.textContent = '';
     hintEl.classList.remove('warn');
+  }
+
+  function setEntryDraft(name) {
+    entryDraft = ENTRY[name] ? name : 'idea';
+    if (cpTabs) {
+      cpTabs.querySelectorAll('[data-entry]').forEach(b => {
+        const on = b.dataset.entry === entryDraft;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-selected', String(on));
+      });
+    }
+    // 只有「定计划」需要日期和循环
+    if (planOnly) planOnly.hidden = entryDraft !== 'plan';
+    if (loopLabel) {
+      loopLabel.textContent = t('loop' + loopRule.charAt(0).toUpperCase() + loopRule.slice(1));
+    }
+    if (loopBtn) loopBtn.classList.toggle('on', loopRule !== 'none');
+    updateHint();
+  }
+
+  if (cpTabs) {
+    cpTabs.addEventListener('click', e => {
+      const btn = e.target.closest('[data-entry]');
+      if (!btn) return;
+      setEntryDraft(btn.dataset.entry);
+      if (entryDraft === 'plan' && dateInput && !dateInput.value) dateInput.value = todayStr();
+      if (entryDraft === 'plan' && dateInput) dateInput.focus();
+      else if (titleInput) titleInput.focus();
+    });
+  }
+
+  // 循环规则：一个按钮在 不循环 → 每天 → 每周 → 每月 之间轮转
+  if (loopBtn) {
+    loopBtn.addEventListener('click', () => {
+      const i = LOOP_ORDER.indexOf(loopRule);
+      loopRule = LOOP_ORDER[(i + 1) % LOOP_ORDER.length];
+      setEntryDraft(entryDraft);
+    });
+  }
+
+  /* ---------- 可创建式分类器（Creatable Combobox） ----------
+     不是 <select>：点开有列表、可以直接打字、打出来的新词会在底部
+     变成一条「➕ 创建新分类『xxx』」，键盘 ↑↓/Enter/Esc 全都能用。 */
+
+  function categoryCounts() {
+    const counts = new Map();
+    counts.set(DEFAULT_CAT, 0);
+    visibleGoals().forEach(g => {
+      const c = g.category || DEFAULT_CAT;
+      counts.set(c, (counts.get(c) || 0) + 1);
+    });
+    return counts;
+  }
+
+  function comboOptions(query) {
+    const q = String(query || '').trim().toLowerCase();
+    return [...categoryCounts().entries()]
+      .filter(([c]) => !q || c.toLowerCase().includes(q))
+      // 默认分类永远排第一，其余按使用次数
+      .sort((a, b) => (a[0] === DEFAULT_CAT ? -1 : b[0] === DEFAULT_CAT ? 1 : b[1] - a[1]));
+  }
+
+  // 输入框里的词是不是"还不存在的新分类"
+  function comboCreateName() {
+    const v = (catInput && catInput.value || '').trim().slice(0, CAT_MAX);
+    if (!v) return '';
+    const counts = categoryCounts();
+    return counts.has(v) ? '' : v;
+  }
+
+  function renderCombo() {
+    if (!catMenuEl || !catInput) return;
+    const opts = comboOptions(catInput.value);
+    const create = comboCreateName();
+    const cur = catInput.value.trim();
+    let html = opts.map(([c, n], i) => `
+      <button class="combo-opt${c === cur ? ' on' : ''}${i === comboCursor ? ' active' : ''}"
+              type="button" role="option" aria-selected="${c === cur}" data-cat="${esc(c)}">
+        <span>${esc(catLabel(c))}</span>
+        ${n ? `<span class="combo-count">${n}</span>` : ''}
+      </button>`).join('');
+    if (create) {
+      html += `
+        <button class="combo-opt create${comboCursor === opts.length ? ' active' : ''}"
+                type="button" role="option" aria-selected="false"
+                data-cat="${esc(create)}" data-create="1">
+          <span aria-hidden="true">➕</span>
+          <span>${esc(t('catCreate', create))}</span>
+        </button>`;
+    }
+    catMenuEl.innerHTML = html;
+  }
+
+  function openCombo() {
+    if (!catMenuEl || !catInput) return;
+    comboOpen = true;
+    comboCursor = 0;
+    renderCombo();
+    catMenuEl.hidden = false;
+    catInput.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeCombo() {
+    if (!catMenuEl || !catInput) return;
+    comboOpen = false;
+    catMenuEl.hidden = true;
+    catMenuEl.innerHTML = '';
+    catInput.setAttribute('aria-expanded', 'false');
+  }
+
+  function pickCategory(name) {
+    if (!catInput) return;
+    catInput.value = name === DEFAULT_CAT ? '' : name;
+    closeCombo();
+    if (titleInput && titleInput.value) hintEl && updateHint();
+  }
+
+  if (catInput) {
+    catInput.addEventListener('focus', openCombo);
+    catInput.addEventListener('click', openCombo);
+    catInput.addEventListener('input', () => { comboCursor = 0; openCombo(); });
+    catInput.addEventListener('keydown', e => {
+      const items = comboOptions(catInput.value);
+      const canCreate = !!comboCreateName();
+      const max = items.length - 1 + (canCreate ? 1 : 0);
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!comboOpen) return openCombo();
+        comboCursor = Math.min(max, comboCursor + 1);
+        renderCombo();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        comboCursor = Math.max(0, comboCursor - 1);
+        renderCombo();
+      } else if (e.key === 'Enter') {
+        if (!comboOpen) return;
+        e.preventDefault();
+        if (comboCursor <= items.length - 1) pickCategory(items[comboCursor][0]);
+        else if (canCreate) pickCategory(comboCreateName());
+      } else if (e.key === 'Escape') {
+        if (comboOpen) { e.stopPropagation(); closeCombo(); }
+      }
+    });
+  }
+
+  if (catMenuEl) {
+    catMenuEl.addEventListener('click', e => {
+      const opt = e.target.closest('[data-cat]');
+      if (!opt) return;
+      pickCategory(opt.dataset.cat);
+      if (titleInput) titleInput.focus();
+    });
+  }
+
+  // 点面板以外的地方就收起下拉
+  document.addEventListener('click', e => {
+    if (!comboOpen) return;
+    if (e.target.closest && e.target.closest('#catCombo')) return;
+    closeCombo();
+  });
+
+  // 提交时如果用户什么都没选/什么都没填 → 默认「未分类」
+  function readCategory() {
+    const v = (catInput && catInput.value || '').trim().slice(0, CAT_MAX);
+    return v || DEFAULT_CAT;
   }
 
   form.addEventListener('submit', e => {
@@ -1782,66 +2060,97 @@
       titleInput.focus();
       return;
     }
-    const fresh = {
+    const isPlan = entryDraft === 'plan';
+    const day = isPlan ? (dateInput.value || '') : null;
+    if (isPlan && !/^\d{4}-\d{2}-\d{2}$/.test(day || '')) {
+      hintEl.textContent = t('needDate');
+      hintEl.classList.add('warn');
+      dateInput.focus();
+      return;
+    }
+
+    // 模板 A：灵感 → 进灵感箱（inbox），没有日期
+    // 模板 B：计划 → 跳过 inbox，直接进行动（doing）
+    const fresh = normalizeGoal({
       id: uid(),
       title,
-      scope,
-      type,
-      date: dateInput.value || todayStr(),
-      done: false,
-      doneAt: null,
+      entryType: isPlan ? 'plan' : 'idea',
+      status: isPlan ? 'doing' : 'inbox',
+      category: readCategory(),
+      actionDate: day,
+      loop: isPlan ? loopRule : 'none',
+      history: [],
       createdAt: nowMs(),
-      updatedAt: nowMs(),
-      deletedAt: null
-    };
-    goals.push(fresh);
+      updatedAt: nowMs()
+    });
+
+    goals.unshift(fresh);
     save([fresh.id]);
     titleInput.value = '';
-    titleInput.focus();
+    if (catInput) catInput.value = '';
+    closeCombo();
     updateHint();
     render();
     if (!reduceMotion()) {
-      const el = board.querySelector(`.card[data-id="${fresh.id}"]`);
-      if (el && el.animate) {
-        el.animate(
+      const el = (isPlan ? actionList : inboxList);
+      const card = el && el.querySelector(`.card[data-id="${fresh.id}"]`);
+      if (card && card.animate) {
+        card.animate(
           [{ opacity: 0, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }],
           { duration: 240, easing: 'cubic-bezier(.2,.7,.3,1)' }
         );
       }
     }
+    titleInput.focus();
     toast(t('tAdd'));
   });
 
-  function toggleDone(id, cardEl) {
-    const g = goals.find(x => x.id === id);
-    if (!g) return;
-    if (!g.done) {
-      g.done = true;
-      g.doneAt = nowMs();
+  /* ---------------- 打勾 / 恢复 / 推入行动 ---------------- */
+
+  function markGoalDone(g, cardEl) {
+    // 循环计划：记一条历史、留在原位
+    if (g.loop && g.loop !== 'none') {
+      const day = todayStr();
+      if (!Array.isArray(g.history)) g.history = [];
+      if (!g.history.some(h => h.date === day)) g.history.push({ at: nowMs(), date: day });
       g.updatedAt = nowMs();
       save([g.id]);
-      cardEl.classList.add('is-done');
-      animateRowOut(cardEl, () => {
-        render();
-        archiveBox.open = true;
-        const moved = archiveList.querySelector(`.card[data-id="${id}"]`);
-        if (moved && moved.animate && !reduceMotion()) {
-          moved.animate(
-            [{ opacity: 0, transform: 'translateY(-8px)' }, { opacity: 1, transform: 'none' }],
-            { duration: 300, easing: 'cubic-bezier(.2,.7,.3,1)' }
-          );
-        }
-        toast(t('tDone'));
-      });
-    } else {
-      g.done = false;
-      g.doneAt = null;
-      g.updatedAt = nowMs();
-      save([g.id]);
-      popId = g.id;
       render();
-      toast(t('tUndone'));
+      toast(t('doneToday'));
+      return;
     }
+    // 单次任务：打勾即完成，移出行动列表 → 进成就陈列室
+    g.status = 'done';
+    g.doneAt = nowMs();
+    g.updatedAt = nowMs();
+    save([g.id]);
+    if (cardEl && cardEl.classList) {
+      cardEl.classList.add('is-done');
+      animateRowOut(cardEl, () => { render(); toast(t('tDone')); });
+    } else {
+      render();
+      toast(t('tDone'));
+    }
+  }
+
+  function restoreGoal(g) {
+    g.status = g.actionDate ? 'doing' : 'inbox';
+    g.doneAt = null;
+    g.updatedAt = nowMs();
+    save([g.id]);
+    popId = g.id;
+    render();
+    toast(t('tUndone'));
+  }
+
+  function moveToAction(g, day) {
+    g.actionDate = day;
+    g.status = 'doing';
+    g.updatedAt = nowMs();
+    movingId = null;
+    save([g.id]);
+    render();
+    toast(t('tMoved'));
   }
 
   function safeConfirm(msg) {
@@ -1904,10 +2213,37 @@
   }
 
   document.addEventListener('click', e => {
+    // 「推入行动」：就地展开日期行（不弹窗）
+    const moveBtn = e.target.closest('[data-move]');
+    if (moveBtn) {
+      movingId = moveBtn.dataset.move;
+      render();
+      return;
+    }
+    if (e.target.closest('[data-move-cancel]')) {
+      movingId = null;
+      render();
+      return;
+    }
+    const moveOk = e.target.closest('[data-move-ok]');
+    if (moveOk) {
+      const card = moveOk.closest('.card');
+      const input = card && card.querySelector ? card.querySelector('.mini-date') : null;
+      const day = input ? input.value : '';
+      const g = goals.find(x => x.id === movingId);
+      if (!g) { movingId = null; render(); return; }
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(day || '')) { toast(t('needDate')); return; }
+      moveToAction(g, day);
+      return;
+    }
+
     const checkBtn = e.target.closest('.check');
     if (checkBtn) {
       const card = checkBtn.closest('.card');
-      toggleDone(card.dataset.id, card);
+      const g = goals.find(x => x.id === card.dataset.id);
+      if (!g) return;
+      if (g.status === 'done') restoreGoal(g);
+      else markGoalDone(g, card);
       return;
     }
     const delBtn = e.target.closest('.del');
@@ -1932,21 +2268,8 @@
     }
   });
 
-  function syncChips() {
-    filtersEl.querySelectorAll('.chip').forEach(b =>
-      b.classList.toggle('on', b.dataset.filter === filter));
-  }
-
-  filtersEl.addEventListener('click', e => {
-    const btn = e.target.closest('[data-filter]');
-    if (!btn) return;
-    filter = btn.dataset.filter;
-    syncChips();
-    renderBoard();
-  });
-
   clearDoneBtn.addEventListener('click', () => {
-    const done = goals.filter(g => g.done && !g.deletedAt);
+    const done = goals.filter(g => g.status === 'done' && !g.deletedAt);
     if (!done.length) return toast(t('tNoDone'));
     if (!safeConfirm(t('cClear', done.length))) return;
     const snapshot = goals.slice();
@@ -2054,6 +2377,8 @@
     applyStatic();
     renderLangMenu();
     closeLangMenu();
+    setEntryDraft('idea');    // 默认停在「记想法」模板
+    closeCombo();
     updateHint();
     render();
     showCloudHint();
@@ -2061,11 +2386,6 @@
     wireNav();
     showView('goals');        // 默认落在"目标"视图
     renderAuth();
-
-    relayoutSegments();
-    markThumbReady(scopeSeg);
-    markThumbReady(typeSeg);
-    if (W.addEventListener) W.addEventListener('resize', () => relayoutSegments());
 
     // 初始数据为空：新用户面对干净的列表（不再塞演示数据，避免污染云端）
     if (!goals.length && defaultGoals.length) {
