@@ -1,4 +1,4 @@
-/* My Goals —— 目标清单（本地优先 + Supabase 云端同步）
+/* MakeIt —— 灵感孵化 + 行动计划（本地优先 + Supabase 云端同步）
    ─────────────────────────────────────────────────────────
    数据流：
      改数据 → 立刻写 localStorage（秒响应）→ 后台推送到 Supabase
@@ -90,6 +90,18 @@
       calPrev: '上个月', calNext: '下个月',
       skinPaper: '纸墨', skinIris: '鸢尾', skinCobalt: '钴蓝', skinLime: '青柠', skinAurora: '极光',
 
+      // ── 右上角控制台 ──
+      moreAria: '更多', darkMode: '深色模式', accent: '强调色',
+      exportData: '导出数据', importData: '导入数据',
+      tExported: n => `已导出 ${n} 条`, tImported: n => `已导入 ${n} 条`,
+      errImportFile: '这个文件读不出来，请选 MakeIt 导出的 JSON',
+      errExportSupport: '当前浏览器不支持直接下载，换个浏览器试试',
+      // ── 统计看板 ──
+      statsSub: '看看你记录了多少、行动了多少。',
+      stIdeas: '记录的灵感', stActions: '累计行动', stAwards: '已归档成就',
+      stRate: '灵感转化率', stRateNote: p => `将 ${p}% 的奇思妙想变成了现实`,
+      stDomains: '领域精力分布', stDomainsEmpty: '完成一件事，这里就长出一根柱子',
+
       tabIdea: '记想法', tabPlan: '定计划',
       catPh: '分类', catNone: '未分类', catCreate: n => `创建新分类「${n}」`,
       catEditAria: '修改分类', tCatSet: c => `已归到「${c}」`,
@@ -109,7 +121,7 @@
       authAria: "登录 / 账号", accountLabel: "当前账号",
 
       langAria: '切换语言', themeAria: '切换深色 / 浅色',
-      title: 'My Goals',
+      title: 'MakeIt',
       subtitle: '把想做的事写下来，完成一项就轻轻打个勾。',
       progress: '完成进度',
       ph: '想做点什么？', goalAria: '目标内容',
@@ -182,6 +194,18 @@
       calPrev: 'Previous month', calNext: 'Next month',
       skinPaper: 'Paper', skinIris: 'Iris', skinCobalt: 'Cobalt', skinLime: 'Lime', skinAurora: 'Aurora',
 
+      // ── top-right console ──
+      moreAria: 'More', darkMode: 'Dark mode', accent: 'Accent',
+      exportData: 'Export data', importData: 'Import data',
+      tExported: n => `Exported ${n} items`, tImported: n => `Imported ${n} items`,
+      errImportFile: 'That file could not be read — pick a JSON exported from MakeIt',
+      errExportSupport: 'This browser cannot download files directly',
+      // ── stats board ──
+      statsSub: 'See how much you have captured and acted on.',
+      stIdeas: 'Ideas captured', stActions: 'Actions taken', stAwards: 'Achievements',
+      stRate: 'Idea conversion', stRateNote: p => `${p}% of your ideas became real`,
+      stDomains: 'Where your energy went', stDomainsEmpty: 'Finish one thing and a bar grows here',
+
       tabIdea: 'Capture', tabPlan: 'Schedule',
       catPh: 'Category', catNone: 'Uncategorised', catCreate: n => `Create category “${n}”`,
       catEditAria: 'Change category', tCatSet: c => `Filed under “${c}”`,
@@ -201,7 +225,7 @@
       authAria: "Sign in / account", accountLabel: "Signed in as",
 
       langAria: 'Switch language', themeAria: 'Switch dark / light',
-      title: 'My Goals',
+      title: 'MakeIt',
       subtitle: 'Write down what you want to do, then tick it off.',
       progress: 'Progress',
       ph: 'What do you want to do?', goalAria: 'Goal text',
@@ -274,6 +298,18 @@
       calPrev: 'เดือนก่อน', calNext: 'เดือนถัดไป',
       skinPaper: 'กระดาษ', skinIris: 'ไอริส', skinCobalt: 'โคบอลต์', skinLime: 'มะนาว', skinAurora: 'ออโรรา',
 
+      // ── คอนโซลมุมขวาบน ──
+      moreAria: 'เพิ่มเติม', darkMode: 'โหมดมืด', accent: 'สีเน้น',
+      exportData: 'ส่งออกข้อมูล', importData: 'นำเข้าข้อมูล',
+      tExported: n => `ส่งออกแล้ว ${n} รายการ`, tImported: n => `นำเข้าแล้ว ${n} รายการ`,
+      errImportFile: 'อ่านไฟล์นี้ไม่ได้ กรุณาเลือก JSON ที่ส่งออกจาก MakeIt',
+      errExportSupport: 'เบราว์เซอร์นี้ไม่รองรับการดาวน์โหลดไฟล์โดยตรง',
+      // ── แดชบอร์ดสถิติ ──
+      statsSub: 'ดูว่าคุณบันทึกไว้เท่าไร ลงมือทำไปเท่าไร',
+      stIdeas: 'ไอเดียที่บันทึก', stActions: 'ครั้งที่ลงมือทำ', stAwards: 'ความสำเร็จ',
+      stRate: 'อัตราการเปลี่ยนไอเดีย', stRateNote: p => `${p}% ของไอเดียกลายเป็นจริง`,
+      stDomains: 'พลังงานกระจายไปที่ไหน', stDomainsEmpty: 'ทำสำเร็จหนึ่งอย่าง แท่งจะงอกขึ้นตรงนี้',
+
       tabIdea: 'บันทึกไอเดีย', tabPlan: 'วางแผน',
       catPh: 'หมวดหมู่', catNone: 'ไม่จัดหมวด', catCreate: n => `สร้างหมวดใหม่ “${n}”`,
       catEditAria: 'เปลี่ยนหมวดหมู่', tCatSet: c => `ย้ายไปที่ “${c}”`,
@@ -293,7 +329,7 @@
       authAria: "เข้าสู่ระบบ / บัญชี", accountLabel: "บัญชีที่ใช้อยู่",
 
       langAria: 'เปลี่ยนภาษา', themeAria: 'สลับโหมดมืด / สว่าง',
-      title: 'My Goals',
+      title: 'MakeIt',
       subtitle: 'จดสิ่งที่อยากทำไว้ แล้วค่อย ๆ ขีดถูกเมื่อทำเสร็จ',
       progress: 'ความคืบหน้า',
       ph: 'อยากทำอะไรดี?', goalAria: 'ข้อความเป้าหมาย',
@@ -367,6 +403,18 @@
       calPrev: 'Tháng trước', calNext: 'Tháng sau',
       skinPaper: 'Giấy mực', skinIris: 'Diên vĩ', skinCobalt: 'Coban', skinLime: 'Chanh', skinAurora: 'Cực quang',
 
+      // ── bảng điều khiển góc trên phải ──
+      moreAria: 'Thêm', darkMode: 'Chế độ tối', accent: 'Màu nhấn',
+      exportData: 'Xuất dữ liệu', importData: 'Nhập dữ liệu',
+      tExported: n => `Đã xuất ${n} mục`, tImported: n => `Đã nhập ${n} mục`,
+      errImportFile: 'Không đọc được tệp này — hãy chọn tệp JSON do MakeIt xuất ra',
+      errExportSupport: 'Trình duyệt này không hỗ trợ tải tệp trực tiếp',
+      // ── bảng thống kê ──
+      statsSub: 'Xem bạn đã ghi lại bao nhiêu và đã làm được bao nhiêu.',
+      stIdeas: 'Ý tưởng đã ghi', stActions: 'Lần hành động', stAwards: 'Thành tựu',
+      stRate: 'Tỷ lệ chuyển hoá', stRateNote: p => `${p}% ý tưởng đã thành hiện thực`,
+      stDomains: 'Năng lượng đổ vào đâu', stDomainsEmpty: 'Hoàn thành một việc, một cột sẽ mọc lên đây',
+
       tabIdea: 'Ghi ý tưởng', tabPlan: 'Lên kế hoạch',
       catPh: 'Danh mục', catNone: 'Chưa phân loại', catCreate: n => `Tạo danh mục “${n}”`,
       catEditAria: 'Đổi danh mục', tCatSet: c => `Đã chuyển vào “${c}”`,
@@ -386,7 +434,7 @@
       authAria: "Đăng nhập / tài khoản", accountLabel: "Đang đăng nhập",
 
       langAria: 'Đổi ngôn ngữ', themeAria: 'Đổi chế độ tối / sáng',
-      title: 'My Goals',
+      title: 'MakeIt',
       subtitle: 'Ghi lại điều bạn muốn làm, xong một việc thì đánh dấu nhẹ.',
       progress: 'Tiến độ',
       ph: 'Bạn muốn làm gì?', goalAria: 'Nội dung mục tiêu',
@@ -459,6 +507,18 @@
       calPrev: 'Bulan lepas', calNext: 'Bulan depan',
       skinPaper: 'Kertas', skinIris: 'Iris', skinCobalt: 'Kobalt', skinLime: 'Limau', skinAurora: 'Aurora',
 
+      // ── konsol kanan atas ──
+      moreAria: 'Lagi', darkMode: 'Mod gelap', accent: 'Warna aksen',
+      exportData: 'Eksport data', importData: 'Import data',
+      tExported: n => `Dieksport ${n} item`, tImported: n => `Diimport ${n} item`,
+      errImportFile: 'Fail ini tidak dapat dibaca — pilih JSON yang dieksport dari MakeIt',
+      errExportSupport: 'Pelayar ini tidak menyokong muat turun fail terus',
+      // ── papan statistik ──
+      statsSub: 'Lihat berapa banyak yang anda catat dan lakukan.',
+      stIdeas: 'Idea dicatat', stActions: 'Kali bertindak', stAwards: 'Pencapaian',
+      stRate: 'Kadar penukaran idea', stRateNote: p => `${p}% idea menjadi kenyataan`,
+      stDomains: 'Tenaga pergi ke mana', stDomainsEmpty: 'Siapkan satu perkara, satu bar akan tumbuh di sini',
+
       tabIdea: 'Catat idea', tabPlan: 'Rancang',
       catPh: 'Kategori', catNone: 'Tanpa kategori', catCreate: n => `Cipta kategori “${n}”`,
       catEditAria: 'Tukar kategori', tCatSet: c => `Dipindah ke “${c}”`,
@@ -478,7 +538,7 @@
       authAria: "Log masuk / akaun", accountLabel: "Akaun semasa",
 
       langAria: 'Tukar bahasa', themeAria: 'Tukar mod gelap / cerah',
-      title: 'My Goals',
+      title: 'MakeIt',
       subtitle: 'Tulis apa yang anda mahu buat, sudah siap satu tanda satu.',
       progress: 'Kemajuan',
       ph: 'Apa yang anda mahu buat?', goalAria: 'Teks sasaran',
@@ -552,6 +612,18 @@
       calPrev: 'Bulan sebelumnya', calNext: 'Bulan berikutnya',
       skinPaper: 'Kertas', skinIris: 'Iris', skinCobalt: 'Kobalt', skinLime: 'Jeruk nipis', skinAurora: 'Aurora',
 
+      // ── konsol kanan atas ──
+      moreAria: 'Lainnya', darkMode: 'Mode gelap', accent: 'Warna aksen',
+      exportData: 'Ekspor data', importData: 'Impor data',
+      tExported: n => `Mengekspor ${n} item`, tImported: n => `Mengimpor ${n} item`,
+      errImportFile: 'Berkas ini tidak bisa dibaca — pilih JSON yang diekspor dari MakeIt',
+      errExportSupport: 'Peramban ini tidak mendukung unduhan langsung',
+      // ── papan statistik ──
+      statsSub: 'Lihat berapa banyak yang kamu catat dan kerjakan.',
+      stIdeas: 'Ide tercatat', stActions: 'Kali beraksi', stAwards: 'Pencapaian',
+      stRate: 'Rasio ide jadi nyata', stRateNote: p => `${p}% ide menjadi nyata`,
+      stDomains: 'Energi mengalir ke mana', stDomainsEmpty: 'Selesaikan satu hal, satu batang akan tumbuh di sini',
+
       tabIdea: 'Catat ide', tabPlan: 'Rencanakan',
       catPh: 'Kategori', catNone: 'Tanpa kategori', catCreate: n => `Buat kategori “${n}”`,
       catEditAria: 'Ubah kategori', tCatSet: c => `Dipindah ke “${c}”`,
@@ -571,7 +643,7 @@
       authAria: "Masuk / akun", accountLabel: "Akun saat ini",
 
       langAria: 'Ganti bahasa', themeAria: 'Ganti mode gelap / terang',
-      title: 'My Goals',
+      title: 'MakeIt',
       subtitle: 'Tulis yang ingin kamu lakukan, selesai satu centang satu.',
       progress: 'Kemajuan',
       ph: 'Mau melakukan apa?', goalAria: 'Teks target',
@@ -645,6 +717,18 @@
       calPrev: 'पिछला महीना', calNext: 'अगला महीना',
       skinPaper: 'कागज़', skinIris: 'आइरिस', skinCobalt: 'कोबाल्ट', skinLime: 'नींबू', skinAurora: 'ध्रुवीय ज्योति',
 
+      // ── ऊपर-दाएँ कंसोल ──
+      moreAria: 'और', darkMode: 'डार्क मोड', accent: 'एक्सेंट रंग',
+      exportData: 'डेटा निर्यात', importData: 'डेटा आयात',
+      tExported: n => `${n} आइटम निर्यात हुए`, tImported: n => `${n} आइटम आयात हुए`,
+      errImportFile: 'यह फ़ाइल पढ़ी नहीं जा सकी — MakeIt से निर्यात की गई JSON चुनें',
+      errExportSupport: 'यह ब्राउज़र सीधे फ़ाइल डाउनलोड नहीं कर सकता',
+      // ── आँकड़े ──
+      statsSub: 'देखें आपने कितना दर्ज किया और कितना किया।',
+      stIdeas: 'दर्ज विचार', stActions: 'कुल कार्य', stAwards: 'उपलब्धियाँ',
+      stRate: 'विचार से कार्य', stRateNote: p => `${p}% विचार सच हुए`,
+      stDomains: 'ऊर्जा कहाँ लगी', stDomainsEmpty: 'एक काम पूरा कीजिए, यहाँ एक पट्टी उगेगी',
+
       tabIdea: 'विचार लिखें', tabPlan: 'योजना बनाएँ',
       catPh: 'श्रेणी', catNone: 'बिना श्रेणी', catCreate: n => `नई श्रेणी “${n}” बनाएँ`,
       catEditAria: 'श्रेणी बदलें', tCatSet: c => `“${c}” में डाल दिया`,
@@ -664,7 +748,7 @@
       authAria: "साइन इन / खाता", accountLabel: "वर्तमान खाता",
 
       langAria: 'भाषा बदलें', themeAria: 'डार्क / लाइट बदलें',
-      title: 'My Goals',
+      title: 'MakeIt',
       subtitle: 'जो करना है उसे लिखें, पूरा होने पर हल्का-सा टिक लगाएँ।',
       progress: 'प्रगति',
       ph: 'क्या करना है?', goalAria: 'लक्ष्य का विवरण',
@@ -794,10 +878,6 @@
   const titleInput  = $('title');
   const dateInput   = $('date');
   const hintEl      = $('hint');
-  const langBtn     = $('langBtn');
-  const langMenu    = $('langMenu');
-  const langIcon    = $('langIcon');
-  const themeBtn    = $('themeBtn');
   const clearDoneBtn= $('clearDone');
   const toastEl     = $('toast');
   const undoEl      = $('undo');
@@ -822,9 +902,18 @@
   const signOutBtn  = $('signOutBtn');
   const navEl       = $('nav');
   const progressCard= $('progressCard');
-  const menuBtn     = $('menuBtn');
-  const menuWrap    = $('menuWrap');
-  const toolPanel   = $('toolPanel');
+  const statsBoard  = $('statsBoard');
+  const langBtn     = $('langBtn');
+  const langMenu    = $('langMenu');
+  const langPanel   = $('langPanel');
+  const lookBtn     = $('lookBtn');
+  const lookPanel   = $('lookPanel');
+  const moreBtn     = $('moreBtn');
+  const morePanel   = $('morePanel');
+  const exportBtn   = $('exportBtn');
+  const importBtn   = $('importBtn');
+  const importFile  = $('importFile');
+  const themeBtn    = $('themeBtn');
   const themeGlyph  = $('themeGlyph');
   const skinRow     = $('skinRow');
   const calTitle    = $('calTitle');
@@ -1262,7 +1351,7 @@
 
   function openAuthModal() {
     if (!authModal) return;
-    closeToolPanel();          // 弹窗和收纳面板不同时出现，免得两层浮层打架
+    closeConsole(true);        // 弹窗和控制台面板不同时出现，免得两层浮层打架
     authModal.hidden = false;
     authModal.classList.add('open');
     if (authBtn) authBtn.setAttribute('aria-expanded', 'true');
@@ -1489,6 +1578,7 @@
     renderLanes();
     renderShelves();
     renderCalendar();      // 日历跟同一份数据走，勾完立刻反映到格子上
+    renderStatsPage();     // 统计看板也吃同一份数据
     renderSyncBar();
   }
 
@@ -1601,6 +1691,7 @@
     return `
       <div class="card${done ? ' done is-done' : ''}${late ? ' is-overdue' : ''}${g.id === popId ? ' pop' : ''}"
            data-id="${g.id}" data-entry="${g.entryType}">
+        <span class="type-pill" aria-hidden="true"></span>
         ${mode === 'inbox' ? '' : `
         <button class="check" type="button" title="${esc(checkTitle)}">
           <span class="check-mark">✓</span>
@@ -1755,6 +1846,87 @@
     });
   }
 
+  /* ---------------- 统计看板 ----------------
+     刻意不算"连续打卡多少天""完成率"这类会让人紧张的东西。
+     这里只回答两个问题：我留下了多少？我把多少变成了现实？ */
+
+  function statsNumbers() {
+    const all = visibleGoals();
+    // 灵感：所有从「记想法」进来的条目，不管它现在走到哪一步了
+    const ideas = all.filter(g => g.entryType === 'idea').length;
+    // 累计行动次数 = 每一次"打勾"：一次性完成的算一次，循环计划按打卡历史累加
+    const actionTimes = all.reduce((n, g) =>
+      n + (g.loop === 'none' ? (g.status === 'done' ? 1 : 0) : (g.history || []).length), 0);
+    const awards = all.filter(g => g.status === 'done').length;
+
+    // 转化率用"此刻分别处在三个阶段"的条数：三者互不重叠，加起来正好是全部记录。
+    // 故意不拿上面的"累计次数"当分母 —— 习惯每打一次卡分母就变大、百分比只会越来越低，
+    // 那正是这个页面要躲开的焦虑。
+    const inbox = all.filter(g => g.status === 'inbox').length;
+    const doing = all.filter(g => g.status === 'doing').length;
+    const done  = awards;
+    const stageTotal = inbox + doing + done;
+    const rate = stageTotal ? Math.round((done / stageTotal) * 100) : 0;
+    return { ideas, actionTimes, awards, inbox, doing, done, stageTotal, rate };
+  }
+
+  // 领域精力：已完成的条目按分类聚合
+  function domainCounts() {
+    const map = new Map();
+    visibleGoals().filter(g => g.status === 'done').forEach(g => {
+      const c = g.category || DEFAULT_CAT;
+      map.set(c, (map.get(c) || 0) + 1);
+    });
+    return [...map.entries()]
+      .sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0])));
+  }
+
+  function renderStatsPage() {
+    if (!statsBoard) return;
+    const s = statsNumbers();
+    const domains = domainCounts();
+    const max = domains.length ? domains[0][1] : 0;
+
+    const statCard = (icon, num, label) => `
+      <div class="stat-card">
+        <span class="stat-icon" aria-hidden="true">${icon}</span>
+        <span class="stat-num">${num}</span>
+        <span class="stat-label">${esc(label)}</span>
+      </div>`;
+
+    statsBoard.innerHTML = `
+      <div class="stat-cards">
+        ${statCard('💡', s.ideas, t('stIdeas'))}
+        ${statCard('🔥', s.actionTimes, t('stActions'))}
+        ${statCard('🏆', s.awards, t('stAwards'))}
+      </div>
+
+      <section class="stat-rate">
+        <div class="stat-rate-top">
+          <span class="stat-rate-label">${esc(t('stRate'))}</span>
+          <span class="stat-rate-value">${s.rate}%</span>
+        </div>
+        <div class="stat-rate-bar"><i style="width:${s.rate}%"></i></div>
+        <p class="stat-rate-note">${esc(t('stRateNote', s.rate))}</p>
+        <p class="stat-rate-math">${esc(t('inboxTitle'))} ${s.inbox} · ${esc(t('statActive'))} ${s.doing} · ${esc(t('statDone'))} ${s.done}</p>
+      </section>
+
+      <section class="stat-block">
+        <header class="stat-block-head">
+          <h2 class="stat-block-title">${esc(t('stDomains'))}</h2>
+          <span class="stat-block-note">${s.awards ? `${esc(t('statDone'))} ${s.awards}` : ''}</span>
+        </header>
+        ${domains.length
+          ? `<div class="bars">${domains.map(([c, n]) => `
+              <div class="bar-row">
+                <span class="bar-name">${esc(catLabel(c))}</span>
+                <span class="bar-track"><i class="bar-fill" style="width:${Math.max(6, Math.round((n / max) * 100))}%"></i></span>
+                <span class="bar-count">${n}</span>
+              </div>`).join('')}</div>`
+          : `<div class="empty">${esc(t('stDomainsEmpty'))}</div>`}
+      </section>`;
+  }
+
   /* ---------------- 过渡动画 ---------------- */
 
   function playEntrance(root) {
@@ -1800,9 +1972,10 @@
       navEl.querySelectorAll('[data-view]').forEach(b =>
         b.classList.toggle('on', b.dataset.view === name));
     }
-    // 切回来时重画一次：日历/陈列室的内容可能已经变了
+    // 切回来时重画一次：日历/陈列室/统计的内容可能已经变了
     if (name === 'calendar') renderCalendar();
     if (name === 'achieve') renderShelves();
+    if (name === 'stats') renderStatsPage();
     if (name === 'goals') renderLanes();
   }
 
@@ -1839,63 +2012,82 @@
 
   function renderLangMenu() {
     if (!langMenu) return;
-    // 外面套一层是为了做 0fr→1fr 的高度动画（见 .lang-acc-inner）
-    langMenu.innerHTML = `<div class="lang-acc-inner" role="none">${LANGS.map(l => `
+    langMenu.innerHTML = LANGS.map(l => `
       <button type="button" role="menuitemradio" aria-checked="${l.code === lang}"
               class="lang-item${l.code === lang ? ' on' : ''}" data-lang="${l.code}">
         <span class="flag flag-${l.code}" aria-hidden="true"></span>
         <span class="lang-item-name">${esc(l.name)}</span>
         <span class="lang-tick" aria-hidden="true">✓</span>
-      </button>`).join('')}</div>`;
+      </button>`).join('');
   }
 
-  function closeLangMenu() {
-    if (!langMenu || !langBtn) return;
-    if (langMenu.classList.contains('open')) {
-      langMenu.classList.remove('open');
-      langMenu._hideTimer = setTimeout(() => { langMenu.hidden = true; }, 220);  // 等 0fr 收完
-    } else {
-      langMenu.hidden = true;
-    }
-    langBtn.setAttribute('aria-expanded', 'false');
+  /* ---------------- 右上角控制台：语言 / 外观 / 更多 ----------------
+     三个按钮共用一套开合逻辑：同时只开一个，点外面、按 Esc、选完东西都收起。 */
+
+  const CPANELS = [
+    { btn: langBtn, panel: langPanel, before: renderLangMenu },
+    { btn: lookBtn, panel: lookPanel },
+    { btn: moreBtn, panel: morePanel, before: renderSyncBar }
+  ];
+  let openPanelKey = null;      // 当前展开的是哪个面板
+
+  function hidePanel(entry, instant) {
+    const p = entry.panel;
+    if (!p) return;
+    clearTimeout(p._hideTimer);
+    p.classList.remove('open');
+    if (entry.btn) entry.btn.setAttribute('aria-expanded', 'false');
+    if (instant) { p.hidden = true; return; }
+    p._hideTimer = setTimeout(() => { p.hidden = true; }, 180);   // 等淡出跑完
   }
 
-  function openLangMenu() {
-    if (!langMenu || !langBtn) return;
-    renderLangMenu();
-    clearTimeout(langMenu._hideTimer);
-    langMenu.hidden = false;
-    if (langMenu.offsetHeight >= 0) langMenu.classList.add('open');
-    if (toolPanel && toolPanel.hidden) openToolPanel();   // 手风琴只长在面板里
-    langBtn.setAttribute('aria-expanded', 'true');
-    const first = langMenu.querySelector('.lang-item');
-    if (first) first.focus();
+  function closeConsole(instant) {
+    CPANELS.forEach(e => hidePanel(e, instant));
+    openPanelKey = null;
   }
 
-  /* ---------------- 底部收纳面板：语言 / 主题 / 账号 ---------------- */
-
-  function closeToolPanel() {
-    closeLangMenu();
-    if (!toolPanel || toolPanel.hidden) return;
-    toolPanel.classList.remove('open');
-    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
-    clearTimeout(toolPanel._hideTimer);
-    toolPanel._hideTimer = setTimeout(() => { toolPanel.hidden = true; }, 200);
+  function openConsole(entry) {
+    CPANELS.forEach(e => { if (e !== entry) hidePanel(e, true); });
+    if (entry.before) entry.before();
+    const p = entry.panel;
+    if (!p) return;
+    clearTimeout(p._hideTimer);
+    p.hidden = false;
+    if (p.offsetHeight >= 0) p.classList.add('open');
+    if (entry.btn) entry.btn.setAttribute('aria-expanded', 'true');
+    openPanelKey = entry;
   }
 
-  function openToolPanel() {
-    if (!toolPanel || !menuBtn) return;
-    clearTimeout(toolPanel._hideTimer);
-    toolPanel.hidden = false;
-    if (toolPanel.offsetHeight >= 0) toolPanel.classList.add('open');
-    menuBtn.setAttribute('aria-expanded', 'true');
+  function toggleConsole(entry) {
+    if (openPanelKey === entry) closeConsole();
+    else openConsole(entry);
   }
 
-  function toggleToolPanel() {
-    if (!toolPanel) return;
-    // 用 .open 判断而不是 hidden：收起动画还没跑完时 hidden 仍是 false
-    if (toolPanel.classList.contains('open')) closeToolPanel(); else openToolPanel();
-  }
+  CPANELS.forEach(entry => {
+    if (!entry.btn) return;
+    entry.btn.addEventListener('click', e => {
+      e.stopPropagation();          // 否则会立刻被下面那句"点到外面就关"命中
+      toggleConsole(entry);
+    });
+  });
+
+  // 面板内部的点击（选语言、切主题、点同步状态…）不该被当成"点到了外面"
+  CPANELS.forEach(entry => {
+    if (entry.panel) entry.panel.addEventListener('click', e => e.stopPropagation());
+  });
+
+  D.addEventListener('click', e => {
+    if (!openPanelKey) return;
+    if (e.target.closest && e.target.closest('#console')) return;
+    closeConsole();
+  });
+
+  D.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || !openPanelKey) return;
+    const btn = openPanelKey.btn;
+    closeConsole();
+    if (btn) btn.focus();
+  });
 
   function setLang(next, opts) {
     lang = STRINGS[next] ? next : 'zh';
@@ -1905,57 +2097,16 @@
     else { renderStats(); renderLanes(); renderShelves(); }
   }
 
-  if (langBtn) {
-    langBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      if (langMenu.hidden) openLangMenu(); else closeLangMenu();
-    });
-  }
   if (langMenu) {
     langMenu.addEventListener('click', e => {
       const item = e.target.closest('[data-lang]');
       if (!item) return;
       const pick = item.dataset.lang;
-      closeLangMenu();
+      closeConsole();
       if (pick === lang) return;
       setLang(pick, { soft: D.activeElement === titleInput });
-      if (langIcon && langIcon.animate && !reduceMotion()) {
-        langIcon.animate(
-          [{ transform: 'scale(1) rotate(0)' }, { transform: 'scale(1.18) rotate(-8deg)' },
-           { transform: 'scale(1) rotate(0)' }],
-          { duration: 320, easing: 'cubic-bezier(.3,1.4,.5,1)' }
-        );
-      }
     });
   }
-
-  // 菜单键：开合收纳面板
-  if (menuBtn) {
-    menuBtn.addEventListener('click', e => {
-      e.stopPropagation();        // 否则会立刻被下面那句"点到外面就关"命中
-      toggleToolPanel();
-    });
-  }
-  // 面板内部的点击（选语言、切主题…）不该被当成"点到了外面"
-  if (toolPanel) toolPanel.addEventListener('click', e => e.stopPropagation());
-
-  D.addEventListener('click', e => {
-    if (!toolPanel || toolPanel.hidden) return;
-    if (e.target.closest && e.target.closest('#menuWrap')) return;
-    closeToolPanel();
-  });
-
-  D.addEventListener('keydown', e => {
-    if (e.key !== 'Escape' || !toolPanel || !toolPanel.classList.contains('open')) return;
-    // 两级 Esc：先收语言手风琴，再按一次才关整个面板
-    if (langMenu && langMenu.classList.contains('open')) {
-      closeLangMenu();
-      if (langBtn) langBtn.focus();
-    } else {
-      closeToolPanel();
-      if (menuBtn) menuBtn.focus();
-    }
-  });
 
   /* ══════════════════ 日历视图 ══════════════════ */
 
@@ -2618,24 +2769,31 @@
 
   function applyTheme(th) {
     document.documentElement.dataset.theme = th;
-    // 只换字形，不能用 themeBtn.textContent —— 那会把面板里的小标签一起清掉
+    // 开关里的字形表示"现在是什么模式"：深色 ☾ / 浅色 ☀
     const glyph = themeGlyph || themeBtn;
-    if (glyph) glyph.textContent = th === 'dark' ? '☀' : '☾';
+    if (glyph) glyph.textContent = th === 'dark' ? '☾' : '☀';
+    // 手机浏览器的地址栏颜色也跟着走（默认是深色）
+    const meta = D.querySelector ? D.querySelector('meta[name="theme-color"]') : null;
+    if (meta && meta.setAttribute) {
+      meta.setAttribute('content', th === 'dark' ? '#121110' : '#f1f0eb');
+    }
     try { storage.set(THEME_KEY, th); } catch (e) {}
   }
 
-  themeBtn.addEventListener('click', () => {
-    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-    applyTheme(next);
-    const glyph = themeGlyph || themeBtn;    // 转的是字形，不是整个格子
-    if (glyph.animate && !reduceMotion()) {
-      glyph.animate(
-        [{ transform: 'rotate(0) scale(1)' }, { transform: 'rotate(180deg) scale(1.1)' },
-         { transform: 'rotate(360deg) scale(1)' }],
-        { duration: 420, easing: 'cubic-bezier(.3,1.2,.4,1)' }
-      );
-    }
-  });
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      const glyph = themeGlyph || themeBtn;    // 转的是字形，不是整个开关
+      if (glyph.animate && !reduceMotion()) {
+        glyph.animate(
+          [{ transform: 'rotate(0) scale(1)' }, { transform: 'rotate(180deg) scale(1.1)' },
+           { transform: 'rotate(360deg) scale(1)' }],
+          { duration: 420, easing: 'cubic-bezier(.3,1.2,.4,1)' }
+        );
+      }
+    });
+  }
 
   /* ---------------- 配色皮肤 ---------------- */
 
@@ -2662,6 +2820,104 @@
     });
   }
 
+  /* ---------------- 导出 / 导入（纯本地备份，随时能把数据带走） ---------------- */
+
+  function exportGoals() {
+    const data = {
+      app: 'MakeIt',
+      version: 3,
+      exportedAt: nowIso(),
+      goals: visibleGoals()
+    };
+    const text = JSON.stringify(data, null, 2);
+    // 沙箱 / 老浏览器可能没有下载能力：那就退化成"至少别报错"
+    if (!W.Blob || !W.URL || !W.URL.createObjectURL || !D.createElement) {
+      toast(t('errExportSupport'));
+      return false;
+    }
+    try {
+      const url = W.URL.createObjectURL(new W.Blob([text], { type: 'application/json' }));
+      const a = D.createElement('a');
+      a.href = url;
+      a.download = `makeit-${todayStr()}.json`;
+      if (a.click) a.click();
+      setTimeout(() => W.URL.revokeObjectURL(url), 4000);
+      toast(t('tExported', data.goals.length));
+      return true;
+    } catch (e) {
+      console.warn('export failed', e);
+      toast(t('errExportSupport'));
+      return false;
+    }
+  }
+
+  /* 合并导入：按 id 对齐，谁新用谁；本地删过的（墓碑）不收，
+     这样"导回一份旧备份"不会把已经删掉的东西又搬回来。 */
+  function importGoalsText(text) {
+    let list = null;
+    try {
+      const parsed = JSON.parse(String(text || ''));
+      list = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.goals) ? parsed.goals : null);
+    } catch (e) {
+      list = null;
+    }
+    if (!list) { toast(t('errImportFile')); return 0; }
+
+    const byId = new Map(goals.map(g => [g.id, g]));
+    let added = 0, updated = 0;
+    list.forEach(raw => {
+      if (!raw || typeof raw.title !== 'string') return;
+      const inc = normalizeGoal(raw);
+      if (tombstones.has(String(inc.id))) return;
+      const cur = byId.get(inc.id);
+      if (!cur) { byId.set(inc.id, inc); added++; return; }
+      if (msOf(inc.updatedAt) > msOf(cur.updatedAt)) { byId.set(inc.id, inc); updated++; }
+    });
+    const changed = added + updated;
+    if (!changed) { toast(t('tImported', 0)); return 0; }
+    goals = [...byId.values()];
+    save();                    // 全量落本地 + 排队推云端
+    render();
+    toast(t('tImported', changed));
+    return changed;
+  }
+
+  function handleImportFile() {
+    if (!importFile) return;
+    const file = importFile.files && importFile.files[0];
+    if (!file) return;
+    if (W.FileReader) {
+      const fr = new W.FileReader();
+      fr.onload = () => { importGoalsText(fr.result); importFile.value = ''; };
+      fr.onerror = () => { toast(t('errImportFile')); importFile.value = ''; };
+      fr.readAsText(file);
+      return;
+    }
+    // 没有 FileReader（极少见）：直接告诉用户这条路的限制，别静默失败
+    if (file.text) {
+      file.text().then(importGoalsText).catch(() => toast(t('errImportFile')));
+    } else {
+      toast(t('errImportFile'));
+    }
+  }
+
+  if (exportBtn) {
+    exportBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      closeConsole();
+      exportGoals();
+    });
+  }
+  if (importBtn) {
+    importBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      closeConsole();
+      if (importFile && importFile.click) importFile.click();
+      else toast(t('errImportFile'));
+    });
+  }
+  if (importFile) importFile.addEventListener('change', handleImportFile);
+
   /* ---------------- 初始化 ---------------- */
 
   function showCloudHint() {
@@ -2684,13 +2940,10 @@
     loadTombstones();          // 恢复已删除 id 的墓碑（防止删掉的记录复活）
     bootedFromLocal = goals.length > 0;
 
+    // 默认深色：新用户第一眼就是深色的 MakeIt（用户选过浅色则沿用他的选择）
     let savedTheme = null;
     try { savedTheme = storage.get(THEME_KEY); } catch (e) {}
-    if (!savedTheme) {
-      savedTheme = W.matchMedia && W.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark' : 'light';
-    }
-    applyTheme(savedTheme);
+    applyTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'dark');
 
     let savedSkin = null;
     try { savedSkin = storage.get(SKIN_KEY); } catch (e) {}
@@ -2702,7 +2955,7 @@
     loadFolded();                     // 成就陈列室里哪些分类是收着的
     applyStatic();
     renderLangMenu();
-    closeLangMenu();
+    closeConsole(true);               // 控制台面板默认全收着
     setEntryDraft('idea');    // 默认停在「记想法」模板
     closeCombo();
     updateHint();
@@ -2733,6 +2986,6 @@
   try {
     boot();
   } catch (err) {
-    console.error('My Goals init failed:', err);
+    console.error('MakeIt init failed:', err);
   }
 })();

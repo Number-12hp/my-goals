@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="theme-color" content="#faf9ff" />
-<title>DonePlan</title>
-<link rel="stylesheet" href="style.css?v=16" />
+<meta name="theme-color" content="#121110" />
+<title>MakeIt</title>
+<link rel="stylesheet" href="style.css?v=17" />
 </head>
 <body>
 
 <div class="app">
   <!-- ══════════ 悬浮图标导航：平时只有图标，悬浮滑出文字气泡 ══════════ -->
   <aside class="sidebar" id="sidebar">
-    <!-- 纯文字标：两行紧贴堆叠、左对齐（原来的图形 logo 已移除） -->
+    <!-- 纯文字标：两行紧贴堆叠、居中 -->
     <div class="rail-brand" aria-hidden="true">
       <span>L1A0</span>
-      <span>DonePlan</span>
+      <span>MakeIt</span>
     </div>
 
     <nav class="rail-nav" id="nav" aria-label="主导航">
@@ -56,106 +56,136 @@
         </svg>
         <span class="tip" data-i18n="navStats">统计</span>
       </button>
-
-      <button class="rail-btn nav-item" type="button" data-view="settings">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none"
-             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3.1" />
-          <path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.8 1.8M7.2 16.8l-1.8 1.8M18.6 18.6l-1.8-1.8M7.2 7.2 5.4 5.4" />
-        </svg>
-        <span class="tip" data-i18n="navSettings">设置</span>
-      </button>
     </nav>
-
-    <div class="rail-foot">
-      <!-- 收纳菜单：语言 / 主题 / 账号都收进这个气泡，从根上避免"菜单套菜单" -->
-      <div class="menu-wrap" id="menuWrap">
-        <button class="rail-btn" id="menuBtn" type="button"
-                aria-haspopup="dialog" aria-expanded="false" aria-controls="toolPanel">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
-            <circle cx="5.4" cy="12" r="1.9" /><circle cx="12" cy="12" r="1.9" /><circle cx="18.6" cy="12" r="1.9" />
-          </svg>
-          <span class="tip" data-i18n="menuLabel">菜单</span>
-        </button>
-
-        <div class="tool-panel" id="toolPanel" role="dialog" aria-modal="false"
-             aria-label="菜单" data-i18n-aria="menuLabel" hidden>
-          <div class="panel-row">
-            <button id="langBtn" class="icon-btn" type="button"
-                    aria-expanded="false" aria-controls="langMenu"
-                    aria-label="切换语言" data-i18n-aria="langAria">
-              <svg id="langIcon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"
-                   fill="none" stroke="currentColor" stroke-width="1.7"
-                   stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 5.5h8M7 3.5v2c0 3.6-1.8 6.6-4 8.2" />
-                <path d="M5 10.2c1.6 2.6 3.6 4.3 5.8 5.3" />
-                <path d="M12.6 20.5 17 8.5l4.4 12" />
-                <path d="M14.3 16.6h5.4" />
-              </svg>
-              <span class="panel-label" data-i18n="langShort">语言</span>
-            </button>
-
-            <button id="themeBtn" class="icon-btn" type="button"
-                    aria-label="切换深色 / 浅色" data-i18n-aria="themeAria">
-              <span id="themeGlyph" aria-hidden="true">☾</span>
-              <span class="panel-label" data-i18n="themeShort">主题</span>
-            </button>
-
-            <button id="authBtn" class="icon-btn" type="button"
-                    aria-haspopup="dialog" aria-expanded="false"
-                    aria-label="登录 / 账号" data-i18n-aria="authAria">
-              <svg id="userIcon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"
-                   fill="none" stroke="currentColor" stroke-width="1.7"
-                   stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="8.5" r="3.6" />
-                <path d="M4.8 20.2c1.1-3.6 3.9-5.6 7.2-5.6s6.1 2 7.2 5.6" />
-              </svg>
-              <span class="auth-dot" id="authDot" aria-hidden="true"></span>
-              <span class="panel-label" data-i18n="userShort">账号</span>
-            </button>
-          </div>
-
-          <!-- 配色皮肤：4 个色块，点一下整套变量跟着换 -->
-          <div class="panel-skins" id="skinRow" role="radiogroup"
-               aria-label="主题" data-i18n-aria="themeShort">
-            <button class="skin" type="button" role="radio" aria-checked="true" data-skin="paper">
-              <span class="skin-chip skin-paper" aria-hidden="true"></span>
-              <span class="panel-label" data-i18n="skinPaper">纸墨</span>
-            </button>
-            <button class="skin" type="button" role="radio" aria-checked="false" data-skin="iris">
-              <span class="skin-chip skin-iris" aria-hidden="true"></span>
-              <span class="panel-label" data-i18n="skinIris">鸢尾</span>
-            </button>
-            <button class="skin" type="button" role="radio" aria-checked="false" data-skin="cobalt">
-              <span class="skin-chip skin-cobalt" aria-hidden="true"></span>
-              <span class="panel-label" data-i18n="skinCobalt">钴蓝</span>
-            </button>
-            <button class="skin" type="button" role="radio" aria-checked="false" data-skin="lime">
-              <span class="skin-chip skin-lime" aria-hidden="true"></span>
-              <span class="panel-label" data-i18n="skinLime">青柠</span>
-            </button>
-            <button class="skin" type="button" role="radio" aria-checked="false" data-skin="aurora">
-              <span class="skin-chip skin-aurora" aria-hidden="true"></span>
-              <span class="panel-label" data-i18n="skinAurora">极光</span>
-            </button>
-          </div>
-
-          <!-- 语言手风琴：撑开的是面板自身，不再有浮在外面的下拉层 -->
-          <div id="langMenu" class="lang-acc" role="menu" hidden></div>
-        </div>
-      </div>
-
-      <!-- 状态指示器：侧栏最底端的基准，文字收进气泡 -->
-      <button type="button" class="rail-btn" id="syncPill" data-state="local"
-              aria-haspopup="dialog" aria-expanded="false">
-        <span class="sync-dot" aria-hidden="true"></span>
-        <span class="tip" id="syncText">仅本机保存</span>
-      </button>
-    </div>
   </aside>
 
   <!-- ══════════ 主内容区 ══════════ -->
   <main class="main">
+
+    <!-- ══ 右上角统一控制台：语言 / 外观 / 更多 ══
+         三个图标一排，各自弹一个小面板，点外面或 Esc 就收 —— 用完即关。 -->
+    <div class="console" id="console">
+      <button class="cbtn" id="langBtn" type="button"
+              aria-haspopup="menu" aria-expanded="false" aria-controls="langPanel"
+              aria-label="切换语言" data-i18n-aria="langAria">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none"
+             stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18" />
+          <path d="M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" />
+        </svg>
+        <span class="cbtn-tip" data-i18n="langShort">语言</span>
+      </button>
+
+      <button class="cbtn" id="lookBtn" type="button"
+              aria-haspopup="dialog" aria-expanded="false" aria-controls="lookPanel"
+              aria-label="主题" data-i18n-aria="themeShort">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none"
+             stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.9-.8 1.9-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.4-.6-.4-1 0-.9.8-1.6 1.7-1.6h1.5A4.8 4.8 0 0 0 21 10.7C21 6.4 17 3 12 3Z" />
+          <circle cx="7.6" cy="11.4" r="1.15" fill="currentColor" stroke="none" />
+          <circle cx="11" cy="7.4" r="1.15" fill="currentColor" stroke="none" />
+          <circle cx="15.6" cy="9" r="1.15" fill="currentColor" stroke="none" />
+        </svg>
+        <span class="cbtn-tip" data-i18n="themeShort">主题</span>
+      </button>
+
+      <button class="cbtn" id="moreBtn" type="button"
+              aria-haspopup="menu" aria-expanded="false" aria-controls="morePanel"
+              aria-label="更多" data-i18n-aria="moreAria">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none"
+             stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3.1" />
+          <path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.8 1.8M7.2 16.8l-1.8 1.8M18.6 18.6l-1.8-1.8M7.2 7.2 5.4 5.4" />
+        </svg>
+        <span class="cbtn-tip" data-i18n="moreAria">更多</span>
+      </button>
+
+      <!-- ① 语言 -->
+      <div class="cpanel" id="langPanel" role="menu" hidden>
+        <p class="cpanel-title" data-i18n="langShort">语言</p>
+        <div id="langMenu" class="lang-list"></div>
+      </div>
+
+      <!-- ② 外观：深浅开关 + 强调色圆点 -->
+      <div class="cpanel" id="lookPanel" role="dialog" hidden>
+        <button class="look-row" id="themeBtn" type="button"
+                aria-label="切换深色 / 浅色" data-i18n-aria="themeAria">
+          <span class="look-label" data-i18n="darkMode">深色模式</span>
+          <span class="switch" aria-hidden="true">
+            <span class="switch-knob"><span id="themeGlyph">☾</span></span>
+          </span>
+        </button>
+        <p class="cpanel-title" data-i18n="accent">强调色</p>
+        <div class="panel-skins" id="skinRow" role="radiogroup"
+             aria-label="主题" data-i18n-aria="themeShort">
+          <button class="skin" type="button" role="radio" aria-checked="true" data-skin="paper">
+            <span class="skin-chip skin-paper" aria-hidden="true"></span>
+            <span class="panel-label" data-i18n="skinPaper">纸墨</span>
+          </button>
+          <button class="skin" type="button" role="radio" aria-checked="false" data-skin="iris">
+            <span class="skin-chip skin-iris" aria-hidden="true"></span>
+            <span class="panel-label" data-i18n="skinIris">鸢尾</span>
+          </button>
+          <button class="skin" type="button" role="radio" aria-checked="false" data-skin="cobalt">
+            <span class="skin-chip skin-cobalt" aria-hidden="true"></span>
+            <span class="panel-label" data-i18n="skinCobalt">钴蓝</span>
+          </button>
+          <button class="skin" type="button" role="radio" aria-checked="false" data-skin="lime">
+            <span class="skin-chip skin-lime" aria-hidden="true"></span>
+            <span class="panel-label" data-i18n="skinLime">青柠</span>
+          </button>
+          <button class="skin" type="button" role="radio" aria-checked="false" data-skin="aurora">
+            <span class="skin-chip skin-aurora" aria-hidden="true"></span>
+            <span class="panel-label" data-i18n="skinAurora">极光</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ③ 更多：同步状态 / 账号 / 导出 / 导入 -->
+      <div class="cpanel cpanel-menu" id="morePanel" role="menu" hidden>
+        <button class="menu-item" id="syncPill" type="button" data-state="local"
+                aria-haspopup="dialog" aria-expanded="false">
+          <span class="sync-dot" aria-hidden="true"></span>
+          <span class="menu-item-text" id="syncText">仅本机保存</span>
+          <span class="menu-caret" aria-hidden="true">›</span>
+        </button>
+
+        <button class="menu-item" id="authBtn" type="button"
+                aria-haspopup="dialog" aria-expanded="false"
+                aria-label="登录 / 账号" data-i18n-aria="authAria">
+          <svg id="userIcon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+               fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8.5" r="3.6" />
+            <path d="M4.8 20.2c1.1-3.6 3.9-5.6 7.2-5.6s6.1 2 7.2 5.6" />
+          </svg>
+          <span class="menu-item-text" data-i18n="userShort">账号</span>
+          <span class="auth-dot" id="authDot" aria-hidden="true"></span>
+        </button>
+
+        <div class="cpanel-sep" role="none"></div>
+
+        <button class="menu-item" id="exportBtn" type="button">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none"
+               stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3.6v11.2M8.2 11l3.8 3.8L15.8 11" />
+            <path d="M4.4 16.6v2.2a1.8 1.8 0 0 0 1.8 1.8h11.6a1.8 1.8 0 0 0 1.8-1.8v-2.2" />
+          </svg>
+          <span class="menu-item-text" data-i18n="exportData">导出数据</span>
+        </button>
+
+        <button class="menu-item" id="importBtn" type="button">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none"
+               stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 14.8V3.6M8.2 7.4l3.8-3.8 3.8 3.8" />
+            <path d="M4.4 16.6v2.2a1.8 1.8 0 0 0 1.8 1.8h11.6a1.8 1.8 0 0 0 1.8-1.8v-2.2" />
+          </svg>
+          <span class="menu-item-text" data-i18n="importData">导入数据</span>
+        </button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden />
+      </div>
+    </div>
 
     <!-- ───── 视图一：目标 ───── -->
     <section class="view" id="view-goals" data-view="goals">
@@ -273,33 +303,21 @@
       </footer>
     </section>
 
-    <!-- ───── 其余视图：占位（后续实现）───── -->
-
+    <!-- ───── 视图四：统计看板（只统计"你留下了什么"，不做打卡连续天数这类焦虑指标）───── -->
     <section class="view" id="view-stats" data-view="stats" hidden>
       <header class="view-head">
         <h1 class="view-title" data-i18n="navStats">统计</h1>
+        <p class="view-sub" data-i18n="statsSub">看看你记录了多少、行动了多少。</p>
       </header>
-      <div class="soon">
-        <p class="soon-title" data-i18n="soon">这个模块还在开发中</p>
-        <p class="soon-hint" data-i18n="subtitle">把想做的事写下来，完成一项就轻轻打个勾。</p>
-      </div>
-    </section>
 
-    <section class="view" id="view-settings" data-view="settings" hidden>
-      <header class="view-head">
-        <h1 class="view-title" data-i18n="navSettings">设置</h1>
-      </header>
-      <div class="soon">
-        <p class="soon-title" data-i18n="soon">这个模块还在开发中</p>
-        <p class="soon-hint" data-i18n="subtitle">把想做的事写下来，完成一项就轻轻打个勾。</p>
-      </div>
+      <div id="statsBoard"></div>
     </section>
 
     <span id="cloudHost" class="cloud-host" hidden></span>
   </main>
 </div>
 
-<!-- ═══ 登录 / 账号弹窗（默认隐藏；点用户图标或底部状态栏呼出）═══ -->
+<!-- ═══ 登录 / 账号弹窗（默认隐藏；从右上角 ⚙ 里的账号 / 同步状态呼出）═══ -->
 <div class="modal" id="authModal" hidden>
   <div class="modal-backdrop" data-close></div>
   <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="authTitle">
@@ -357,6 +375,6 @@
 
 <!-- Supabase 客户端：加载失败也不影响本地功能 -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin="anonymous"></script>
-<script src="app.js?v=15"></script>
+<script src="app.js?v=16"></script>
 </body>
 </html>
