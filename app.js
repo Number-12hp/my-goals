@@ -58,7 +58,7 @@
   };
 
   const ENTRY  = { idea: {}, plan: {} };
-  const STATUS = { inbox: {}, doing: {}, done: {} };
+  const STATUS = { inbox: {}, doing: {}, done: {}, trashed: {} };
   const LOOPS  = { none: {}, daily: {}, weekly: {}, monthly: {} };
   const LOOP_ORDER = ['none', 'daily', 'weekly', 'monthly'];
   const DEFAULT_CAT = '未分类';   // 与建表默认值保持一致
@@ -101,6 +101,19 @@
       stIdeas: '记录的灵感', stActions: '累计行动', stAwards: '已归档成就',
       stRate: '灵感转化率', stRateNote: p => `将 ${p}% 的奇思妙想变成了现实`,
       stDomains: '领域精力分布', stDomainsEmpty: '完成一件事，这里就长出一根柱子',
+      // ── 废纸篓 ──
+      trashTitle: '废纸篓', trashEmpty: '废纸篓是空的',
+      trashHint: '删掉的东西先丢在这里，随时能捡回来',
+      pickUp: '捡起', clearTrash: '清理',
+      cClearTrash: n => `清理这 ${n} 条？清理后就找不回来了`,
+      tTrashed: t => `已把「${t}」丢进废纸篓`, tPicked: '已捡回来',
+      tClearedTrash: n => `已清理 ${n} 条`,
+      // ── 手动同步 ──
+      tSynced: '已同步到最新', syncNow: '手动同步一次',
+      // ── 主题按钮的悬浮提示（说的是"点了会变成什么"）──
+      toDark: '深色模式', toLight: '浅色模式',
+      // ── 拖拽排序 ──
+      reorderHint: '按住卡片拖动可以调整顺序',
 
       tabIdea: '记想法', tabPlan: '定计划',
       catPh: '分类', catNone: '未分类', catCreate: n => `创建新分类「${n}」`,
@@ -205,6 +218,19 @@
       stIdeas: 'Ideas captured', stActions: 'Actions taken', stAwards: 'Achievements',
       stRate: 'Idea conversion', stRateNote: p => `${p}% of your ideas became real`,
       stDomains: 'Where your energy went', stDomainsEmpty: 'Finish one thing and a bar grows here',
+      // ── trash ──
+      trashTitle: 'Trash', trashEmpty: 'Trash is empty',
+      trashHint: 'Deleted items land here first — pick them back up anytime',
+      pickUp: 'Pick up', clearTrash: 'Empty',
+      cClearTrash: n => `Empty these ${n} items? This cannot be undone`,
+      tTrashed: t => `“${t}” moved to trash`, tPicked: 'Picked back up',
+      tClearedTrash: n => `Emptied ${n} items`,
+      // ── manual sync ──
+      tSynced: 'Up to date', syncNow: 'Sync now',
+      // ── theme button tooltip (says what you'll get) ──
+      toDark: 'Dark mode', toLight: 'Light mode',
+      // ── drag to reorder ──
+      reorderHint: 'Drag cards to reorder them',
 
       tabIdea: 'Capture', tabPlan: 'Schedule',
       catPh: 'Category', catNone: 'Uncategorised', catCreate: n => `Create category “${n}”`,
@@ -309,6 +335,19 @@
       stIdeas: 'ไอเดียที่บันทึก', stActions: 'ครั้งที่ลงมือทำ', stAwards: 'ความสำเร็จ',
       stRate: 'อัตราการเปลี่ยนไอเดีย', stRateNote: p => `${p}% ของไอเดียกลายเป็นจริง`,
       stDomains: 'พลังงานกระจายไปที่ไหน', stDomainsEmpty: 'ทำสำเร็จหนึ่งอย่าง แท่งจะงอกขึ้นตรงนี้',
+      // ── ถังขยะ ──
+      trashTitle: 'ถังขยะ', trashEmpty: 'ถังขยะว่างเปล่า',
+      trashHint: 'สิ่งที่ลบจะมาอยู่ที่นี่ก่อน หยิบกลับได้ทุกเมื่อ',
+      pickUp: 'หยิบกลับ', clearTrash: 'ล้างถัง',
+      cClearTrash: n => `ล้าง ${n} รายการนี้? ล้างแล้วกู้คืนไม่ได้`,
+      tTrashed: t => `ย้าย “${t}” ไปถังขยะแล้ว`, tPicked: 'หยิบกลับแล้ว',
+      tClearedTrash: n => `ล้างแล้ว ${n} รายการ`,
+      // ── ซิงก์เอง ──
+      tSynced: 'ซิงก์ล่าสุดแล้ว', syncNow: 'ซิงก์เดี๋ยวนี้',
+      // ── ป้ายลอยของปุ่มธีม ──
+      toDark: 'โหมดมืด', toLight: 'โหมดสว่าง',
+      // ── ลากเพื่อจัดลำดับ ──
+      reorderHint: 'ลากการ์ดเพื่อจัดลำดับใหม่',
 
       tabIdea: 'บันทึกไอเดีย', tabPlan: 'วางแผน',
       catPh: 'หมวดหมู่', catNone: 'ไม่จัดหมวด', catCreate: n => `สร้างหมวดใหม่ “${n}”`,
@@ -414,6 +453,19 @@
       stIdeas: 'Ý tưởng đã ghi', stActions: 'Lần hành động', stAwards: 'Thành tựu',
       stRate: 'Tỷ lệ chuyển hoá', stRateNote: p => `${p}% ý tưởng đã thành hiện thực`,
       stDomains: 'Năng lượng đổ vào đâu', stDomainsEmpty: 'Hoàn thành một việc, một cột sẽ mọc lên đây',
+      // ── thùng rác ──
+      trashTitle: 'Thùng rác', trashEmpty: 'Thùng rác trống',
+      trashHint: 'Mục đã xoá sẽ nằm ở đây trước — nhặt lại bất cứ lúc nào',
+      pickUp: 'Nhặt lại', clearTrash: 'Dọn sạch',
+      cClearTrash: n => `Dọn sạch ${n} mục này? Không thể hoàn tác`,
+      tTrashed: t => `Đã chuyển “${t}” vào thùng rác`, tPicked: 'Đã nhặt lại',
+      tClearedTrash: n => `Đã dọn ${n} mục`,
+      // ── đồng bộ thủ công ──
+      tSynced: 'Đã đồng bộ', syncNow: 'Đồng bộ ngay',
+      // ── chú thích nút giao diện ──
+      toDark: 'Chế độ tối', toLight: 'Chế độ sáng',
+      // ── kéo để sắp xếp ──
+      reorderHint: 'Kéo thẻ để đổi thứ tự',
 
       tabIdea: 'Ghi ý tưởng', tabPlan: 'Lên kế hoạch',
       catPh: 'Danh mục', catNone: 'Chưa phân loại', catCreate: n => `Tạo danh mục “${n}”`,
@@ -518,6 +570,19 @@
       stIdeas: 'Idea dicatat', stActions: 'Kali bertindak', stAwards: 'Pencapaian',
       stRate: 'Kadar penukaran idea', stRateNote: p => `${p}% idea menjadi kenyataan`,
       stDomains: 'Tenaga pergi ke mana', stDomainsEmpty: 'Siapkan satu perkara, satu bar akan tumbuh di sini',
+      // ── tong sampah ──
+      trashTitle: 'Tong sampah', trashEmpty: 'Tong sampah kosong',
+      trashHint: 'Yang dipadam singgah di sini dahulu — boleh diambil semula bila-bila masa',
+      pickUp: 'Ambil semula', clearTrash: 'Kosongkan',
+      cClearTrash: n => `Kosongkan ${n} item ini? Tidak boleh dipulihkan`,
+      tTrashed: t => `“${t}” dipindah ke tong sampah`, tPicked: 'Telah diambil semula',
+      tClearedTrash: n => `Dikosongkan ${n} item`,
+      // ── segerak manual ──
+      tSynced: 'Sudah disegerakkan', syncNow: 'Segerakkan sekarang',
+      // ── tip butang tema ──
+      toDark: 'Mod gelap', toLight: 'Mod cerah',
+      // ── seret untuk susun semula ──
+      reorderHint: 'Seret kad untuk susun semula',
 
       tabIdea: 'Catat idea', tabPlan: 'Rancang',
       catPh: 'Kategori', catNone: 'Tanpa kategori', catCreate: n => `Cipta kategori “${n}”`,
@@ -623,6 +688,19 @@
       stIdeas: 'Ide tercatat', stActions: 'Kali beraksi', stAwards: 'Pencapaian',
       stRate: 'Rasio ide jadi nyata', stRateNote: p => `${p}% ide menjadi nyata`,
       stDomains: 'Energi mengalir ke mana', stDomainsEmpty: 'Selesaikan satu hal, satu batang akan tumbuh di sini',
+      // ── tong sampah ──
+      trashTitle: 'Tong sampah', trashEmpty: 'Tong sampah kosong',
+      trashHint: 'Yang dihapus mampir ke sini dulu — bisa diambil kembali kapan saja',
+      pickUp: 'Ambil kembali', clearTrash: 'Kosongkan',
+      cClearTrash: n => `Kosongkan ${n} item ini? Tidak bisa dibatalkan`,
+      tTrashed: t => `“${t}” dipindah ke tong sampah`, tPicked: 'Sudah diambil kembali',
+      tClearedTrash: n => `Dikosongkan ${n} item`,
+      // ── sinkron manual ──
+      tSynced: 'Sudah tersinkron', syncNow: 'Sinkronkan sekarang',
+      // ── tip tombol tema ──
+      toDark: 'Mode gelap', toLight: 'Mode terang',
+      // ── seret untuk mengurutkan ──
+      reorderHint: 'Seret kartu untuk mengubah urutan',
 
       tabIdea: 'Catat ide', tabPlan: 'Rencanakan',
       catPh: 'Kategori', catNone: 'Tanpa kategori', catCreate: n => `Buat kategori “${n}”`,
@@ -728,6 +806,19 @@
       stIdeas: 'दर्ज विचार', stActions: 'कुल कार्य', stAwards: 'उपलब्धियाँ',
       stRate: 'विचार से कार्य', stRateNote: p => `${p}% विचार सच हुए`,
       stDomains: 'ऊर्जा कहाँ लगी', stDomainsEmpty: 'एक काम पूरा कीजिए, यहाँ एक पट्टी उगेगी',
+      // ── कूड़ेदान ──
+      trashTitle: 'कूड़ेदान', trashEmpty: 'कूड़ेदान खाली है',
+      trashHint: 'हटाई गई चीज़ें पहले यहाँ आती हैं — कभी भी वापस उठा लें',
+      pickUp: 'वापस उठाएँ', clearTrash: 'खाली करें',
+      cClearTrash: n => `इन ${n} को खाली करें? इसे वापस नहीं लाया जा सकता`,
+      tTrashed: t => `“${t}” कूड़ेदान में डाल दिया`, tPicked: 'वापस उठा लिया',
+      tClearedTrash: n => `${n} खाली कर दिए`,
+      // ── मैन्युअल सिंक ──
+      tSynced: 'सब सिंक है', syncNow: 'अभी सिंक करें',
+      // ── थीम बटन का टूलटिप ──
+      toDark: 'डार्क मोड', toLight: 'लाइट मोड',
+      // ── खींचकर क्रम बदलें ──
+      reorderHint: 'क्रम बदलने के लिए कार्ड खींचें',
 
       tabIdea: 'विचार लिखें', tabPlan: 'योजना बनाएँ',
       catPh: 'श्रेणी', catNone: 'बिना श्रेणी', catCreate: n => `नई श्रेणी “${n}” बनाएँ`,
@@ -862,6 +953,12 @@
   const inboxCount  = $('inboxCount');
   const actionList  = $('actionList');
   const actionCount = $('actionCount');
+  const trashBox    = $('trashBox');
+  const trashHead   = $('trashHead');
+  const trashList   = $('trashList');
+  const trashCount  = $('trashCount');
+  const trashFoot   = $('trashFoot');
+  const clearTrashBtn = $('clearTrash');
   const shelvesEl   = $('shelves');
   const doneTotalEl = $('doneTotal');
   const cpTabs      = $('cpTabs');
@@ -898,7 +995,6 @@
   const authClose   = $('authClose');
   const syncPill    = $('syncPill');
   const syncText    = $('syncText');
-  const syncProgress= $('syncProgress');
   const signOutBtn  = $('signOutBtn');
   const navEl       = $('nav');
   const progressCard= $('progressCard');
@@ -914,7 +1010,7 @@
   const importBtn   = $('importBtn');
   const importFile  = $('importFile');
   const themeBtn    = $('themeBtn');
-  const themeGlyph  = $('themeGlyph');
+  const themeTip    = $('themeTip');
   const skinRow     = $('skinRow');
   const calTitle    = $('calTitle');
   const calGrid     = $('calGrid');
@@ -964,6 +1060,12 @@
   }
   // ISO 字符串不能直接相减，排序和比较一律先换成毫秒数
   const msOf = v => { const i = isoOf(v); return i ? Date.parse(i) : 0; };
+  // 数字字段（手动排序用）：空 / 非数字 → null
+  const numOrNull = v => {
+    if (v === null || v === undefined || v === '') return null;
+    const n = Number(v);
+    return isFinite(n) ? n : null;
+  };
   const isToday = v => {
     const ms = msOf(v);
     return !!ms && new Date(ms).toDateString() === new Date().toDateString();
@@ -980,6 +1082,9 @@
 
     let status = STATUS[src.status] ? src.status : null;
     if (!status) status = src.done ? 'done' : (legacyDate ? 'doing' : 'inbox');
+    // 早期版本把 deleted_at 当"已删除"的标记用（那时前端其实是从列表里硬删的）。
+    // 现在它代表"丢进废纸篓的时刻"，遇到没有 status 的老行就按废纸篓收编。
+    if (!STATUS[src.status] && (src.deletedAt || src.deleted_at)) status = 'trashed';
     const entryType = ENTRY[src.entryType] ? src.entryType
       : ENTRY[src.entry_type] ? src.entry_type
       : 'plan';
@@ -1001,6 +1106,8 @@
         : [],
       // 精确完成时刻：优先用 completed_at（ISO），再退回本地的 doneAt / 旧的 done_at（毫秒）
       doneAt: isoOf(src.completedAt || src.completed_at || src.doneAt || src.done_at),
+      // 行动列表的手动顺序：null = 从没被拖过，仍然走自动排序
+      order: numOrNull(src.order != null ? src.order : src.sort_order),
       createdAt: src.createdAt || src.created_at || nowMs(),
       updatedAt: src.updatedAt || src.updated_at || src.createdAt || src.created_at || nowMs(),
       deletedAt: src.deletedAt || src.deleted_at || null
@@ -1024,6 +1131,7 @@
       action_date: n.actionDate,
       loop_rule: n.loop,
       history: n.history,
+      sort_order: n.order,
       // ── 旧的 not null 列继续写派生值 ──
       // 这样老版本客户端、以及缓存了旧页面的浏览器不会因为缺列而报错。
       scope: 'day',
@@ -1051,6 +1159,7 @@
       action_date: r.action_date,
       loop_rule: r.loop_rule,
       history: r.history,
+      sort_order: r.sort_order,
       done: r.done,
       date: r.date,
       completed_at: r.completed_at,
@@ -1086,8 +1195,15 @@
     scheduleSync();
   }
 
+  // 正常视图里的条目（废纸篓里的不算）
   function visibleGoals() {
-    return goals.filter(g => !g.deletedAt);
+    return goals.filter(g => g.status !== 'trashed');
+  }
+
+  // 废纸篓：按删除时间倒序，最近丢进来的排最前面
+  function trashedGoals() {
+    return goals.filter(g => g.status === 'trashed')
+      .sort((a, b) => msOf(b.deletedAt) - msOf(a.deletedAt));
   }
 
   /* ══════════════════ 云端同步 ══════════════════ */
@@ -1122,11 +1238,18 @@
       local: 'syncLocal', syncing: 'syncOff', synced: 'syncOn', offline: 'syncOffline'
     };
     const label = t(map[syncState] || 'syncLocal');
-    if (syncText) syncText.textContent = label;   // 这行文字现在就是那个悬浮气泡
+    const signedIn = !!(session && session.user);
+    if (syncText) syncText.textContent = manualBusy ? t('syncOff') : label;
     if (syncPill) {
       syncPill.dataset.state = syncState;
-      // 不再设 title：原生 tooltip 会和自绘气泡叠在一起，出现两个提示
-      syncPill.setAttribute('aria-label', label);
+      syncPill.dataset.busy = manualBusy ? '1' : '0';
+      // 已登录 → 这一行是"手动同步一次"；未登录 → 它是登录入口。
+      // 文案不重复账号那一行，免得两个入口看起来是一件事。
+      const hint = signedIn ? t('syncNow') : label;
+      syncPill.setAttribute('aria-label', hint);
+      syncPill.setAttribute('title', hint);
+      if (signedIn) syncPill.removeAttribute('aria-haspopup');
+      else syncPill.setAttribute('aria-haspopup', 'dialog');
     }
     if (authBtn) {
       authBtn.dataset.state = syncState;
@@ -1139,6 +1262,29 @@
     if (!cloud || !session) { setSyncState('local'); return; }
     clearTimeout(syncTimer);
     syncTimer = setTimeout(() => { pushChanges(); }, 600);
+  }
+
+  /* 手动强制同步：把本地改动全标脏 → 拉云端合并 → 再推回去。
+     只在"已登录"时可用，未登录点它走的是登录弹窗。 */
+  let manualBusy = false;
+
+  async function manualSync() {
+    if (!cloud || !session) { openAuthModal(); return; }
+    if (manualBusy) return;
+    manualBusy = true;
+    setSyncState('syncing');
+    renderSyncBar();                     // 立刻转起来（data-busy="1" 显示 Spinner）
+    try {
+      goals.forEach(g => dirty.add(g.id));   // 别漏掉任何本地改动
+      await pullAndMerge();                  // 拉 + 合并 + 推
+      toast(syncState === 'offline' ? t('eOffline') : t('tSynced'));
+    } catch (err) {
+      console.warn('manual sync failed', err);
+      toast(t('eOffline'));
+    } finally {
+      manualBusy = false;
+      renderSyncBar();
+    }
   }
 
   /* ---------------- 墓碑读写 ---------------- */
@@ -1185,13 +1331,18 @@
   // 千万别漏 —— 曾经漏了 v2 的 status/category，换设备登录后灵感箱的条目
   // 会被当成"有日期的计划"落进行动列表。
   const COLS_FULL = 'id,user_id,title,scope,type,date,done,' +
-    'entry_type,status,category,action_date,loop_rule,history,' +
+    'entry_type,status,category,action_date,loop_rule,history,sort_order,' +
     'done_at,completed_at,created_at,updated_at,deleted_at';
-  // 云端还没跑 v3 迁移时的退路（没有 completed_at 这一列）
-  const COLS_BASE = COLS_FULL.replace('completed_at,', '');
+  // 云端还没跑 v3 / v5 迁移时的退路（没有 completed_at / sort_order 这两列）
+  const COLS_BASE = COLS_FULL.replace('completed_at,', '').replace('sort_order,', '');
   // Postgres 的"列不存在"。用它来判断该不该退到旧列集合。
   const isMissingCol = e => String(e && e.code) === '42703';
-  const stripNewCols = row => { const c = { ...row }; delete c.completed_at; return c; };
+  const stripNewCols = row => {
+    const c = { ...row };
+    delete c.completed_at;
+    delete c.sort_order;
+    return c;
+  };
 
   // 把本地待推送的改动写到云端（新 id 用 insert，已存在的用 upsert 合并）
   async function pushChanges() {
@@ -1230,10 +1381,10 @@
       // 冲突（23505）说明云端已有这条，改用 upsert 合并即可。
       let payload = rows;
       let { error } = await cloud.from(CLOUD.table).insert(payload);
-      // 42703 = 云端还没有 completed_at 列（v3 迁移没跑）：
-      // 去掉这一列重试一次，宁可少个字段，也别让整个同步挂掉。
+      // 42703 = 云端还没有 completed_at / sort_order 列（迁移没跑）：
+      // 去掉这几列重试一次，宁可少个字段，也别让整个同步挂掉。
       if (error && isMissingCol(error)) {
-        console.warn('云端没有 completed_at 列，去掉它再试（建议跑 supabase-migrate-v3.sql）');
+        console.warn('云端缺少 v3/v5 的新列，去掉它们再试（建议跑 supabase-migrate-v3/v5.sql）');
         payload = rows.map(stripNewCols);
         ({ error } = await cloud.from(CLOUD.table).insert(payload));
       }
@@ -1271,7 +1422,7 @@
 
       let { data, error } = await grab(COLS_FULL);
       if (error && isMissingCol(error)) {
-        console.warn('云端缺少 v3 的新列，退回旧列集合拉取（建议跑 supabase-migrate-v3.sql）');
+        console.warn('云端缺少 v3/v5 的新列，退回旧列集合拉取（建议跑 supabase-migrate-v3/v5.sql）');
         ({ data, error } = await grab(COLS_BASE));
       }
       if (error) throw error;
@@ -1478,11 +1629,12 @@
         if (authModal && !authModal.hidden) closeAuthModal(); else openAuthModal();
       });
     }
-    // 入口二：底部同步状态栏
+    // 入口二：同步状态那一行 —— 未登录 = 登录，已登录 = 手动同步一次
     if (syncPill) {
       syncPill.addEventListener('click', e => {
         e.stopPropagation();
-        openAuthModal();
+        if (session && session.user) manualSync();
+        else openAuthModal();
       });
     }
     // 关闭：右上角 ✕ / 点遮罩 / Esc
@@ -1572,14 +1724,18 @@
 
   let entranceDone = false;
   let popId = null;
+  let popGoalId = null;      // 刚打勾的那条：让它在分段进度条上弹一下
+  let pickGoalId = null;     // 刚从废纸篓捡回来的那条：在目标泳道里淡入一次
 
   function render() {
     renderStats();
     renderLanes();
+    renderTrash();
     renderShelves();
     renderCalendar();      // 日历跟同一份数据走，勾完立刻反映到格子上
     renderStatsPage();     // 统计看板也吃同一份数据
     renderSyncBar();
+    pickGoalId = null;     // 捡回来的淡入动画只播一次
   }
 
   // 记录是否算"这一天完成了"：单次看 status，循环看历史里有没有这一天
@@ -1596,13 +1752,14 @@
       if (g.status !== 'doing' || !g.actionDate) return false;
       return g.actionDate <= today;
     });
-    const done = list.filter(g => isCompleteOn(g, today)).length;
+    const marks = list.map(g => isCompleteOn(g, today));
+    const done = marks.filter(Boolean).length;
     const late = list.filter(g => overdueDays(g) > 0).length;
-    return { total: list.length, done, open: list.length - done, late };
+    return { list, marks, total: list.length, done, open: list.length - done, late };
   }
 
   function renderStats() {
-    const { total, done, open, late } = todayStats();
+    const { list, marks, total, done, open, late } = todayStats();
     const pct = total ? Math.round((done / total) * 100) : 0;
 
     if (progressCard) {
@@ -1610,16 +1767,25 @@
         ? `${esc(t('statActive'))} ${open} · ${esc(t('statDone'))} ${done}`
           + (late ? ` · <span class="note-late">${esc(t('overdue'))} ${late}</span>` : '')
         : esc(t('actionEmpty'));
+
+      // 一格 = 今天的一项行动。总格数就是任务数；一项都没有时也画一格占位，
+      // 免得卡片高度在"有/没有任务"之间跳。
+      const segCount = Math.max(1, total);
+      const popAt = popGoalId ? list.findIndex(g => g.id === popGoalId) : -1;
+      let segs = '';
+      for (let i = 0; i < segCount; i++) {
+        const on = total ? marks[i] : false;
+        segs += `<span class="seg${on ? ' on' : ''}${i === popAt ? ' pop' : ''}"><i class="seg-fill"></i></span>`;
+      }
+
       progressCard.innerHTML = `
         <div class="progress-top">
           <span class="progress-label">${esc(t('progress'))}</span>
           <span class="progress-value">${pct}%</span>
         </div>
-        <div class="progress-bar"><i style="width:${pct}%"></i></div>
+        <div class="segs">${segs}</div>
         <div class="progress-note">${note}</div>`;
-    }
-    if (syncProgress) {
-      syncProgress.textContent = total ? `${pct}% · ${t('statDone')} ${done}/${total}` : '';
+      popGoalId = null;          // 回弹动画只播一次
     }
   }
 
@@ -1659,7 +1825,18 @@
     const hist = (g.history || []).length;
     if (g.loop !== 'none' && hist) parts.push(t('loopTimes', hist));
     if (mode === 'done' && g.doneAt) parts.push(fmtDoneAt(g.doneAt));
+    if (mode === 'trash' && g.deletedAt) parts.push(fmtTrashAt(g.deletedAt));
     return parts.filter(Boolean).map(esc).join(' · ');
+  }
+
+  /* 废纸篓里的时间：默认「月/日 时:分」（09/23 14:30），
+     只有跟今年不是同一年，才补上年份（2025/09/23 14:30）。 */
+  function fmtTrashAt(ts) {
+    const ms = msOf(ts);
+    if (!ms) return '';
+    const d = new Date(ms);
+    const body = `${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    return d.getFullYear() === new Date().getFullYear() ? body : `${d.getFullYear()}/${body}`;
   }
 
   // 日期短标签：用当前语言的日期格式（9月19日 周六 / 19 Sep, Sat）
@@ -1678,6 +1855,7 @@
 
   function cardMarkup(g, mode) {
     const done = mode === 'done';
+    const trash = mode === 'trash';
     const checkTitle = done ? t('undoDone') : t('markDone');
     const tag = g.entryType === 'idea'
       ? `<span class="tag tag-idea">${esc(t('tagIdea'))}</span>`
@@ -1685,14 +1863,15 @@
     const doneToday = g.loop !== 'none' && isCompleteOn(g, todayStr());
     // 逾期：排期过了还没完成 → 整张卡转红 + 一枚红标签。
     // 这类条目只会留在行动列表里当"刺"，不会被退回灵感箱。
-    const late = done ? 0 : overdueDays(g);
+    const late = (done || trash) ? 0 : overdueDays(g);
     const metaTxt = cardMeta(g, mode);
 
     return `
-      <div class="card${done ? ' done is-done' : ''}${late ? ' is-overdue' : ''}${g.id === popId ? ' pop' : ''}"
-           data-id="${g.id}" data-entry="${g.entryType}">
+      <div class="card${done ? ' done is-done' : ''}${late ? ' is-overdue' : ''}${g.id === popId ? ' pop' : ''}${g.id === pickGoalId ? ' picked' : ''}"
+           data-id="${g.id}" data-entry="${g.entryType}"
+           draggable="${mode === 'action' ? 'true' : 'false'}">
         <span class="type-pill" aria-hidden="true"></span>
-        ${mode === 'inbox' ? '' : `
+        ${(mode === 'inbox' || trash) ? '' : `
         <button class="check" type="button" title="${esc(checkTitle)}">
           <span class="check-mark">✓</span>
         </button>`}
@@ -1721,8 +1900,10 @@
         ${mode === 'inbox' && g.id !== movingId
           ? `<button class="move-btn" type="button" data-move="${g.id}">${esc(t('moveAction'))}</button>`
           : ''}
-        <button class="del ${done ? ' always' : ''}" type="button"
-                title="${esc(t('delLabel'))}" aria-label="${esc(t('delLabel'))}">${esc(t('delText'))}</button>
+        ${trash
+          ? `<button class="pick-btn" type="button" data-pick="${g.id}">${esc(t('pickUp'))}</button>`
+          : `<button class="del ${done ? ' always' : ''}" type="button"
+                title="${esc(t('delLabel'))}" aria-label="${esc(t('delLabel'))}">${esc(t('delText'))}</button>`}
       </div>`;
   }
 
@@ -1731,19 +1912,298 @@
     return `<div class="list">${list.map(g => cardMarkup(g, mode)).join('')}</div>`;
   }
 
+  /* 行动列表的顺序：
+     没被拖过的（order = null）走原来的自动排序（行动日 → 创建时间），
+     拖过一次之后整栏都有 order，就按手动的来。 */
+  const ORDER_STEP = 1000;
+  function compareActions(a, b) {
+    const ao = a.order, bo = b.order;
+    if (ao != null || bo != null) {
+      if (ao == null) return 1;          // 手动排过的在前，新加的排到末尾
+      if (bo == null) return -1;
+      if (ao !== bo) return ao - bo;
+    }
+    return String(a.actionDate || '').localeCompare(String(b.actionDate || ''))
+      || (a.createdAt || 0) - (b.createdAt || 0);
+  }
+
+  function actionSequence() {
+    return visibleGoals().filter(g => g.status === 'doing').sort(compareActions);
+  }
+
   function renderLanes() {
     const all = visibleGoals();
     const inbox = all.filter(g => g.status === 'inbox')
       .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-    const doing = all.filter(g => g.status === 'doing')
-      .sort((a, b) => String(a.actionDate || '').localeCompare(String(b.actionDate || ''))
-        || (a.createdAt || 0) - (b.createdAt || 0));
+    const doing = actionSequence();
 
     if (inboxCount) inboxCount.textContent = inbox.length;
     if (actionCount) actionCount.textContent = doing.length;
     if (inboxList) inboxList.innerHTML = laneMarkup(inbox, 'inbox', 'inboxEmpty');
     if (actionList) actionList.innerHTML = laneMarkup(doing, 'action', 'actionEmpty');
   }
+
+  /* ---------------- 拖拽排序（Drag to reorder） ----------------
+     用原生 HTML5 DnD：dragstart 记住是谁，dragover 按指针落在哪两张卡之间
+     算插入位并摆一个"空槽"占位，drop 时重排 + 存盘 + FLIP 平滑落位。 */
+
+  let dragId = null;         // 正在拖的那条
+  let dragIndex = -1;        // 松手时会插到第几个位置
+  let dragGapEl = null;      // 那条虚线空槽
+
+  // 行动列表里的卡片（兼容"外面是否还套了一层 .list"）
+  function laneCards() {
+    if (!actionList || !actionList.children) return [];
+    const kids = [...actionList.children];
+    const wrap = kids.find(el => el && el.classList && el.classList.contains('list'));
+    const items = (wrap && wrap.children) ? [...wrap.children] : kids;
+    return items.filter(el => el && el.classList && el.classList.contains('card'));
+  }
+
+  // 纯几何：指针落在第几个位置（0…n）。单独拎出来是为了能直接测。
+  function dropIndexFor(rects, y) {
+    for (let i = 0; i < rects.length; i++) {
+      const r = rects[i];
+      if (!r) continue;
+      if (y < r.top + r.height / 2) return i;
+    }
+    return rects.length;
+  }
+
+  function placeDragGap(cards) {
+    if (!D.createElement) return;
+    if (!dragGapEl) {
+      dragGapEl = D.createElement('div');
+      dragGapEl.className = 'drag-gap';
+    }
+    const host = (cards[0] && cards[0].parentNode) || null;
+    const spot = host || actionList;
+    if (!spot || !spot.insertBefore) return;
+    spot.insertBefore(dragGapEl, cards[dragIndex] || null);
+  }
+
+  function clearDrag() {
+    const card = dragId ? laneCards().find(el => el.dataset.id === dragId) : null;
+    if (card && card.classList) card.classList.remove('dragging');
+    if (dragGapEl && dragGapEl.parentNode && dragGapEl.parentNode.removeChild) {
+      dragGapEl.parentNode.removeChild(dragGapEl);
+    }
+    dragId = null;
+    dragIndex = -1;
+  }
+
+  /* 把 id 挪到 insertAt 这个位置，重新编号并落盘。
+     1000 起步、每次 +1000：以后想在两条中间插一条也不用整体重排。 */
+  function reorderLane(id, insertAt) {
+    const seq = actionSequence();
+    const from = seq.findIndex(g => g.id === id);
+    if (from < 0) return false;
+    const item = seq[from];
+    const rest = seq.filter(g => g.id !== id);
+    const at = Math.max(0, Math.min(rest.length, insertAt));
+    if (at === from) return false;                 // 没动
+    rest.splice(at, 0, item);
+
+    const before = cardTops();
+    let touched = false;
+    rest.forEach((g, i) => {
+      const next = (i + 1) * ORDER_STEP;
+      if (g.order !== next) {
+        g.order = next;
+        g.updatedAt = nowMs();
+        touched = true;
+      }
+    });
+    if (!touched) return false;
+    save(rest.map(g => g.id));                     // 落本地 + 排队推云端
+    render();
+    flipCards(before);                             // 平滑滑到新位置
+    return true;
+  }
+
+  // FLIP：记下重排前每张卡的位置，重画后把位移差反向播一遍
+  function cardTops() {
+    const m = new Map();
+    laneCards().forEach(el => {
+      const r = el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+      if (r && el.dataset && el.dataset.id) m.set(el.dataset.id, r.top);
+    });
+    return m;
+  }
+
+  function flipCards(before) {
+    if (reduceMotion() || !before.size) return;
+    laneCards().forEach(el => {
+      const old = before.get(el.dataset.id);
+      if (old == null || !el.animate) return;
+      const now = el.getBoundingClientRect ? el.getBoundingClientRect().top : old;
+      const dy = old - now;
+      if (!dy || !isFinite(dy)) return;
+      el.animate(
+        [{ transform: `translateY(${dy}px)` }, { transform: 'none' }],
+        { duration: 300, easing: 'cubic-bezier(.2, .8, .3, 1)' }
+      );
+    });
+  }
+
+  if (actionList) {
+    actionList.addEventListener('dragstart', e => {
+      const card = e.target && e.target.closest ? e.target.closest('.card[data-id]') : null;
+      if (!card) return;
+      dragId = card.dataset.id;
+      dragIndex = -1;
+      if (card.classList) card.classList.add('dragging');
+      if (e.dataTransfer) {
+        try {
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', dragId);
+        } catch (err) { /* 某些浏览器在 dragstart 外不让写，忽略 */ }
+      }
+    });
+
+    actionList.addEventListener('dragover', e => {
+      if (!dragId) return;
+      if (e.preventDefault) e.preventDefault();       // 不拦就没有 drop
+      if (e.dataTransfer) { try { e.dataTransfer.dropEffect = 'move'; } catch (err) {} }
+      const cards = laneCards().filter(el => el.dataset.id !== dragId);
+      const y = typeof e.clientY === 'number' ? e.clientY : 0;
+      const idx = dropIndexFor(cards.map(el => (el.getBoundingClientRect ? el.getBoundingClientRect() : null)), y);
+      if (idx !== dragIndex) {
+        dragIndex = idx;
+        placeDragGap(cards);
+      }
+    });
+
+    actionList.addEventListener('drop', e => {
+      if (!dragId) return;
+      if (e.preventDefault) e.preventDefault();
+      const id = dragId, at = dragIndex;
+      clearDrag();
+      if (at >= 0) reorderLane(id, at);
+    });
+
+    actionList.addEventListener('dragend', () => clearDrag());
+  }
+
+  /* ---------------- 废纸篓：折叠 / 捡起 / 清理 ----------------
+     删除不再是"从世界上抹掉"，而是 status = 'trashed' + 一个 deleted_at 时间戳，
+     所以随时能捡回来；只有点"清理"才是真删除（那时才记墓碑 + 物理 delete）。 */
+
+  let trashOpen = false;          // 默认折着，等用户点标题
+
+  function renderTrash() {
+    if (!trashBox) return;
+    const box = trashedGoals();
+
+    if (trashCount) trashCount.textContent = box.length;
+    if (trashHead) trashHead.setAttribute('aria-expanded', String(trashOpen));
+    if (trashBox.classList) trashBox.classList.toggle('open', trashOpen);
+    if (trashList) {
+      trashList.innerHTML = box.length
+        ? `<div class="list">${box.map(g => cardMarkup(g, 'trash')).join('')}</div>`
+        : `<div class="empty">${esc(t('trashEmpty'))}</div>`;
+    }
+    if (trashFoot) trashFoot.hidden = box.length === 0;
+  }
+
+  // 丢进废纸篓：留着原来的东西（status 之外的字段一个不动），只改状态 + 时间戳
+  function trashGoal(g) {
+    if (!g || g.status === 'trashed') return;
+    g.status = 'trashed';
+    g.deletedAt = nowMs();
+    g.updatedAt = nowMs();
+    save([g.id]);
+    trashOpen = false;                 // 刚丢进去，先别自己摊开
+    render();
+    toast(t('tTrashed', g.title));
+  }
+
+  /* 捡起：它原来在哪一栏，就回哪一栏 ——
+     有完成时刻的说明它曾经是成就，有行动日的回行动列表，其余回灵感箱。 */
+  const liveStatusOf = g => (g.doneAt ? 'done' : (g.actionDate ? 'doing' : 'inbox'));
+
+  function pickUpGoal(g) {
+    if (!g) return;
+    g.status = liveStatusOf(g);
+    g.deletedAt = null;
+    g.updatedAt = nowMs();
+    save([g.id]);
+    render();
+    toast(t('tPicked'));
+  }
+
+  // 清理 = 真删除：记墓碑 + 让云端也把这几行删掉（和早期删除的路径一致）
+  function clearTrash() {
+    const box = trashedGoals();
+    if (!box.length) return toast(t('trashEmpty'));
+    if (!safeConfirm(t('cClearTrash', box.length))) return;
+    const snapshot = goals.slice();
+    const ids = box.map(g => g.id);
+    goals = goals.filter(g => !ids.includes(g.id));
+    markDeleted(ids);
+    ids.forEach(id => { dirty.delete(id); pendingHardDelete.add(String(id)); });
+    save();
+    render();
+    showUndo(t('tClearedTrash', ids.length), snapshot);
+  }
+
+  /* 曲线飞行（只服务于“删除 → 飞进废纸篓”这一件事）：
+     X 和 Y 各用一条缓动，两条叠在一起就是抛物线（不必真去解贝塞尔）。
+     X 先快后慢、Y 先慢后快，一路缩小 + 淡出 + 轻微旋转。
+     捡起（恢复）不再走这里 —— 那个方向只做一次淡入。 */
+  function flyCard(cardEl, targetEl, done) {
+    if (!cardEl || !cardEl.animate || !targetEl || !targetEl.getBoundingClientRect || reduceMotion()) {
+      done();
+      return;
+    }
+    const from = cardEl.getBoundingClientRect();
+    const to = targetEl.getBoundingClientRect();
+    const vh = W.innerHeight || 800;
+    // 目标不在当前视图里（比如在成就页删除，废纸篓那个元素是隐藏的）→ 掉出下沿
+    const visible = (to.width || to.height);
+    const targetX = visible ? to.left + to.width / 2 : from.left + from.width / 2;
+    const targetY = visible ? to.top + to.height / 2 : vh;
+
+    const dx = targetX - (from.left + from.width / 2);
+    const dy = targetY - (from.top + from.height / 2);
+
+    cardEl.style.position = 'fixed';
+    cardEl.style.left = from.left + 'px';
+    cardEl.style.top = from.top + 'px';
+    cardEl.style.width = from.width + 'px';
+    cardEl.style.zIndex = '70';
+    if (cardEl.classList) cardEl.classList.add('flying');
+
+    const N = 26;
+    const frames = [];
+    for (let i = 0; i <= N; i++) {
+      const p = i / N;
+      const ex = 1 - Math.pow(1 - p, 3);                    // X：先快后慢
+      const ey = p * p;                                     // Y：先慢后快
+      const scale = 1 - .68 * p;
+      const opacity = Math.max(0, 1 - p * p * 1.05);
+      frames.push({
+        transform: `translate(${(dx * ex).toFixed(1)}px, ${(dy * ey).toFixed(1)}px)` +
+                   ` scale(${scale.toFixed(3)}) rotate(${(-9 * p).toFixed(2)}deg)`,
+        opacity: String(opacity)
+      });
+    }
+    const anim = cardEl.animate(frames, { duration: 560, easing: 'linear', fill: 'forwards' });
+    let fin = false;
+    const finish = () => { if (fin) return; fin = true; done(); };
+    if (anim) { anim.onfinish = finish; anim.oncancel = finish; }
+    setTimeout(finish, 780);
+  }
+
+  const flyToTrash = (cardEl, done) => flyCard(cardEl, trashHead, done);
+
+  if (trashHead) {
+    trashHead.addEventListener('click', () => {
+      trashOpen = !trashOpen;
+      renderTrash();
+    });
+  }
+  if (clearTrashBtn) clearTrashBtn.addEventListener('click', clearTrash);
 
   /* ---------------- 成就陈列室：按 category 分架（可折叠） ---------------- */
 
@@ -1976,7 +2436,7 @@
     if (name === 'calendar') renderCalendar();
     if (name === 'achieve') renderShelves();
     if (name === 'stats') renderStatsPage();
-    if (name === 'goals') renderLanes();
+    if (name === 'goals') { renderLanes(); renderTrash(); }
   }
 
   function wireNav() {
@@ -2006,6 +2466,7 @@
       el.setAttribute('aria-label', t(el.dataset.i18nAria));
     });
     if (langBtn) langBtn.setAttribute('aria-label', t('langAria'));
+    renderThemeLabel();          // 主题气泡的文案要跟着语言换
     renderAuthMode();
     renderSyncBar();
   }
@@ -2562,6 +3023,7 @@
   /* ---------------- 打勾 / 恢复 / 推入行动 ---------------- */
 
   function markGoalDone(g, cardEl) {
+    popGoalId = g.id;          // 分段进度条上对应的那一格要弹一下
     // 循环计划：记一条历史、留在原位
     if (g.loop && g.loop !== 'none') {
       const day = todayStr();
@@ -2650,7 +3112,13 @@
           goals = undoStack.map(g => {
             const cur = before.get(g.id);
             const keep = cur || g;
-            return { ...keep, deletedAt: null, updatedAt: stamp };
+            return {
+              ...keep,
+              // 快照里的这条是"在废纸篓里"的状态：撤销要把它放回原来那一栏
+              status: keep.status === 'trashed' ? liveStatusOf(keep) : keep.status,
+              deletedAt: null,
+              updatedAt: stamp
+            };
           });
           const ids = undoStack.map(g => g.id);
           clearTombstone(ids);                        // 不再是"已删除"
@@ -2720,40 +3188,42 @@
       else markGoalDone(g, card);
       return;
     }
+    // 「捡起」：从废纸篓拿回原来那一栏。
+    // 需求：不要飞回动画（曲线飞行只保留"删除进废纸篓"那一次），
+    // 这里直接改状态 + 重画，返回的那张卡只做一次极轻的淡入（无位移）。
+    const pickBtn = e.target.closest('[data-pick]');
+    if (pickBtn) {
+      const g = goals.find(x => x.id === pickBtn.dataset.pick);
+      if (!g) return;
+      pickGoalId = g.id;           // 让它在目标泳道里淡入一次
+      pickUpGoal(g);
+      return;
+    }
     const delBtn = e.target.closest('.del');
     if (delBtn) {
       const card = delBtn.closest('.card');
       const g = card && goals.find(x => x.id === card.dataset.id);
       if (!g) return;
-      if (!safeConfirm(t('cDelete', g.title))) return;
-      const snapshot = goals.slice();
-      const finish = () => {
-        // 真删除：从本地数组移除 + 记墓碑 + 让云端也把这一行删掉。
-        // 墓碑用于防止"另一台离线设备把它重新上传"导致复活。
-        goals = goals.filter(x => x.id !== g.id);
-        markDeleted([g.id]);
-        dirty.delete(g.id);
-        pendingHardDelete.add(String(g.id));
-        save();                      // 落本地并触发同步（pushChanges 会做 delete）
-        render();
-        showUndo(t('tDeleted', g.title), snapshot);
-      };
-      animateRowOut(card, finish);
+      // 现在是"丢进废纸篓"，随时能捡回来 —— 所以不再弹确认框打断人。
+      // 先让卡片沿曲线飞进废纸篓，落地之后才改状态 + 重画。
+      if (!card) { trashGoal(g); return; }
+      flyToTrash(card, () => trashGoal(g));
     }
   });
 
+  // 「清空已完成」也走废纸篓（可恢复），不再是不可逆的硬删除
   clearDoneBtn.addEventListener('click', () => {
-    const done = goals.filter(g => g.status === 'done' && !g.deletedAt);
+    const done = goals.filter(g => g.status === 'done');
     if (!done.length) return toast(t('tNoDone'));
     if (!safeConfirm(t('cClear', done.length))) return;
     const snapshot = goals.slice();
-    const ids = done.map(g => g.id);
-    // 与单条删除一致：清空已完成也是真删除 + 记墓碑
-    goals = goals.filter(g => !ids.includes(g.id));
-    markDeleted(ids);
-    ids.forEach(id => dirty.delete(id));
-    ids.forEach(id => pendingHardDelete.add(String(id)));
-    save();
+    const stamp = nowMs();
+    done.forEach(g => {
+      g.status = 'trashed';
+      g.deletedAt = stamp;
+      g.updatedAt = stamp;
+    });
+    save(done.map(g => g.id));
     render();
     showUndo(t('tCleared', done.length), snapshot);
   });
@@ -2765,36 +3235,89 @@
     toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1900);
   }
 
-  /* ---------------- 主题 ---------------- */
+  /* ---------------- 主题 ----------------
+     深浅图标本身就是状态指示（深色里显示太阳、浅色里显示月亮），
+     所以 applyTheme 只需要换 <html> 上的 data-theme —— 图标由 CSS 切。 */
 
   function applyTheme(th) {
     document.documentElement.dataset.theme = th;
-    // 开关里的字形表示"现在是什么模式"：深色 ☾ / 浅色 ☀
-    const glyph = themeGlyph || themeBtn;
-    if (glyph) glyph.textContent = th === 'dark' ? '☾' : '☀';
     // 手机浏览器的地址栏颜色也跟着走（默认是深色）
     const meta = D.querySelector ? D.querySelector('meta[name="theme-color"]') : null;
     if (meta && meta.setAttribute) {
       meta.setAttribute('content', th === 'dark' ? '#121110' : '#f1f0eb');
     }
+    renderThemeLabel();
     try { storage.set(THEME_KEY, th); } catch (e) {}
   }
 
-  if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
-      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
-      const glyph = themeGlyph || themeBtn;    // 转的是字形，不是整个开关
-      if (glyph.animate && !reduceMotion()) {
-        glyph.animate(
-          [{ transform: 'rotate(0) scale(1)' }, { transform: 'rotate(180deg) scale(1.1)' },
-           { transform: 'rotate(360deg) scale(1)' }],
-          { duration: 420, easing: 'cubic-bezier(.3,1.2,.4,1)' }
-        );
-      }
-    });
+  /* 主题按钮的气泡说的是"点了会变成什么"：
+     当前浅色 → 深色模式；当前深色 → 浅色模式。语言切换后也要跟着重算。 */
+  function renderThemeLabel() {
+    const dark = document.documentElement.dataset.theme === 'dark';
+    const label = t(dark ? 'toLight' : 'toDark');
+    if (themeTip) themeTip.textContent = label;
+    if (themeBtn) themeBtn.setAttribute('aria-label', label);
   }
 
+  /* 径向扩散切主题：圆心取真实点击位置，半径取点击点到视口四个角落的
+     最远距离。两个方向走的是**同一条**路径 —— 新快照被一个从点击点长出来的
+     圆裁切，旧快照留在底下当背景。
+     以前这里分了 isDark 两支：深色 → 浅色时去裁 ::view-transition-old(root)，
+     而它在最底层、被全不透明的新快照完全盖住，所以那个方向根本没有动画
+     （浏览器里实拍验证过：点击后一帧直接变浅色）。现在不再分方向。
+     动画本身写在 CSS 的 @keyframes vt-reveal 里：转场寿命 = 动画时长，
+     不会出现"圆没铺满转场就被拆掉"的中间卡顿。 */
+  function toggleTheme(e) {
+    const root = document.documentElement;
+    const isDark = root.dataset.theme === 'dark';
+    const next = isDark ? 'light' : 'dark';
+
+    if (reduceMotion() || !document.startViewTransition) {
+      applyTheme(next);
+      return;
+    }
+
+    // 1. 精确获取鼠标点击的视口坐标（键盘触发时回退到视口中心）
+    const x = e?.clientX ?? window.innerWidth / 2;
+    const y = e?.clientY ?? window.innerHeight / 2;
+
+    // 2. 圆心到屏幕四个角落的最远直线距离 —— 半径必须够大才能盖满整屏。
+    //    再留 6% + 2px 余量：圆的边正好切在角上时，抗锯齿会在那一角留一条亮边。
+    const endRadius = Math.ceil(Math.max(
+      Math.hypot(x, y),
+      Math.hypot(window.innerWidth - x, y),
+      Math.hypot(x, window.innerHeight - y),
+      Math.hypot(window.innerWidth - x, window.innerHeight - y)
+    ) * 1.06 + 2);
+
+    // 3. 圆心 / 半径交给 CSS 变量（:root 的 --vt-* 有兜底值）
+    if (root.style && root.style.setProperty) {
+      root.style.setProperty('--vt-x', x + 'px');
+      root.style.setProperty('--vt-y', y + 'px');
+      root.style.setProperty('--vt-r', endRadius + 'px');
+    }
+
+    // 4. 转场期间掐掉页面自带的 CSS 过渡：否则新快照会拍到过渡的起点（旧颜色），
+    //    真实 DOM 却在底下过渡完了，转场一结束那块就跳一下。
+    root.classList.add('vt-run');
+
+    let transition = null;
+    try {
+      transition = document.startViewTransition(() => applyTheme(next));
+    } catch (err) {
+      // 上一个转场还在跑 / 被策略禁掉：直接换主题，不留未处理的错误
+      root.classList.remove('vt-run');
+      applyTheme(next);
+      return;
+    }
+    const done = () => root.classList.remove('vt-run');
+    if (transition.finished && transition.finished.finally) transition.finished.finally(done);
+    else setTimeout(done, 800);
+  }
+
+  if (themeBtn) {
+    themeBtn.addEventListener('click', toggleTheme);
+  }
   /* ---------------- 配色皮肤 ---------------- */
 
   const SKIN_KEY = 'xiaomubiao.skin.v1';

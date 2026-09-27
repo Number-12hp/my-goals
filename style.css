@@ -30,6 +30,19 @@
      宽屏上不再让输入框和列表横跨整个屏幕。 */
   --content-w: 768px;
 
+  /* 毛玻璃材料：侧栏图标、右上角控制台、各个浮层全都取这一份。
+     以前各写各的（灰底 vs 纸底、blur 10px vs 20px），放在一起色差很明显。 */
+  --frost-bg:   rgba(255, 255, 255, .15);
+  --frost-line: rgba(255, 255, 255, .2);
+  --frost-blur: blur(20px);
+  /* 厚度三件套：弥散阴影 + 边缘高光（inset 那道白边）+ 更强底色。
+     没有它，透明玻璃在浅色纸面上等于不存在，图标会显得"飘"。 */
+  --glass-lift:   0 4px 20px rgba(0, 0, 0, .08), 0 1px 2px rgba(0, 0, 0, .04),
+                  inset 0 1px 0 rgba(255, 255, 255, .6);
+  --glass-lift-2: 0 8px 26px rgba(0, 0, 0, .13), 0 2px 6px rgba(0, 0, 0, .06),
+                  inset 0 1px 0 rgba(255, 255, 255, .8);
+  --glass-fill-2: rgba(255, 255, 255, .34);
+
   /* 渐变与柔光：彩色渐变全部撤掉，只留下"墨"和纸的层次 */
   --grad-main: linear-gradient(135deg, #2b2a26 0%, #1b1a17 100%);
   --grad-soft: linear-gradient(160deg, #f7f6f2 0%, #f1f0eb 100%);
@@ -80,6 +93,15 @@ html[data-theme="dark"] {
   --mark-rgb:  127 183 156;
   --danger-rgb:239 143 122;
 
+  --frost-bg:   rgba(0, 0, 0, .2);
+  --frost-line: rgba(255, 255, 255, .05);
+  /* 深色下阴影要更重才有厚度；边缘高光收到几乎看不见（白边在暗底上一重就脏） */
+  --glass-lift:   0 4px 20px rgba(0, 0, 0, .3), 0 1px 2px rgba(0, 0, 0, .25),
+                  inset 0 1px 0 rgba(255, 255, 255, .06);
+  --glass-lift-2: 0 10px 30px rgba(0, 0, 0, .48), 0 2px 6px rgba(0, 0, 0, .3),
+                  inset 0 1px 0 rgba(255, 255, 255, .1);
+  --glass-fill-2: rgba(255, 255, 255, .07);
+
   --grad-main: linear-gradient(135deg, #3a3833 0%, #26241f 100%);
   --grad-soft: linear-gradient(160deg, #201f1c 0%, #171614 100%);
   --glow:     0 10px 30px -14px rgba(0, 0, 0, .8);
@@ -127,7 +149,7 @@ body::before {
 
 .app { display: block; min-height: 100vh; }
 
-/* ---------- 悬浮图标导航：一条窄带，几何尺寸全走变量（窄屏只改变量） ---------- */
+/* ---------- 悬浮图标导航：外壳透明，只有图标那一圈是毛玻璃（窄屏只改变量） ---------- */
 .sidebar {
   --rail-size: 52px;      /* 图标岛边长 */
   --rail-grow: 74px;      /* 悬浮时自己放大到 */
@@ -135,28 +157,34 @@ body::before {
   --rail-grow-3: 56px;    /* 再来一个：波浪的尾巴 */
   --rail-spring: cubic-bezier(.34, 1.56, .64, 1);   /* Q 弹的回弹 */
   position: fixed;
-  left: 28px;
-  top: 0;
-  width: var(--rail-size);
-  height: 100vh;
+  left: 16px;
+  top: 16px;
+  bottom: 16px;
+  width: 92px;            /* 内宽 76：够放 74px 的放大态图标 */
+  height: auto;
   z-index: 30;
   display: flex;
   flex-direction: column;
   justify-content: center;   /* 图标组在视口里垂直居中 */
   align-items: center;
+  padding: 10px 8px;
+  /* 这一层和导航外壳都没有材质；只有当前 Hover / Focus 的图标出现玻璃。 */
+  background: none;
+  border: 0;
+  box-shadow: none;
 }
 
 /* 纯文字标：两行紧贴堆叠、整体居中。
    绝对定位是必要的——它一旦参与 .sidebar 的居中计算，图标组就会被顶偏。 */
 .rail-brand {
   position: absolute;
-  top: 28px;
+  top: 26px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 22px;
+  font-size: 18px;           /* 收一档，正好落在玻璃条的内宽里 */
   font-weight: 900;          /* font-black */
   line-height: .9;           /* 比 leading-none 再紧一点 */
   letter-spacing: -.045em;   /* tracking-tight */
@@ -166,14 +194,27 @@ body::before {
 }
 html[data-theme="dark"] .rail-brand { color: var(--ink); }
 
+/* 导航外壳保持透明，只负责排列与为放大态预留宽度。 */
 .rail-nav {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
+  width: calc(var(--rail-grow) + 10px);   /* 74 + 10：放大态两侧各留 5px 余量 */
+  padding: 10px 0;
+  /* 导航外壳完全透明：不再用一个大容器包住四个图标，
+     毛玻璃只在当前 Hover / Focus 的图标上出现。 */
+  border: 0;
+  border-radius: 0;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
 }
 
-/* 图标岛：半透明灰底 + 一道细描边（照图 5：看得见的那一层浅灰） */
+
+/* 图标岛：常驻一层极弱的玻璃（底色 + 边缘高光 + 弥散阴影），
+   悬浮 / 聚焦时再厚一档 —— 图标不再"飘"在纸面上，而是有厚度地贴在上面。 */
 .rail-btn {
   position: relative;
   flex: none;
@@ -182,18 +223,19 @@ html[data-theme="dark"] .rail-brand { color: var(--ink); }
   display: grid;
   place-items: center;
   padding: 0;
-  border: 1px solid rgb(var(--ink-rgb) / .13);
+  border: 1px solid var(--frost-line);     /* 极细的边缘高光 */
   border-radius: 17px;                     /* rounded-2xl */
-  background: rgb(var(--ink-rgb) / .07);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  background: var(--frost-bg);             /* 极弱的透明底色 + 20px 模糊 */
+  -webkit-backdrop-filter: var(--frost-blur);
+  backdrop-filter: var(--frost-blur);
+  box-shadow: var(--glass-lift);           /* 柔和弥散阴影 = 厚度 */
   color: var(--ink-2);                     /* 图标颜色跟着主题的墨色走 */
   font-family: var(--sans);
   font-size: 17px;
   line-height: 1;
   cursor: pointer;
   transition: background .22s var(--ease), color .22s var(--ease),
-              border-color .22s var(--ease);
+              border-color .22s var(--ease), box-shadow .22s var(--ease);
 }
 .rail-btn svg { display: block; }
 
@@ -203,16 +245,32 @@ html[data-theme="dark"] .rail-brand { color: var(--ink); }
 .nav-item {
   transition: width .3s var(--rail-spring), height .3s var(--rail-spring),
               background .22s var(--ease), color .22s var(--ease),
-              border-color .22s var(--ease);
+              border-color .22s var(--ease),
+              backdrop-filter .22s var(--ease),
+              -webkit-backdrop-filter .22s var(--ease);
 }
 .nav-item svg { transition: transform .3s var(--rail-spring); }
 .nav-item:hover {
   width: var(--rail-grow);
   height: var(--rail-grow);
-  background: rgb(var(--ink-rgb) / .1);
-  border-color: rgb(var(--ink-rgb) / .2);
+  background: var(--glass-fill-2);
+  -webkit-backdrop-filter: var(--frost-blur);
+  backdrop-filter: var(--frost-blur);
+  border-color: var(--frost-line);
+  box-shadow: var(--glass-lift-2);         /* 抬起来一档：阴影更远更软 */
   color: var(--ink);
 }
+.nav-item:focus-visible {
+  width: var(--rail-grow);
+  height: var(--rail-grow);
+  background: var(--glass-fill-2);
+  -webkit-backdrop-filter: var(--frost-blur);
+  backdrop-filter: var(--frost-blur);
+  border-color: var(--frost-line);
+  box-shadow: var(--glass-lift-2);
+  color: var(--ink);
+}
+
 .nav-item:hover svg { transform: scale(1.1); }
 .nav-item:hover + .nav-item,
 .nav-item:has(+ .nav-item:hover) {
@@ -229,17 +287,12 @@ html[data-theme="dark"] .rail-brand { color: var(--ink); }
 }
 .nav-item:active { transform: scale(.97); }
 
-/* 当前视图：底色再深一档 + 图标变黑（参照图 5，当前页只有图标颜色在说话） */
+/* 当前视图只用图标颜色区分，不再保留常驻底色。 */
 .nav-item.on {
-  background: rgb(var(--ink-rgb) / .12);
-  border-color: rgb(var(--ink-rgb) / .18);
   color: var(--ink);
 }
-.nav-item.on:hover { background: rgb(var(--ink-rgb) / .15); }
 
-/* 文字气泡：纸底墨字的小标签（和面板、卡片同一套材料），
-   平时缩在左边看不见，悬浮 / 键盘聚焦时才滑出来。
-   left 用 --rail-grow 定死，这样图标岛放大时气泡不会跟着往右跳。 */
+/* 文字气泡：纸底墨字的小标签，悬浮 / 键盘聚焦时滑出。 */
 .tip {
   position: absolute;
   left: calc(var(--rail-grow, 74px) + 10px);
@@ -256,7 +309,7 @@ html[data-theme="dark"] .rail-brand { color: var(--ink); }
   box-shadow: var(--shadow-2);
   opacity: 0;
   transform: translate(-8px, -50%);
-  pointer-events: none;                /* 气泡不吃点击，免得挡住底下的东西 */
+  pointer-events: none;
   transition: opacity .3s var(--ease), transform .3s var(--ease);
 }
 .rail-btn:hover .tip,
@@ -274,11 +327,11 @@ html[data-theme="dark"] .rail-brand { color: var(--ink); }
   align-items: center;
   gap: 5px;
   padding: 5px;
-  border: 1px solid rgb(var(--ink-rgb) / .12);
+  border: 1px solid var(--frost-line);
   border-radius: var(--r-pill);
-  background: rgb(var(--paper-rgb) / .8);
-  -webkit-backdrop-filter: blur(20px) saturate(170%);
-  backdrop-filter: blur(20px) saturate(170%);
+  background: var(--frost-bg);
+  -webkit-backdrop-filter: var(--frost-blur);
+  backdrop-filter: var(--frost-blur);
   box-shadow: var(--shadow-2);
 }
 .cbtn {
@@ -338,9 +391,9 @@ html[data-theme="dark"] .rail-brand { color: var(--ink); }
   padding: 10px;
   border: 1px solid var(--rule);
   border-radius: var(--r-lg);
-  background: rgb(var(--paper-rgb) / .97);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  backdrop-filter: blur(20px) saturate(160%);
+  background: rgb(var(--paper-rgb) / .96);
+  -webkit-backdrop-filter: var(--frost-blur);
+  backdrop-filter: var(--frost-blur);
   box-shadow: 0 22px 48px -22px rgb(var(--ink-rgb) / .5), 0 2px 8px rgb(var(--ink-rgb) / .06);
   max-height: calc(100vh - 96px);
   overflow-y: auto;
@@ -366,49 +419,25 @@ html[data-theme="dark"] .rail-brand { color: var(--ink); }
 /* 语言列表 */
 .lang-list { display: flex; flex-direction: column; gap: 1px; }
 
-/* 外观：深浅开关 + 强调色圆点 */
-.look-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-  padding: 7px 8px;
-  border: none;
-  border-radius: var(--r-sm);
-  background: none;
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 12.5px;
-  cursor: pointer;
-  transition: background .16s var(--ease);
-}
-.look-row:hover { background: rgb(var(--ink-rgb) / .06); }
-.look-label { font-size: 12.5px; font-weight: 500; }
-.switch {
+/* 深浅模式的图标：显示"点了会变成什么"（深色里是太阳，浅色里是月亮） */
+.ticon { display: grid; place-items: center; }
+.ticon-sun { display: none; }
+html[data-theme="dark"] .ticon-sun { display: grid; }
+html[data-theme="dark"] .ticon-moon { display: none; }
+
+/* 手动同步的转圈：只在 data-busy="1" 时出现，同时把状态圆点藏起来 */
+.sync-spin {
   flex: none;
-  width: 38px;
-  height: 22px;
-  padding: 2px;
+  display: none;
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgb(var(--mark-rgb) / .3);
+  border-top-color: var(--mark);
   border-radius: var(--r-pill);
-  background: rgb(var(--ink-rgb) / .13);
-  transition: background .26s var(--ease);
 }
-.switch-knob {
-  display: grid;
-  place-items: center;
-  width: 18px;
-  height: 18px;
-  border-radius: var(--r-pill);
-  background: var(--paper);
-  color: var(--ink-2);
-  font-size: 11px;
-  line-height: 1;
-  box-shadow: 0 1px 3px rgb(var(--ink-rgb) / .35);
-  transition: transform .3s cubic-bezier(.34, 1.56, .64, 1), color .2s var(--ease);
-}
-html[data-theme="dark"] .switch { background: var(--mark); }
-html[data-theme="dark"] .switch-knob { transform: translateX(16px); color: var(--mark); }
+#syncPill[data-busy="1"] .sync-spin { display: block; animation: spin .7s linear infinite; }
+#syncPill[data-busy="1"] .sync-dot { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* 更多：同步状态 / 账号 / 导出 / 导入 */
 .cpanel-menu { min-width: 228px; padding: 7px; }
@@ -507,20 +536,46 @@ html[data-theme="dark"] .switch-knob { transform: translateX(16px); color: var(-
   line-height: 1;
   color: var(--ink);
 }
-.progress-bar {
-  height: 6px;
+/* 分段回弹进度条：一格 = 今天的一项行动 */
+.segs {
+  display: flex;
+  align-items: center;
+  gap: 3px;
   margin-top: 12px;
+  height: 8px;
+}
+.seg {
+  flex: 1 1 0;
+  min-width: 3px;
+  height: 100%;
   border-radius: var(--r-pill);
   background: rgb(var(--ink-rgb) / .08);
   overflow: hidden;
 }
-.progress-bar i {
+.seg-fill {
   display: block;
+  width: 100%;
   height: 100%;
-  width: 0;
-  border-radius: var(--r-pill);
-  background: var(--mark);          /* 进度条跟着主题的强调色走 */
-  transition: width .5s var(--ease);
+  border-radius: inherit;
+  background: var(--mark);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .34s var(--ease);
+}
+.seg.on .seg-fill { transform: scaleX(1); }
+
+/* 刚打勾的那一格：填充用弹性曲线冲过 100% 再回弹（渲染时被格子裁掉，
+   看得见的是"啪"地填满），整格同时纵向弹一下 + 亮一圈，反馈更清楚。 */
+.seg.pop { animation: segPop .52s cubic-bezier(.34, 1.56, .64, 1); }
+.seg.pop .seg-fill { animation: segFill .52s cubic-bezier(.34, 1.56, .64, 1) both; }
+@keyframes segFill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes segPop {
+  0%   { transform: scaleY(1);    box-shadow: 0 0 0 0 rgb(var(--mark-rgb) / 0); }
+  42%  { transform: scaleY(1.8);  box-shadow: 0 0 0 3px rgb(var(--mark-rgb) / .18); }
+  100% { transform: scaleY(1);    box-shadow: 0 0 0 0 rgb(var(--mark-rgb) / 0); }
 }
 .progress-note {
   margin-top: 9px;
@@ -1085,7 +1140,8 @@ html[data-theme="dark"] .list { border-color: rgba(255, 255, 255, .06); }
 .card {
   position: relative;
   display: flex;
-  align-items: flex-start;
+  /* 整行内容垂直居中：复选框、标题+标签、右侧按钮都在同一条中线上 */
+  align-items: center;
   gap: 12px;
   padding: 11px 13px 11px 11px;
   border-bottom: 1px solid var(--card-line);
@@ -1126,12 +1182,20 @@ html[data-theme="dark"] .list { border-color: rgba(255, 255, 255, .06); }
   to   { opacity: 1; transform: none; }
 }
 
-/* 勾选框：圆角方格 */
+/* 从废纸篓捡回来：只做一次极轻的淡入，没有任何位移
+   （飞回原列表的曲线动画已按要求移除） */
+.card.picked { animation: cardFadeIn .26s var(--ease); }
+@keyframes cardFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* 勾选框：圆角方格（垂直居中由 .card 的 align-items 统一管，不再自己顶上去） */
 .check {
   flex: none;
   width: 20px;
   height: 20px;
-  margin: 2px 0 0;
+  margin: 0;
   padding: 0;
   border: 2px solid var(--ink-3);
   border-radius: var(--r-xs);
@@ -1238,17 +1302,8 @@ html[data-theme="dark"] .del { background: rgba(255, 255, 255, .1); border-color
 .del.always { opacity: .8; }
 .del.always:hover { opacity: 1; }
 
-/* 收起动画 */
-.card.leaving {
-  opacity: 0;
-  transform: translateX(14px) scale(.99);
-  max-height: 0 !important;
-  padding-top: 0;
-  padding-bottom: 0;
-  border-bottom-color: transparent;
-  overflow: hidden;
-  pointer-events: none;
-}
+/* 完成一条时的收起动画走 Web Animations（见 animateRowOut），
+   所以旧的 .card.leaving 规则已经没人用了，删掉。 */
 
 .empty {
   padding: 28px 24px 30px;
@@ -1275,20 +1330,8 @@ html[data-theme="dark"] .empty { background: rgba(255, 255, 255, .04); }
   flex-wrap: wrap;
 }
 
-/* 同步状态胶囊 */
-.sync-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-}
-/* 状态圆点的样式在侧栏那一段（.sync-dot），这里只剩页面底部的文字进度 */
-.sync-progress {
-  font-size: 11.5px;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink-3);
-  white-space: nowrap;
-}
+/* 页面底部那行完成百分比已经删掉了（顶部 progressCard 已经说得更清楚），
+   所以 .sync-bar / .sync-progress 两条样式也一并清掉。 */
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50%      { opacity: .45; transform: scale(.75); }
@@ -1581,6 +1624,30 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   letter-spacing: -.01em;
 }
 .lane-count { font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.lane-hint {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--ink-3);
+  opacity: .85;
+}
+
+/* ---------- 拖拽排序 ---------- */
+.card[draggable="true"] { cursor: grab; }
+.card.dragging {
+  opacity: .5;
+  transform: rotate(1.5deg) scale(1.02);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-2);
+  cursor: grabbing;
+}
+/* 拖动时给别的卡片让出的"空槽"：一条虚线槽位，落到哪里一眼看得见 */
+.drag-gap {
+  height: 44px;
+  margin: 3px 10px;
+  border: 1px dashed rgb(var(--mark-rgb) / .45);
+  border-radius: var(--r-md);
+  background: rgb(var(--mark-rgb) / .1);
+}
 
 /* 卡片上的小 Tag：区分"排好期的灵感"与"直接创建的计划" */
 .tag {
@@ -1715,7 +1782,7 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
 /* 收起来之后底下的分隔线多余 */
 .shelf.folded .shelf-head { margin-bottom: 0; border-bottom-color: transparent; }
 
-/* 倒三角：展开时朝下，折起来转到 -90° */
+/* 折叠箭头：收起时朝下、展开时转 180° 朝上（.3s 顺滑旋转） */
 .shelf-chev {
   flex: none;
   display: grid;
@@ -1723,10 +1790,12 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   width: 16px;
   height: 16px;
   color: var(--ink-3);
-  transition: transform .26s var(--ease), color .16s var(--ease);
+  transition: transform .3s var(--ease), color .16s var(--ease);
 }
 .shelf-head:hover .shelf-chev { color: var(--ink); }
-.shelf.folded .shelf-chev { transform: rotate(-90deg); }
+/* 成就架子默认是展开的 → 箭头朝上 */
+.shelf .shelf-chev { transform: rotate(180deg); }
+.shelf.folded .shelf-chev { transform: none; }
 
 .shelf-name { flex: 1; min-width: 0; font-size: 13.5px; font-weight: 700; letter-spacing: -.01em; }
 .shelf-count { font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
@@ -1790,7 +1859,159 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   border-color: transparent;
 }
 
-/* ============================== 日历视图 ============================== */
+/* ============================== 废纸篓 ==============================
+   默认折起来，点标题才展开（和成就架子的折叠是同一套 0fr → 1fr 写法）。
+   卡片"飞过去"的目标就是 .trash-head 的矩形中心。 */
+
+.trash {
+  margin-top: 16px;
+  padding: 0 14px;
+  border: 1px dashed var(--rule);
+  border-radius: var(--r-xl);
+  background: rgb(var(--paper-rgb) / .5);
+  /* 常规的颜色过渡保护：主题切换 / 换皮肤时这块平滑走色，不会突然变色 */
+  transition: border-color .3s var(--ease), background-color .3s var(--ease),
+              color .3s var(--ease), box-shadow .3s var(--ease);
+}
+/* 废纸篓内部元素同样补上颜色过渡 */
+.trash-title,
+.trash-note,
+.trash-foot,
+.trash-inner,
+.trash .card,
+.trash .card .txt {
+  transition: background-color .3s var(--ease), color .3s var(--ease),
+              border-color .3s var(--ease);
+}
+.trash.open { border-style: solid; background: var(--paper); box-shadow: var(--shadow-1); }
+.trash-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 12px 2px;
+  border: none;
+  background: none;
+  color: var(--ink-2);
+  font-family: var(--sans);
+  text-align: left;
+  cursor: pointer;
+  transition: color .16s var(--ease);
+}
+.trash-head:hover { color: var(--ink); }
+.trash-title {
+  flex: 1;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+/* 废纸篓默认是折着的 → 箭头朝下；展开转 180° 朝上 */
+.trash .shelf-chev { transform: none; }
+.trash.open .shelf-chev { transform: rotate(180deg); }
+.trash-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows .3s var(--ease), opacity .22s var(--ease);
+}
+.trash.open .trash-body { grid-template-rows: 1fr; opacity: 1; }
+.trash-inner { min-height: 0; overflow: hidden; }
+.trash-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 0 13px;
+}
+.trash-foot[hidden] { display: none; }
+.trash-note { flex: 1; min-width: 0; font-size: 11.5px; color: var(--ink-3); }
+
+/* 捡起：和"推入行动"同一族的安静按钮 */
+.pick-btn {
+  flex: none;
+  align-self: center;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: color .18s var(--ease), border-color .18s var(--ease), background .18s var(--ease);
+}
+.pick-btn:hover {
+  color: var(--mark);
+  border-color: rgb(var(--mark-rgb) / .45);
+  background: rgb(var(--mark-rgb) / .08);
+}
+/* 废纸篓里的卡片：整体退到背景里，但标题仍然读得清 */
+.trash .card { background: none; }
+.trash .card .txt { color: var(--ink-2); }
+
+/* 危险动作的按钮（清理废纸篓） */
+.link-btn.danger { color: var(--danger); border-color: rgb(var(--danger-rgb) / .35); }
+.link-btn.danger:hover { color: var(--paper); background: var(--danger); border-color: transparent; }
+
+/* 正在飞向废纸篓的那张卡：脱离文档流，浮在所有东西上面 */
+.card.flying {
+  margin: 0;
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-2);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ============================== 主题切换的径向扩散 ==============================
+   两个方向必须是同一套几何：新快照被一个从点击点长出来的圆裁切，旧快照在底下
+   当背景。裁旧快照是没用的 —— 它在最底层、被全不透明的新快照完全盖住，
+   所以"深色 → 浅色"曾经完全没有动画（实拍验证过）。
+   动画写在 CSS 里而不是 JS 里：转场的寿命 = 这条动画的时长，中途不会被拆掉，
+   圆的边缘也就不会在最后时刻跳一下。圆心 / 半径由 JS 写进 --vt-* 变量。 */
+:root {
+  --vt-x: 50vw;          /* 兜底：变量没写进来时从屏幕中心扩散 */
+  --vt-y: 50vh;
+  --vt-r: 200vmax;       /* 够大到盖满任何屏幕 */
+}
+@keyframes vt-reveal {
+  from { clip-path: circle(0px at var(--vt-x) var(--vt-y)); }
+  to { clip-path: circle(var(--vt-r) at var(--vt-x) var(--vt-y)); }
+}
+/* 分组容器 / image-pair 不参与动画，也不缩放内容 */
+::view-transition-group(root),
+::view-transition-image-pair(root) {
+  animation: none !important;
+  transform: none !important;
+}
+/* 旧快照留在底下当"旧主题的底"：不淡出、不混合 */
+::view-transition-old(root) {
+  animation: none !important;
+  mix-blend-mode: normal !important;
+}
+/* 新快照整块铺满，只用圆裁它：圆扩到哪，新主题就露到哪（两个方向都是它） */
+::view-transition-new(root) {
+  animation: vt-reveal 620ms cubic-bezier(.3, .62, .25, 1) both !important;
+  mix-blend-mode: normal !important;
+  will-change: clip-path;
+}
+
+/* 转场进行中：把页面上所有 CSS 过渡临时掐掉。
+   原因：像 .card / .trash 这类元素自带 background-color 过渡，applyTheme 一改
+   主题，它们就在真实 DOM 里开始过渡 —— 而新快照是在过渡的**起点**拍的，
+   于是快照里是旧颜色、底下真实 DOM 已经变成新颜色。转场一结束，这一块就
+   "啪"地跳一下（废纸篓最明显，因为它是最后被圆扫到、色块又最大的一块）。
+   掐掉过渡后，新快照拍到的就是最终颜色，和真实 DOM 完全一致。 */
+html.vt-run *,
+html.vt-run *::before,
+html.vt-run *::after {
+  transition: none !important;
+}
+
 
 .cal-card {
   padding: 13px 15px 11px;
@@ -1923,16 +2144,22 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
 
 /* 平板：图标轨往边上靠一点，内容少让出一些宽度 */
 @media (max-width: 860px) {
-  .sidebar { left: 12px; }
+  /* 轨道收窄，放大态也要跟着收 */
+  .sidebar {
+    left: 12px;
+    width: 68px;
+    --rail-grow: 58px;
+    --rail-grow-2: 54px;
+    --rail-grow-3: 50px;
+  }
   /* 窄屏内容只让出 84px，文字标会压到正文上，索性收起来 */
   .rail-brand { display: none; }
   .rail-nav { gap: 8px; }
   .main { padding: 20px 18px 36px 96px; }
 }
 
-/* 手机：竖排图标轨横过来，变成底部悬浮坞 */
+/* 手机：图标改成底部横排；每个按钮仍然独立，不再恢复外圈大容器 */
 @media (max-width: 560px) {
-  /* 底部悬浮坞：只改变量，图标岛本身不用再单独写尺寸 */
   .sidebar {
     --rail-size: 44px;
     --rail-grow: 44px;
@@ -1945,16 +2172,16 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
     width: auto;
     height: auto;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     gap: 8px;
-    padding: 8px;
-    border-radius: 24px;
-    background: rgb(var(--paper-rgb) / .72);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    backdrop-filter: blur(20px) saturate(160%);
-    box-shadow: 0 14px 34px -18px rgb(var(--ink-rgb) / .5);
+    padding: 0;
   }
-  .rail-nav { flex-direction: row; gap: 6px; }
+  .rail-nav {
+    flex-direction: row;
+    gap: 6px;
+    width: auto;
+    padding: 0;
+  }
   .rail-btn { border-radius: 14px; }
   /* 气泡在触屏上只碍事：视觉上藏掉，但保留在无障碍树里当按钮名 */
   .tip {
@@ -1975,7 +2202,7 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   .cpanel { min-width: 196px; max-height: calc(100vh - 120px); }
   .view-head { padding-right: 122px; }
 
-  .main { padding: 14px 12px 100px; }         /* 底部给悬浮坞留出位置 */
+  .main { padding: 14px 12px 100px; }         /* 底部给横排导航留出位置 */
 
   /* 日历在手机上再收紧一档 */
   .cal-card { padding: 11px 10px 9px; border-radius: var(--r-lg); }
@@ -2000,7 +2227,7 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   .txt { font-size: 15.5px; }
   .card { padding: 12px 14px 13px 12px; gap: 11px; }
   .del { opacity: .85; }
-  .toast, .undo { bottom: 96px; }                  /* 别被底部悬浮坞盖住 */
+  .toast, .undo { bottom: 96px; }                  /* 别被底部导航盖住 */
 
   /* 统计：三个数字挤在一行，字号收一档 */
   .stat-cards { gap: 8px; }
@@ -2013,7 +2240,7 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   .bar-row { grid-template-columns: 64px minmax(0, 1fr) 26px; gap: 8px; font-size: 12px; }
 }
 
-/* 视口很矮时（手机横屏）图标收小一点，免得居中的图标组和底部区块叠在一起 */
+/* 视口很矮时（手机横屏）图标收小一点，免得导航和底部内容叠在一起 */
 @media (max-height: 620px) {
   .rail-nav { gap: 6px; }
   .rail-btn { width: 42px; height: 42px; border-radius: 14px; }
@@ -2024,12 +2251,11 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   .sidebar { --rail-size: 40px; }
   .rail-btn { border-radius: 13px; }
   .rail-nav { gap: 5px; }
-  /* 底部留白必须跟着悬浮坞走，否则最后一张卡片会被压在坞下面 */
+  /* 底部留白必须跟着横排导航走，否则最后一张卡片会被压在导航下面 */
   .main { padding: 12px 10px 96px; }
   .cp-tab { padding: 5px 9px; font-size: 12px; }
   .lang-item { font-size: 13px; padding: 7px 8px; }
 }
-
 /* ============================== 动效偏好 ============================== */
 
 @media (prefers-reduced-motion: reduce) {

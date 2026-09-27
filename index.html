@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#121110" />
 <title>MakeIt</title>
-<link rel="stylesheet" href="style.css?v=17" />
+<link rel="stylesheet" href="style.css?v=21" />
 </head>
 <body>
 
@@ -63,8 +63,27 @@
   <main class="main">
 
     <!-- ══ 右上角统一控制台：语言 / 外观 / 更多 ══
-         三个图标一排，各自弹一个小面板，点外面或 Esc 就收 —— 用完即关。 -->
+         三个图标一排，各自弹一个小面板，点外面或 Esc 就收 —— 用完即关关 -->
     <div class="console" id="console">
+      <!-- 深浅模式：独立一个 ☀/☾ 图标，点一下就从鼠标位置径向扩散切换 -->
+      <button class="cbtn" id="themeBtn" type="button"
+              aria-label="切换深色 / 浅色" data-i18n-aria="themeAria">
+        <span class="ticon ticon-sun" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+               stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4.2" />
+            <path d="M12 2.6v2.4M12 19v2.4M21.4 12h-2.4M5 12H2.6M18.6 5.4l-1.7 1.7M7.1 16.9l-1.7 1.7M18.6 18.6l-1.7-1.7M7.1 7.1 5.4 5.4" />
+          </svg>
+        </span>
+        <span class="ticon ticon-moon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+               stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.6 14.4A8.7 8.7 0 0 1 9.6 3.4a8.9 8.9 0 1 0 11 11Z" />
+          </svg>
+        </span>
+        <span class="cbtn-tip" id="themeTip">深色模式</span>
+      </button>
+
       <button class="cbtn" id="langBtn" type="button"
               aria-haspopup="menu" aria-expanded="false" aria-controls="langPanel"
               aria-label="切换语言" data-i18n-aria="langAria">
@@ -101,21 +120,14 @@
         <span class="cbtn-tip" data-i18n="moreAria">更多</span>
       </button>
 
-      <!-- ① 语言 -->
+      <!-- 语言 -->
       <div class="cpanel" id="langPanel" role="menu" hidden>
         <p class="cpanel-title" data-i18n="langShort">语言</p>
         <div id="langMenu" class="lang-list"></div>
       </div>
 
-      <!-- ② 外观：深浅开关 + 强调色圆点 -->
+      <!-- 外观：只留强调色（深浅开关已经独立成右上角那个 ☀/☾ 图标） -->
       <div class="cpanel" id="lookPanel" role="dialog" hidden>
-        <button class="look-row" id="themeBtn" type="button"
-                aria-label="切换深色 / 浅色" data-i18n-aria="themeAria">
-          <span class="look-label" data-i18n="darkMode">深色模式</span>
-          <span class="switch" aria-hidden="true">
-            <span class="switch-knob"><span id="themeGlyph">☾</span></span>
-          </span>
-        </button>
         <p class="cpanel-title" data-i18n="accent">强调色</p>
         <div class="panel-skins" id="skinRow" role="radiogroup"
              aria-label="主题" data-i18n-aria="themeShort">
@@ -142,11 +154,12 @@
         </div>
       </div>
 
-      <!-- ③ 更多：同步状态 / 账号 / 导出 / 导入 -->
+      <!-- 更多：同步状态 / 账号 / 导出 / 导入 -->
       <div class="cpanel cpanel-menu" id="morePanel" role="menu" hidden>
-        <button class="menu-item" id="syncPill" type="button" data-state="local"
+        <button class="menu-item" id="syncPill" type="button" data-state="local" data-busy="0"
                 aria-haspopup="dialog" aria-expanded="false">
           <span class="sync-dot" aria-hidden="true"></span>
+          <span class="sync-spin" aria-hidden="true"></span>
           <span class="menu-item-text" id="syncText">仅本机保存</span>
           <span class="menu-caret" aria-hidden="true">›</span>
         </button>
@@ -243,18 +256,40 @@
         <div id="inboxList"></div>
       </section>
 
-      <!-- ══ 行动列表：排好期的想法 + 直接创建的计划 ══ -->
+      <!-- ══ 行动列表：排好期的想法 + 直接创建的计划（可以拖着排序）══ -->
       <section class="lane">
         <header class="lane-head">
           <h2 class="lane-title"><span aria-hidden="true">🔥</span> <span data-i18n="actionTitle">行动列表</span></h2>
           <span class="lane-count" id="actionCount">0</span>
+          <span class="lane-hint" data-i18n="reorderHint">按住卡片拖动可以调整顺序</span>
         </header>
         <div id="actionList"></div>
       </section>
 
-      <footer class="foot">
-        <span class="sync-progress" id="syncProgress"></span>
-      </footer>
+      <!-- ══ 废纸篓：删掉的东西先丢在这里，默认折起来 ══
+           右上角那块区域就是卡片 飞过去 的目标位置。 -->
+      <section class="trash" id="trashBox">
+        <button class="trash-head" id="trashHead" type="button"
+                aria-expanded="false" aria-controls="trashList">
+          <span class="shelf-chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+                 stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </span>
+          <span class="trash-title"><span aria-hidden="true">🗑️</span> <span data-i18n="trashTitle">废纸篓</span></span>
+          <span class="lane-count" id="trashCount">0</span>
+        </button>
+        <div class="trash-body">
+          <div class="trash-inner">
+            <div id="trashList"></div>
+            <div class="trash-foot" id="trashFoot" hidden>
+              <span class="trash-note" data-i18n="trashHint">删掉的东西先丢在这里，随时能捡回来</span>
+              <button class="link-btn danger" id="clearTrash" type="button" data-i18n="clearTrash">清理</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
 
     <!-- ───── 视图二：日历 ───── -->
@@ -266,9 +301,9 @@
 
       <div class="cal-card">
         <div class="cal-top">
-          <button class="cal-nav" id="calPrev" type="button" aria-label="上个月" data-i18n-aria="calPrev">‹</button>
+          <button class="cal-nav" id="calPrev" type="button" aria-label="上月" data-i18n-aria="calPrev">‹</button>
           <span class="cal-title" id="calTitle">2026 年 9 月</span>
-          <button class="cal-nav" id="calNext" type="button" aria-label="下个月" data-i18n-aria="calNext">›</button>
+          <button class="cal-nav" id="calNext" type="button" aria-label="下月" data-i18n-aria="calNext">›</button>
         </div>
         <div class="cal-grid" id="calGrid" role="grid" aria-label="月历" data-i18n-aria="navCalendar"></div>
         <div class="cal-legend">
@@ -361,8 +396,7 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="undo" id="undo" role="status" aria-live="polite"></div>
 
-<!-- ═══ 改分类的极简浮层：列表里的分类标签都指向它。
-     放在 body 末尾（不在 .list 里），所以不会被列表的 overflow:hidden 裁掉。 ═══ -->
+<!-- ═══ 改分类的极简浮层：列表里的分类标签都指向它。      放在 body 末尾（不在 .list 里），所以不会被列表的 overflow:hidden 裁掉。 ═══ -->
 <div class="cat-pop" id="catPop" role="dialog"
      aria-label="修改分类" data-i18n-aria="catEditAria" hidden>
   <input id="catPopInput" class="cat-pop-input" type="text" autocomplete="off" spellcheck="false"
@@ -375,6 +409,6 @@
 
 <!-- Supabase 客户端：加载失败也不影响本地功能 -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin="anonymous"></script>
-<script src="app.js?v=16"></script>
+<script src="app.js?v=20"></script>
 </body>
 </html>
