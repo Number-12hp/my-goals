@@ -1759,7 +1759,7 @@
   }
 
   function renderStats() {
-    const { list, marks, total, done, open, late } = todayStats();
+    const { total, done, open, late } = todayStats();
     const pct = total ? Math.round((done / total) * 100) : 0;
 
     if (progressCard) {
@@ -1768,13 +1768,15 @@
           + (late ? ` · <span class="note-late">${esc(t('overdue'))} ${late}</span>` : '')
         : esc(t('actionEmpty'));
 
-      // 一格 = 今天的一项行动。总格数就是任务数；一项都没有时也画一格占位，
-      // 免得卡片高度在"有/没有任务"之间跳。
+      // 一格 = 今天的一项行动，但**填满的永远是前 done 格**：
+      // 打勾哪一项都从第一格开始依次点亮，进度条读起来就是"今天完成了 N 项"，
+      // 不会跟着条目的创建 / 排序位置跳到中间去。
       const segCount = Math.max(1, total);
-      const popAt = popGoalId ? list.findIndex(g => g.id === popGoalId) : -1;
+      const filled = total ? done : 0;
+      const popAt = (popGoalId && filled) ? filled - 1 : -1;   // 刚点亮的那一格弹一下
       let segs = '';
       for (let i = 0; i < segCount; i++) {
-        const on = total ? marks[i] : false;
+        const on = i < filled;
         segs += `<span class="seg${on ? ' on' : ''}${i === popAt ? ' pop' : ''}"><i class="seg-fill"></i></span>`;
       }
 
@@ -3259,60 +3261,93 @@
     if (themeBtn) themeBtn.setAttribute('aria-label', label);
   }
 
-  /* 径向扩散切主题：圆心取真实点击位置，半径取点击点到视口四个角落的
-     最远距离。两个方向走的是**同一条**路径 —— 新快照被一个从点击点长出来的
-     圆裁切，旧快照留在底下当背景。
-     以前这里分了 isDark 两支：深色 → 浅色时去裁 ::view-transition-old(root)，
-     而它在最底层、被全不透明的新快照完全盖住，所以那个方向根本没有动画
-     （浏览器里实拍验证过：点击后一帧直接变浅色）。现在不再分方向。
-     动画本身写在 CSS 的 @keyframes vt-reveal 里：转场寿命 = 动画时长，
-     不会出现"圆没铺满转场就被拆掉"的中间卡顿。 */
-  function toggleTheme(e) {
-    const root = document.documentElement;
-    const isDark = root.dataset.theme === 'dark';
-    const next = isDark ? 'light' : 'dark';
+  /* ---------------- 径向扩散：主题 / 皮肤共用同一条路径 ----------------
 
-    if (reduceMotion() || !document.startViewTransition) {
-      applyTheme(next);
-      return;
-    }
+     两个关键点（都是实测踩出来的）：
 
-    // 1. 精确获取鼠标点击的视口坐标（键盘触发时回退到视口中心）
-    const x = e?.clientX ?? window.innerWidth / 2;
-    const y = e?.clientY ?? window.innerHeight / 2;
+     1. 圆心用**按钮自己的矩形中心**，不用 e.clientX / e.clientY。
+        触摸和移动端合成的 click 事件里 clientX / clientY 可能是 0，
+        圆心就会掉到屏幕左上角 —— "扩散原点错误"就是这么来的。
+        矩形中心在鼠标 / 触摸 / 键盘下都可靠（按钮是 fixed 的，矩形就是视口坐标）。
 
-    // 2. 圆心到屏幕四个角落的最远直线距离 —— 半径必须够大才能盖满整屏。
-    //    再留 6% + 2px 余量：圆的边正好切在角上时，抗锯齿会在那一角留一条亮边。
-    const endRadius = Math.ceil(Math.max(
+     2. 动画用 document.documentElement.animate 打在 ::view-transition-new(root) 上：
+        新快照从圆心长出来，旧快照留在底下当背景。两个方向走同一条路径，不再分 isDark
+        —— 裁 ::view-transition-old(root) 是没用的，它在最底层、被新快照完全盖住，
+        等于没有动画（浏览器里实拍验证过：那个方向一帧直切）。
+        duration 压在 500ms 以内 + will-change: clip-path：全屏重绘很贵，移动端对
+        长时间动画有性能保护，一长就被掐断，表现就是"卡住 + 瞬间突变"。 */
+
+  // 按钮的物理中心（拿不到矩形时退回视口中心）
+  function centerOf(el) {
+    const r = (el && el.getBoundingClientRect) ? el.getBoundingClientRect() : null;
+    if (r && (r.width || r.height)) return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  }
+
+  // 圆心到屏幕四个角落的最远直线距离；再留 6% + 2px 余量
+  // （圆的边正好切在角上时，抗锯齿会在那一角留一条亮边）
+  function wipeRadius(x, y) {
+    const w = window.innerWidth, h = window.innerHeight;
+    return Math.ceil(Math.max(
       Math.hypot(x, y),
-      Math.hypot(window.innerWidth - x, y),
-      Math.hypot(x, window.innerHeight - y),
-      Math.hypot(window.innerWidth - x, window.innerHeight - y)
+      Math.hypot(w - x, y),
+      Math.hypot(x, h - y),
+      Math.hypot(w - x, h - y)
     ) * 1.06 + 2);
+  }
 
-    // 3. 圆心 / 半径交给 CSS 变量（:root 的 --vt-* 有兜底值）
-    if (root.style && root.style.setProperty) {
-      root.style.setProperty('--vt-x', x + 'px');
-      root.style.setProperty('--vt-y', y + 'px');
-      root.style.setProperty('--vt-r', endRadius + 'px');
-    }
+  const WIPE_MS = 480;
 
-    // 4. 转场期间掐掉页面自带的 CSS 过渡：否则新快照会拍到过渡的起点（旧颜色），
-    //    真实 DOM 却在底下过渡完了，转场一结束那块就跳一下。
+  /* 带径向扩散地换一套配色。el = 触发这次切换的按钮（圆心取它的中心），
+     mutate = 真正改配色的动作（换主题 / 换皮肤）。 */
+  function radialSwap(el, mutate) {
+    if (reduceMotion() || !document.startViewTransition) { mutate(); return; }
+
+    const root = document.documentElement;
+    const at = centerOf(el);
+    const endRadius = wipeRadius(at.x, at.y);
+
+    // 转场期间掐掉页面自带的 CSS 过渡：否则新快照会拍到过渡的起点（旧颜色），
+    // 真实 DOM 却在底下过渡完了，转场一结束那块（废纸篓最明显）就跳一下。
     root.classList.add('vt-run');
 
-    let transition = null;
+    let vt = null;
     try {
-      transition = document.startViewTransition(() => applyTheme(next));
+      vt = document.startViewTransition(mutate);
     } catch (err) {
-      // 上一个转场还在跑 / 被策略禁掉：直接换主题，不留未处理的错误
+      // 上一个转场还在跑 / 被策略禁掉：直接换配色，不留未处理的错误
       root.classList.remove('vt-run');
-      applyTheme(next);
+      mutate();
       return;
     }
+    if (!vt) { root.classList.remove('vt-run'); mutate(); return; }
     const done = () => root.classList.remove('vt-run');
-    if (transition.finished && transition.finished.finally) transition.finished.finally(done);
-    else setTimeout(done, 800);
+    if (vt.finished && vt.finished.finally) vt.finished.finally(done);
+    else setTimeout(done, WIPE_MS + 400);
+
+    if (vt.ready && vt.ready.then) {
+      vt.ready.then(() => {
+        document.documentElement.animate(
+          { clipPath: [
+              `circle(0px at ${at.x}px ${at.y}px)`,
+              `circle(${endRadius}px at ${at.x}px ${at.y}px)`
+          ] },
+          {
+            duration: WIPE_MS,
+            easing: 'cubic-bezier(.3, .62, .25, 1)',   // 先快后慢：最远的角在 60% 处就盖住
+            fill: 'both',                              // 结束后保持铺满，收尾不闪
+            pseudoElement: '::view-transition-new(root)'
+          }
+        );
+      }).catch(() => {});
+    }
+  }
+
+  function toggleTheme(e) {
+    const root = document.documentElement;
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    // e.currentTarget = 绑在外层 <button> 上的那个元素（不是里面的 svg）
+    radialSwap((e && e.currentTarget) || themeBtn, () => applyTheme(next));
   }
 
   if (themeBtn) {
@@ -3336,11 +3371,14 @@
   }
 
   if (skinRow) {
+  if (skinRow) {
     skinRow.addEventListener('click', e => {
       const btn = e.target.closest('[data-skin]');
       if (!btn) return;
-      applySkin(btn.dataset.skin);
+      // 换皮肤也走同一套径向扩散（圆心 = 被点的那块色板）
+      radialSwap(btn, () => applySkin(btn.dataset.skin));
     });
+  }
   }
 
   /* ---------------- 导出 / 导入（纯本地备份，随时能把数据带走） ---------------- */

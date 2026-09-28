@@ -1967,21 +1967,15 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
   will-change: transform, opacity;
 }
 
-/* ============================== 主题切换的径向扩散 ==============================
-   两个方向必须是同一套几何：新快照被一个从点击点长出来的圆裁切，旧快照在底下
-   当背景。裁旧快照是没用的 —— 它在最底层、被全不透明的新快照完全盖住，
-   所以"深色 → 浅色"曾经完全没有动画（实拍验证过）。
-   动画写在 CSS 里而不是 JS 里：转场的寿命 = 这条动画的时长，中途不会被拆掉，
-   圆的边缘也就不会在最后时刻跳一下。圆心 / 半径由 JS 写进 --vt-* 变量。 */
-:root {
-  --vt-x: 50vw;          /* 兜底：变量没写进来时从屏幕中心扩散 */
-  --vt-y: 50vh;
-  --vt-r: 200vmax;       /* 够大到盖满任何屏幕 */
-}
-@keyframes vt-reveal {
-  from { clip-path: circle(0px at var(--vt-x) var(--vt-y)); }
-  to { clip-path: circle(var(--vt-r) at var(--vt-x) var(--vt-y)); }
-}
+/* ============================== 主题 / 皮肤切换的径向扩散 ==============================
+   几何和时长都在 JS 的 radialSwap() 里：圆心取**按钮矩形中心**（不用 clientX，
+   触摸合成的 click 里它可能是 0，圆心会掉到左上角），半径取到四个角落的最远距离，
+   动画用 document.documentElement.animate 打在 ::view-transition-new(root) 上。
+   两个方向走同一条路径 —— 裁旧快照是没用的，它在最底层、被新快照完全盖住。
+   这里只负责两件事：
+   1. 关掉 UA 自带的交叉淡入（留着会和 clip-path 打架）；
+   2. 用 will-change: clip-path 把伪元素提到自己的合成层 —— 否则全屏 clip-path
+      每帧都要重绘，Chrome / 移动端会掉帧，甚至被性能保护机制掐断（卡顿 + 突变）。 */
 /* 分组容器 / image-pair 不参与动画，也不缩放内容 */
 ::view-transition-group(root),
 ::view-transition-image-pair(root) {
@@ -1992,12 +1986,13 @@ html[data-theme="dark"] .link-btn { background: rgba(255, 255, 255, .08); border
 ::view-transition-old(root) {
   animation: none !important;
   mix-blend-mode: normal !important;
-}
-/* 新快照整块铺满，只用圆裁它：圆扩到哪，新主题就露到哪（两个方向都是它） */
-::view-transition-new(root) {
-  animation: vt-reveal 620ms cubic-bezier(.3, .62, .25, 1) both !important;
-  mix-blend-mode: normal !important;
   will-change: clip-path;
+}
+/* 新快照整块铺满，只由 JS 的 clip-path 裁它：圆扩到哪，新配色就露到哪 */
+::view-transition-new(root) {
+  animation: none !important;
+  mix-blend-mode: normal !important;
+  will-change: clip-path;          /* 强制走 GPU 合成层，防止掉帧 */
 }
 
 /* 转场进行中：把页面上所有 CSS 过渡临时掐掉。
